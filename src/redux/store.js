@@ -3,6 +3,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import isCollapseMenu from "@redux/reducers/editor/isCollapseMenu.reducers";
 import activeMenu from "@redux/reducers/editor/activeMenu.reducers";
 import modalAttribute from "@redux/reducers/base/modalAttribute.reducers";
+import freeformBlocks from "@redux/reducers/editor/freeformBlocks.reducers";
+import stackBlocks from "@redux/reducers/editor/stackBlocks.reducers";
 
 import logger from "redux-logger";
 
@@ -11,6 +13,8 @@ export const store = configureStore({
     isCollapseMenu,
     activeMenu,
     modalAttribute,
+    freeformBlocks,
+    stackBlocks,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

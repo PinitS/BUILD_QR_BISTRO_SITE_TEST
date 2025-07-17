@@ -1,5 +1,5 @@
 import { Button } from "@components/Base/Button";
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import ICON_MENU_HIDE from "@assets/svgs/MENU/ICON_MENU_HIDE.svg";
 import ICON_MENU_IMPORT_CONTAINER from "@assets/svgs/MENU/ICON_MENU_IMPORT_CONTAINER.svg";
@@ -32,8 +32,8 @@ const ContainerList = styled(motion.div)`
 `;
 
 const MENU_LIST = [
-  { icon: ICON_MENU_IMPORT_ABSOLUTE, type: "import-absolute" },
-  { icon: ICON_MENU_IMPORT_CONTAINER, type: "import-container" },
+  { icon: ICON_MENU_IMPORT_ABSOLUTE, type: "import-freeform-block" },
+  { icon: ICON_MENU_IMPORT_CONTAINER, type: "import-stack-block" },
   { icon: ICON_MENU_SETTING_BACKGROUND, type: "setting-background" },
 ];
 
@@ -65,7 +65,6 @@ export const ContainerEditorMenu = () => {
   const dispatch = useDispatch();
   const isCollapseMenu = useSelector((state) => state?.isCollapseMenu?.data, shallowEqual);
   const activeMenu = useSelector((state) => state?.activeMenu?.data, shallowEqual);
-  const modalAttribute = useSelector((state) => state?.modalAttribute?.data, shallowEqual);
 
   const handleMenuAction = ({ type }) => {
     const updateActiveMenu = activeMenu === type ? null : type;
@@ -76,7 +75,7 @@ export const ContainerEditorMenu = () => {
   };
 
   const handleSwapComponent = () => {
-    const updateActiveMenu = activeMenu === "swap-component" ? null : "swap-component";
+    const updateActiveMenu = activeMenu === "swap-blocks" ? null : "swap-blocks";
     dispatch(setActiveMenu(updateActiveMenu));
   };
 
@@ -151,13 +150,13 @@ export const ContainerEditorMenu = () => {
                 </motion.div>
               );
             })}
-            <motion.div key="swap-component" variants={ITEM_VARIANTS}>
+            <motion.div key="swap-blocks" variants={ITEM_VARIANTS}>
               <Button
                 onClick={() => handleSwapComponent()}
                 $height={32}
                 $isSquare
                 $backgroundColor={
-                  activeMenu === "swap-component" ? DEFAULT_STYLE?.MENU_FILL : DEFAULT_STYLE?.MENU_BACKGROUND
+                  activeMenu === "swap-blocks" ? DEFAULT_STYLE?.MENU_FILL : DEFAULT_STYLE?.MENU_BACKGROUND
                 }
                 $borderRadius={8}
               >
@@ -165,9 +164,7 @@ export const ContainerEditorMenu = () => {
                   width={16}
                   height={16}
                   fill={
-                    activeMenu === "swap-component"
-                      ? DEFAULT_STYLE?.MENU_BACKGROUND
-                      : DEFAULT_STYLE?.MENU_FILL
+                    activeMenu === "swap-blocks" ? DEFAULT_STYLE?.MENU_BACKGROUND : DEFAULT_STYLE?.MENU_FILL
                   }
                 />
               </Button>
@@ -192,8 +189,13 @@ export const ContainerEditorMenu = () => {
                 $backgroundColor={DEFAULT_STYLE?.MENU_BACKGROUND}
                 $borderRadius={8}
               >
-                <Text $color={DEFAULT_STYLE?.MENU_FILL} $fontSize={14} $fontWeight={500}>
-                  PUBLISH
+                <Text
+                  $textTransform="capitalize"
+                  $color={DEFAULT_STYLE?.MENU_FILL}
+                  $fontSize={14}
+                  $fontWeight={500}
+                >
+                  publish
                 </Text>
               </Button>
             </motion.div>

@@ -23,7 +23,8 @@
     "react-redux": "^9.2.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^3.1.0",
-    "styled-components": "^6.1.18"
+    "styled-components": "^6.1.18",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",

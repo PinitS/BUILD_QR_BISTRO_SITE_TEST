@@ -1,11 +1,9 @@
 import styled from "styled-components";
 
-export const Text = styled.span.attrs(
-  ({ $ellipsis = true, $maxLines = 1 }) => ({
-    $ellipsis,
-    $maxLines,
-  }),
-)`
+export const Text = styled.span.attrs(({ $ellipsis = true, $maxLines = 1 }) => ({
+  $ellipsis,
+  $maxLines,
+}))`
   color: ${({ $color = "#000000" }) => $color};
   font-family: "IBMPlexSansThai";
   font-weight: ${({ $fontWeight = 400 }) => $fontWeight};
@@ -13,8 +11,7 @@ export const Text = styled.span.attrs(
   font-size: ${({ $fontSize = 16 }) => `${$fontSize}px`};
 
   opacity: ${({ $disabled, $opacity = 1 }) => ($disabled ? 0.5 : $opacity)};
-  width: ${({ $width = "auto" }) =>
-    typeof $width === "number" ? `${$width}px` : $width};
+  width: ${({ $width = "auto" }) => (typeof $width === "number" ? `${$width}px` : $width)};
 
   text-decoration-line: ${({ $decorationLine = "none" }) => $decorationLine};
   text-transform: ${({ $textTransform = "none" }) => $textTransform};

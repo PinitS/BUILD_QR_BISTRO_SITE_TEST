@@ -40,7 +40,7 @@ export const Modal = ({ children }) => {
       isOpen={_.get(modalAttribute, ["isVisible"])}
       onRequestClose={() => handleCloseModal()}
       style={CustomStyles}
-      closeTimeoutMS={150}
+      closeTimeoutMS={250}
       shouldCloseOnOverlayClick={true}
     >
       {children}

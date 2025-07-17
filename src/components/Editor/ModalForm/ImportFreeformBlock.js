@@ -1,0 +1,94 @@
+import { Button } from "@components/Base/Button";
+import { Text } from "@components/Base/Text";
+import { setModalAttribute } from "@redux/reducers/base/modalAttribute.reducers";
+import { setFreeformBlocks } from "@redux/reducers/editor/freeformBlocks.reducers";
+import { setActiveMenu } from "@redux/reducers/editor/activeMenu.reducers";
+import _ from "lodash";
+import React from "react";
+import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
+import { DEFAULT_STYLE } from "statics/DEFAULT_STYLE";
+import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
+
+const Container = styled.div`
+  width: 324px;
+  background: ${DEFAULT_STYLE?.MODAL_FORM_BACKGROUND};
+  border-radius: 18px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const ContainerHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+`;
+
+const Line = styled.div`
+  width: 100%;
+  height: 1px;
+  background: ${DEFAULT_STYLE?.MODAL_LINE_COLOR};
+`;
+
+const ContainerSelectItem = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 68px;
+  background: ${DEFAULT_STYLE?.MODAL_SELECT_BACKGROUND_COLOR};
+  border-color: ${DEFAULT_STYLE?.MODAL_SELECT_BORDER_COLOR};
+  border-width: 1px;
+  border-style: dashed;
+  border-radius: 8px;
+`;
+
+const SELECT_LIST = [
+  { label: "TEXT", value: "TEXT" },
+  { label: "IMAGE", value: "IMAGE" },
+];
+
+export const ImportFreeformBlock = () => {
+  const dispatch = useDispatch();
+  const modalAttribute = useSelector((state) => state?.modalAttribute?.data, shallowEqual);
+  const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
+
+  const handleSelectItem = ({ value }) => {
+    const initial = {
+      id: uuidv4(),
+      type: value,
+      x: 200 + 10, // px
+      y: 80 + 10, // px
+      attribute: { value: "text", width: 200, height: 80 },
+    };
+    batch(() => {
+      dispatch(setFreeformBlocks([...freeformBlocks, initial]));
+      dispatch(setActiveMenu(null));
+      dispatch(setModalAttribute({ ...modalAttribute, isVisible: false }));
+    });
+  };
+
+  return (
+    <Container>
+      <ContainerHeader>
+        <Text $fontSize={18} $fontWeight={500}>
+          Import absolute
+        </Text>
+        <Line />
+      </ContainerHeader>
+      {_.map(SELECT_LIST, (item, index) => {
+        const value = _.get(item, ["value"]);
+        return (
+          <ContainerSelectItem key={index} onClick={() => handleSelectItem({ value })}>
+            <Text $color={DEFAULT_STYLE?.MODAL_SELECT_TEXT_COLOR} $fontSize={16} $fontWeight={500}>
+              {_.get(item, ["label"])}
+            </Text>
+          </ContainerSelectItem>
+        );
+      })}
+    </Container>
+  );
+};
