@@ -2,6 +2,12 @@ import { Button } from "@components/Base/Button";
 import React from "react";
 import styled from "styled-components";
 import ICON_MENU_HIDE from "@assets/svgs/MENU/ICON_MENU_HIDE.svg";
+import ICON_MENU_IMPORT_CONTAINER from "@assets/svgs/MENU/ICON_MENU_IMPORT_CONTAINER.svg";
+import ICON_MENU_IMPORT_ABSOLUTE from "@assets/svgs/MENU/ICON_MENU_IMPORT_ABSOLUTE.svg";
+import ICON_MENU_SETTING_BACKGROUND from "@assets/svgs/MENU/ICON_MENU_SETTING_BACKGROUND.svg";
+import ICON_MENU_SWAP from "@assets/svgs/MENU/ICON_MENU_SWAP.svg";
+import ICON_MENU_SAVE from "@assets/svgs/MENU/ICON_MENU_SAVE.svg";
+
 import { Text } from "@components/Base/Text";
 
 const Container = styled.div`
@@ -36,7 +42,7 @@ export const ContainerEditorMenu = () => {
           $backgroundColor={"#EFEFEF"}
           $borderRadius={8}
         >
-          <ICON_MENU_HIDE width={16} height={16} />
+          <ICON_MENU_IMPORT_ABSOLUTE width={16} height={16} />
         </Button>
         <Button
           $height={32}
@@ -44,7 +50,7 @@ export const ContainerEditorMenu = () => {
           $backgroundColor={"#EFEFEF"}
           $borderRadius={8}
         >
-          <ICON_MENU_HIDE width={16} height={16} />
+          <ICON_MENU_IMPORT_CONTAINER width={16} height={16} />
         </Button>
         <Button
           $height={32}
@@ -52,7 +58,16 @@ export const ContainerEditorMenu = () => {
           $backgroundColor={"#EFEFEF"}
           $borderRadius={8}
         >
-          <ICON_MENU_HIDE width={16} height={16} />
+          <ICON_MENU_SETTING_BACKGROUND width={16} height={16} />
+        </Button>
+
+        <Button
+          $height={32}
+          $isSquare
+          $backgroundColor={"#EFEFEF"}
+          $borderRadius={8}
+        >
+          <ICON_MENU_SWAP width={16} height={16} />
         </Button>
         <Button
           $height={32}
@@ -60,7 +75,7 @@ export const ContainerEditorMenu = () => {
           $backgroundColor={"#EFEFEF"}
           $borderRadius={8}
         >
-          <ICON_MENU_HIDE width={16} height={16} />
+          <ICON_MENU_SAVE width={16} height={16} />
         </Button>
         <Button
           $height={32}
