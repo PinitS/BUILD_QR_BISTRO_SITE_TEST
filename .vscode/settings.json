@@ -1,8 +1,5 @@
 {
-  "eslint.validate": ["javascript", "javascriptreact"],
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
+  "cSpell.words": ["Barcodes", "customisable", "ellipsize", "gradlew", "Noto", "persistor", "Pressable", "ROSÉ", "Swipeable", "udid", "uuidv"],
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

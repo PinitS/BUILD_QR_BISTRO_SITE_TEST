@@ -2,18 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 import _ from "lodash";
 
 const initialState = {
-  data: null,
+  data: true,
 };
 export const slice = createSlice({
-  name: "restaurantDetails",
+  name: "isCollapseMenu",
   initialState: _.cloneDeep(initialState),
   reducers: {
-    setRestaurantDetails: (state, action) => {
+    setIsCollapseMenu: (state, action) => {
       state.data = action.payload;
     },
   },
 });
 
-export const { setRestaurantDetails } = slice.actions;
+export const { setIsCollapseMenu } = slice.actions;
 
 export default slice.reducer;

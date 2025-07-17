@@ -2,18 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 import _ from "lodash";
 
 const initialState = {
-  data: 0,
+  data: true,
 };
 export const slice = createSlice({
-  name: "guide",
+  name: "activeMenu",
   initialState: _.cloneDeep(initialState),
   reducers: {
-    setGuide: (state, action) => {
+    setActiveMenu: (state, action) => {
       state.data = action.payload;
     },
   },
 });
 
-export const { setGuide } = slice.actions;
+export const { setActiveMenu } = slice.actions;
 
 export default slice.reducer;

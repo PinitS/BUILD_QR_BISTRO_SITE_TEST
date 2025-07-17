@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.8.1",
+    "@svgr/webpack": "^8.1.0",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
-    "framer-motion": "^12.23.6",
+    "framer-motion": "^12.10.5",
+    "lodash": "^4.17.21",
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

@@ -1,14 +1,13 @@
 // src/redux/store.js
 import { configureStore } from "@reduxjs/toolkit";
-import restaurantDetails from "@redux/reducers/restaurantDetails.reducers";
-import themeAssets from "@redux/reducers/themeAssets.reducers";
-import guide from "@redux/reducers/guide.reducers";
+import isCollapseMenu from "@redux/reducers/editor/isCollapseMenu.reducers";
+import activeMenu from "@redux/reducers/editor/activeMenu.reducers";
+import logger from "redux-logger";
 
 export const store = configureStore({
   reducer: {
-    restaurantDetails,
-    themeAssets,
-    guide,
+    isCollapseMenu,
+    activeMenu,
   },
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
