@@ -1,0 +1,3 @@
+export const DEFAULT_STYLE = {
+  CONTAINER_BACKGROUND_COLOR: "#3C3C3C",
+};

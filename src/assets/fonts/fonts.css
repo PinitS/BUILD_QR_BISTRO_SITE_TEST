@@ -1,0 +1,1514 @@
+@font-face {
+  font-family: "Anuphan";
+  src: url("../fonts/Anuphan/Anuphan-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Anuphan";
+  src: url("../fonts/Anuphan/Anuphan-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Anuphan";
+  src: url("../fonts/Anuphan/Anuphan-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Anuphan";
+  src: url("../fonts/Anuphan/Anuphan-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Anuphan";
+  src: url("../fonts/Anuphan/Anuphan-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Anuphan";
+  src: url("../fonts/Anuphan/Anuphan-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Anuphan";
+  src: url("../fonts/Anuphan/Anuphan-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Athiti";
+  src: url("../fonts/Athiti/Athiti-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Athiti";
+  src: url("../fonts/Athiti/Athiti-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Athiti";
+  src: url("../fonts/Athiti/Athiti-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Athiti";
+  src: url("../fonts/Athiti/Athiti-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Athiti";
+  src: url("../fonts/Athiti/Athiti-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Athiti";
+  src: url("../fonts/Athiti/Athiti-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaiJamjuree";
+  src: url("../fonts/BaiJamjuree/BaiJamjuree-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaiJamjuree";
+  src: url("../fonts/BaiJamjuree/BaiJamjuree-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaiJamjuree";
+  src: url("../fonts/BaiJamjuree/BaiJamjuree-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaiJamjuree";
+  src: url("../fonts/BaiJamjuree/BaiJamjuree-ExtraLightItalic.ttf")
+    format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaiJamjuree";
+  src: url("../fonts/BaiJamjuree/BaiJamjuree-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaiJamjuree";
+  src: url("../fonts/BaiJamjuree/BaiJamjuree-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaiJamjuree";
+  src: url("../fonts/BaiJamjuree/BaiJamjuree-LightItalic.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaiJamjuree";
+  src: url("../fonts/BaiJamjuree/BaiJamjuree-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaiJamjuree";
+  src: url("../fonts/BaiJamjuree/BaiJamjuree-MediumItalic.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaiJamjuree";
+  src: url("../fonts/BaiJamjuree/BaiJamjuree-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaiJamjuree";
+  src: url("../fonts/BaiJamjuree/BaiJamjuree-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaiJamjuree";
+  src: url("../fonts/BaiJamjuree/BaiJamjuree-SemiBoldItalic.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Buenard";
+  src: url("../fonts/Buenard/Buenard-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Buenard";
+  src: url("../fonts/Buenard/Buenard-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ChakraPetch";
+  src: url("../fonts/ChakraPetch/ChakraPetch-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ChakraPetch";
+  src: url("../fonts/ChakraPetch/ChakraPetch-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ChakraPetch";
+  src: url("../fonts/ChakraPetch/ChakraPetch-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ChakraPetch";
+  src: url("../fonts/ChakraPetch/ChakraPetch-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ChakraPetch";
+  src: url("../fonts/ChakraPetch/ChakraPetch-LightItalic.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ChakraPetch";
+  src: url("../fonts/ChakraPetch/ChakraPetch-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ChakraPetch";
+  src: url("../fonts/ChakraPetch/ChakraPetch-MediumItalic.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ChakraPetch";
+  src: url("../fonts/ChakraPetch/ChakraPetch-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ChakraPetch";
+  src: url("../fonts/ChakraPetch/ChakraPetch-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ChakraPetch";
+  src: url("../fonts/ChakraPetch/ChakraPetch-SemiBoldItalic.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Charm";
+  src: url("../fonts/Charm/Charm-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Charm";
+  src: url("../fonts/Charm/Charm-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Charmonman";
+  src: url("../fonts/Charmonman/Charmonman-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Charmonman";
+  src: url("../fonts/Charmonman/Charmonman-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Chonburi";
+  src: url("../fonts/Chonburi/Chonburi-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fahkwang";
+  src: url("../fonts/Fahkwang/Fahkwang-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fahkwang";
+  src: url("../fonts/Fahkwang/Fahkwang-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fahkwang";
+  src: url("../fonts/Fahkwang/Fahkwang-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fahkwang";
+  src: url("../fonts/Fahkwang/Fahkwang-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fahkwang";
+  src: url("../fonts/Fahkwang/Fahkwang-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fahkwang";
+  src: url("../fonts/Fahkwang/Fahkwang-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fahkwang";
+  src: url("../fonts/Fahkwang/Fahkwang-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fahkwang";
+  src: url("../fonts/Fahkwang/Fahkwang-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fahkwang";
+  src: url("../fonts/Fahkwang/Fahkwang-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fahkwang";
+  src: url("../fonts/Fahkwang/Fahkwang-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fahkwang";
+  src: url("../fonts/Fahkwang/Fahkwang-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fahkwang";
+  src: url("../fonts/Fahkwang/Fahkwang-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IBMPlexSansThai";
+  src: url("../fonts/IBMPlexSansThai/IBMPlexSansThai-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IBMPlexSansThai";
+  src: url("../fonts/IBMPlexSansThai/IBMPlexSansThai-ExtraLight.ttf")
+    format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IBMPlexSansThai";
+  src: url("../fonts/IBMPlexSansThai/IBMPlexSansThai-Light.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IBMPlexSansThai";
+  src: url("../fonts/IBMPlexSansThai/IBMPlexSansThai-Medium.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IBMPlexSansThai";
+  src: url("../fonts/IBMPlexSansThai/IBMPlexSansThai-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IBMPlexSansThai";
+  src: url("../fonts/IBMPlexSansThai/IBMPlexSansThai-SemiBold.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IBMPlexSansThai";
+  src: url("../fonts/IBMPlexSansThai/IBMPlexSansThai-Thin.ttf")
+    format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Itim";
+  src: url("../fonts/Itim/Itim-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-ExtraBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-ExtraBoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "K2D";
+  src: url("../fonts/K2D/K2D-ThinItalic.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-BlackItalic.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-ExtraBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-ExtraBoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kanit";
+  src: url("../fonts/Kanit/Kanit-ThinItalic.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KoHo";
+  src: url("../fonts/KoHo/KoHo-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KoHo";
+  src: url("../fonts/KoHo/KoHo-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KoHo";
+  src: url("../fonts/KoHo/KoHo-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KoHo";
+  src: url("../fonts/KoHo/KoHo-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KoHo";
+  src: url("../fonts/KoHo/KoHo-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KoHo";
+  src: url("../fonts/KoHo/KoHo-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KoHo";
+  src: url("../fonts/KoHo/KoHo-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KoHo";
+  src: url("../fonts/KoHo/KoHo-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KoHo";
+  src: url("../fonts/KoHo/KoHo-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KoHo";
+  src: url("../fonts/KoHo/KoHo-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KoHo";
+  src: url("../fonts/KoHo/KoHo-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KoHo";
+  src: url("../fonts/KoHo/KoHo-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kodchasan";
+  src: url("../fonts/Kodchasan/Kodchasan-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kodchasan";
+  src: url("../fonts/Kodchasan/Kodchasan-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kodchasan";
+  src: url("../fonts/Kodchasan/Kodchasan-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kodchasan";
+  src: url("../fonts/Kodchasan/Kodchasan-ExtraLightItalic.ttf")
+    format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kodchasan";
+  src: url("../fonts/Kodchasan/Kodchasan-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kodchasan";
+  src: url("../fonts/Kodchasan/Kodchasan-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kodchasan";
+  src: url("../fonts/Kodchasan/Kodchasan-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kodchasan";
+  src: url("../fonts/Kodchasan/Kodchasan-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kodchasan";
+  src: url("../fonts/Kodchasan/Kodchasan-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kodchasan";
+  src: url("../fonts/Kodchasan/Kodchasan-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kodchasan";
+  src: url("../fonts/Kodchasan/Kodchasan-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Kodchasan";
+  src: url("../fonts/Kodchasan/Kodchasan-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Krub";
+  src: url("../fonts/Krub/Krub-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Krub";
+  src: url("../fonts/Krub/Krub-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Krub";
+  src: url("../fonts/Krub/Krub-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Krub";
+  src: url("../fonts/Krub/Krub-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Krub";
+  src: url("../fonts/Krub/Krub-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Krub";
+  src: url("../fonts/Krub/Krub-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Krub";
+  src: url("../fonts/Krub/Krub-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Krub";
+  src: url("../fonts/Krub/Krub-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Krub";
+  src: url("../fonts/Krub/Krub-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Krub";
+  src: url("../fonts/Krub/Krub-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Krub";
+  src: url("../fonts/Krub/Krub-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Krub";
+  src: url("../fonts/Krub/Krub-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Maitree";
+  src: url("../fonts/Maitree/Maitree-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Maitree";
+  src: url("../fonts/Maitree/Maitree-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Maitree";
+  src: url("../fonts/Maitree/Maitree-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Maitree";
+  src: url("../fonts/Maitree/Maitree-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Maitree";
+  src: url("../fonts/Maitree/Maitree-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Maitree";
+  src: url("../fonts/Maitree/Maitree-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mali";
+  src: url("../fonts/Mali/Mali-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mali";
+  src: url("../fonts/Mali/Mali-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mali";
+  src: url("../fonts/Mali/Mali-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mali";
+  src: url("../fonts/Mali/Mali-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mali";
+  src: url("../fonts/Mali/Mali-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mali";
+  src: url("../fonts/Mali/Mali-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mali";
+  src: url("../fonts/Mali/Mali-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mali";
+  src: url("../fonts/Mali/Mali-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mali";
+  src: url("../fonts/Mali/Mali-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mali";
+  src: url("../fonts/Mali/Mali-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mali";
+  src: url("../fonts/Mali/Mali-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Mali";
+  src: url("../fonts/Mali/Mali-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Niramit";
+  src: url("../fonts/Niramit/Niramit-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Niramit";
+  src: url("../fonts/Niramit/Niramit-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Niramit";
+  src: url("../fonts/Niramit/Niramit-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Niramit";
+  src: url("../fonts/Niramit/Niramit-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Niramit";
+  src: url("../fonts/Niramit/Niramit-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Niramit";
+  src: url("../fonts/Niramit/Niramit-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Niramit";
+  src: url("../fonts/Niramit/Niramit-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Niramit";
+  src: url("../fonts/Niramit/Niramit-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Niramit";
+  src: url("../fonts/Niramit/Niramit-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Niramit";
+  src: url("../fonts/Niramit/Niramit-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Niramit";
+  src: url("../fonts/Niramit/Niramit-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Niramit";
+  src: url("../fonts/Niramit/Niramit-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("../fonts/NotoSansSC/NotoSansSC-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("../fonts/NotoSansSC/NotoSansSC-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("../fonts/NotoSansSC/NotoSansSC-ExtraBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("../fonts/NotoSansSC/NotoSansSC-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("../fonts/NotoSansSC/NotoSansSC-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("../fonts/NotoSansSC/NotoSansSC-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("../fonts/NotoSansSC/NotoSansSC-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("../fonts/NotoSansSC/NotoSansSC-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("../fonts/NotoSansSC/NotoSansSC-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansThaiLooped";
+  src: url("../fonts/NotoSansThaiLooped/NotoSansThaiLooped-Black.ttf")
+    format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansThaiLooped";
+  src: url("../fonts/NotoSansThaiLooped/NotoSansThaiLooped-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansThaiLooped";
+  src: url("../fonts/NotoSansThaiLooped/NotoSansThaiLooped-ExtraBold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansThaiLooped";
+  src: url("../fonts/NotoSansThaiLooped/NotoSansThaiLooped-ExtraLight.ttf")
+    format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansThaiLooped";
+  src: url("../fonts/NotoSansThaiLooped/NotoSansThaiLooped-Light.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansThaiLooped";
+  src: url("../fonts/NotoSansThaiLooped/NotoSansThaiLooped-Medium.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansThaiLooped";
+  src: url("../fonts/NotoSansThaiLooped/NotoSansThaiLooped-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansThaiLooped";
+  src: url("../fonts/NotoSansThaiLooped/NotoSansThaiLooped-SemiBold.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSansThaiLooped";
+  src: url("../fonts/NotoSansThaiLooped/NotoSansThaiLooped-Thin.ttf")
+    format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSerifSC";
+  src: url("../fonts/NotoSerifSC/NotoSerifSC-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSerifSC";
+  src: url("../fonts/NotoSerifSC/NotoSerifSC-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSerifSC";
+  src: url("../fonts/NotoSerifSC/NotoSerifSC-ExtraBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSerifSC";
+  src: url("../fonts/NotoSerifSC/NotoSerifSC-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSerifSC";
+  src: url("../fonts/NotoSerifSC/NotoSerifSC-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSerifSC";
+  src: url("../fonts/NotoSerifSC/NotoSerifSC-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSerifSC";
+  src: url("../fonts/NotoSerifSC/NotoSerifSC-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSerifSC";
+  src: url("../fonts/NotoSerifSC/NotoSerifSC-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Pattaya";
+  src: url("../fonts/Pattaya/Pattaya-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-ExtraBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-ExtraBoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("../fonts/Sarabun/Sarabun-ThinItalic.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sen";
+  src: url("../fonts/Sen/Sen-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sen";
+  src: url("../fonts/Sen/Sen-ExtraBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sen";
+  src: url("../fonts/Sen/Sen-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sen";
+  src: url("../fonts/Sen/Sen-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sen";
+  src: url("../fonts/Sen/Sen-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sriracha";
+  src: url("../fonts/Sriracha/Sriracha-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Srisakdi";
+  src: url("../fonts/Srisakdi/Srisakdi-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Srisakdi";
+  src: url("../fonts/Srisakdi/Srisakdi-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
