@@ -1,6 +1,7 @@
 import { Button } from "@components/Base/Button";
 import { Container } from "@components/Base/Container";
 import { Layout } from "@components/Base/Layout";
+import { Modal } from "@components/Base/Modal";
 import { ContainerEditorMenu } from "@components/Editor/ContainerEditorMenu";
 import { setIsCollapseMenu } from "@redux/reducers/editor/isCollapseMenu.reducers";
 import React from "react";
@@ -21,6 +22,10 @@ export default () => {
         >
           SSSS
         </Button>
+
+        <Modal>
+          <div>sssssssss</div>
+        </Modal>
       </Container>
     </Layout>
   );

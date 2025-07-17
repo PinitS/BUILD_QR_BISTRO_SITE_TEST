@@ -15,6 +15,7 @@ import { DEFAULT_STYLE } from "statics/DEFAULT_STYLE";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setIsCollapseMenu } from "@redux/reducers/editor/isCollapseMenu.reducers";
 import { setActiveMenu } from "@redux/reducers/editor/activeMenu.reducers";
+import { setModalAttribute } from "@redux/reducers/base/modalAttribute.reducers";
 
 const Container = styled.div`
   padding: 16px;
@@ -62,12 +63,16 @@ const ITEM_VARIANTS = {
 
 export const ContainerEditorMenu = () => {
   const dispatch = useDispatch();
-  const isCollapseMenu = useSelector((state) => state.isCollapseMenu.data, shallowEqual);
-  const activeMenu = useSelector((state) => state.activeMenu.data, shallowEqual);
+  const isCollapseMenu = useSelector((state) => state?.isCollapseMenu?.data, shallowEqual);
+  const activeMenu = useSelector((state) => state?.activeMenu?.data, shallowEqual);
+  const modalAttribute = useSelector((state) => state?.modalAttribute?.data, shallowEqual);
 
   const handleMenuAction = ({ type }) => {
     const updateActiveMenu = activeMenu === type ? null : type;
-    dispatch(setActiveMenu(updateActiveMenu));
+    batch(() => {
+      dispatch(setActiveMenu(updateActiveMenu));
+      dispatch(setModalAttribute({ type, isVisible: true }));
+    });
   };
 
   const handleSwapComponent = () => {
