@@ -1,5 +1,5 @@
-import { setModalAttribute } from "@redux/reducers/base/modalAttribute.reducers";
 import { setActiveMenu } from "@redux/reducers/editor/activeMenu.reducers";
+import { handleCloseModal } from "@utils/handleCloseModal";
 import _ from "lodash";
 import React from "react";
 import ModalLib from "react-modal";
@@ -28,17 +28,18 @@ export const Modal = ({ children }) => {
   const dispatch = useDispatch();
   const modalAttribute = useSelector((state) => state?.modalAttribute?.data, shallowEqual);
 
-  const handleCloseModal = () => {
+  const onRequestClose = () => {
     batch(() => {
       dispatch(setActiveMenu(null));
-      dispatch(setModalAttribute({ ...modalAttribute, isVisible: false }));
+      // dispatch(setActiveMenu(null));
     });
+    handleCloseModal();
   };
 
   return (
     <ModalLib
       isOpen={_.get(modalAttribute, ["isVisible"])}
-      onRequestClose={() => handleCloseModal()}
+      onRequestClose={() => onRequestClose()}
       style={CustomStyles}
       closeTimeoutMS={250}
       shouldCloseOnOverlayClick={true}

@@ -7,22 +7,32 @@ import ICON_MENU_IMPORT_ABSOLUTE from "@assets/svgs/MENU/ICON_MENU_IMPORT_ABSOLU
 import ICON_MENU_SETTING_BACKGROUND from "@assets/svgs/MENU/ICON_MENU_SETTING_BACKGROUND.svg";
 import ICON_MENU_SWAP from "@assets/svgs/MENU/ICON_MENU_SWAP.svg";
 import ICON_MENU_SAVE from "@assets/svgs/MENU/ICON_MENU_SAVE.svg";
+import ICON_MENU_SETTING_CONTAINER from "@assets/svgs/MENU/ICON_MENU_SETTING_CONTAINER.svg";
 
 import { Text } from "@components/Base/Text";
 import _ from "lodash";
 import { AnimatePresence, motion } from "framer-motion";
-import { DEFAULT_STYLE } from "statics/DEFAULT_STYLE";
+import { EDITOR_DEFAULT_STYLE } from "statics/DEFAULT_STYLE";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setIsCollapseMenu } from "@redux/reducers/editor/isCollapseMenu.reducers";
 import { setActiveMenu } from "@redux/reducers/editor/activeMenu.reducers";
 import { setModalAttribute } from "@redux/reducers/base/modalAttribute.reducers";
+import { setSelectedFreeformBlock } from "@redux/reducers/editor/selectedFreeformBlock.reducers";
 
+const ContainerWrapper = styled.div`
+  top: 0px;
+  position: sticky;
+`;
 const Container = styled.div`
-  padding: 16px;
+  padding: 12px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   position: relative;
+  background: ${EDITOR_DEFAULT_STYLE?.CONTAINER?.BACKGROUND};
+  border-bottom-width: 1px;
+  border-bottom-color: #d7d7e0;
+  border-bottom-style: solid;
 `;
 
 const ContainerList = styled(motion.div)`
@@ -61,10 +71,39 @@ const ITEM_VARIANTS = {
   closed: { opacity: 0, x: -30, scale: 0.95 },
 };
 
+const FREEFORM_SETTING_VARIANTS = {
+  hidden: {
+    scale: 0.5,
+    rotate: -90,
+    opacity: 0,
+  },
+  visible: {
+    scale: 1,
+    rotate: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 20,
+    },
+  },
+  exit: {
+    scale: 0.5,
+    rotate: -90,
+    opacity: 0,
+    transition: {
+      duration: 0.2,
+    },
+  },
+};
+
 export const ContainerEditorMenu = () => {
   const dispatch = useDispatch();
   const isCollapseMenu = useSelector((state) => state?.isCollapseMenu?.data, shallowEqual);
   const activeMenu = useSelector((state) => state?.activeMenu?.data, shallowEqual);
+  const modalAttribute = useSelector((state) => state?.modalAttribute?.data, shallowEqual);
+
+  const selectedFreeformBlock = useSelector((state) => state?.selectedFreeformBlock?.data, shallowEqual);
 
   const handleMenuAction = ({ type }) => {
     const updateActiveMenu = activeMenu === type ? null : type;
@@ -92,116 +131,185 @@ export const ContainerEditorMenu = () => {
     batch(() => {
       dispatch(setIsCollapseMenu(updateIsCollapseMenu));
       dispatch(setActiveMenu(null));
+      dispatch(setSelectedFreeformBlock(null));
+    });
+  };
+
+  const handleFreeformOpenModal = () => {
+    const type = _.get(selectedFreeformBlock, ["type"]);
+    const modalType = _.toLower(`setting-freeform-${type}`);
+    batch(() => {
+      dispatch(setModalAttribute({ type: modalType, isVisible: true }));
     });
   };
 
   return (
-    <Container>
-      <motion.div
-        animate={{ rotate: isCollapseMenu ? 0 : 180 }}
-        transition={{ duration: 0.3 }}
-        style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-      >
-        <Button
-          $height={32}
-          $isSquare
-          $backgroundColor={isCollapseMenu ? DEFAULT_STYLE?.MENU_BACKGROUND : DEFAULT_STYLE?.MENU_FILL}
-          $borderRadius={8}
-          onClick={() => handleToggleCollapseMenu()}
+    <ContainerWrapper>
+      <Container>
+        <motion.div
+          animate={{ rotate: isCollapseMenu ? 0 : 180 }}
+          transition={{ duration: 0.3 }}
+          style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
         >
-          <ICON_MENU_HIDE
-            width={16}
-            height={16}
-            fill={isCollapseMenu ? DEFAULT_STYLE?.MENU_FILL : DEFAULT_STYLE?.MENU_BACKGROUND}
-          />
-        </Button>
-      </motion.div>
-
-      <AnimatePresence>
-        {isCollapseMenu && (
-          <ContainerList
-            key="menu"
-            initial="closed"
-            animate="open"
-            exit="closed"
-            variants={CONTAINER_VARIANTS}
+          <Button
+            $height={32}
+            $isSquare
+            $backgroundColor={
+              !isCollapseMenu
+                ? EDITOR_DEFAULT_STYLE?.MENU?.BACKGROUND_ACTIVE
+                : EDITOR_DEFAULT_STYLE?.MENU?.BACKGROUND_INACTIVE
+            }
+            $borderRadius={8}
+            onClick={() => handleToggleCollapseMenu()}
           >
-            {_.map(MENU_LIST, (item, index) => {
-              const ICON = _.get(item, ["icon"]);
-              const type = _.get(item, ["type"]);
+            <ICON_MENU_HIDE
+              width={16}
+              height={16}
+              fill={
+                !isCollapseMenu
+                  ? EDITOR_DEFAULT_STYLE?.MENU?.ICON_FILL_ACTIVE
+                  : EDITOR_DEFAULT_STYLE?.MENU?.ICON_FILL_INACTIVE
+              }
+            />
+          </Button>
+        </motion.div>
 
-              const isActive = activeMenu === type;
+        <AnimatePresence>
+          {isCollapseMenu && (
+            <ContainerList
+              key="menu"
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={CONTAINER_VARIANTS}
+            >
+              {_.map(MENU_LIST, (item, index) => {
+                const ICON = _.get(item, ["icon"]);
+                const type = _.get(item, ["type"]);
 
-              return (
-                <motion.div key={index} variants={ITEM_VARIANTS}>
-                  <Button
-                    onClick={() => handleMenuAction({ type })}
-                    $height={32}
-                    $isSquare
-                    $backgroundColor={isActive ? DEFAULT_STYLE?.MENU_FILL : DEFAULT_STYLE?.MENU_BACKGROUND}
-                    $borderRadius={8}
+                const isActive = activeMenu === type;
+
+                return (
+                  <motion.div key={index} variants={ITEM_VARIANTS}>
+                    <Button
+                      onClick={() => handleMenuAction({ type })}
+                      $height={32}
+                      $isSquare
+                      $backgroundColor={
+                        isActive
+                          ? EDITOR_DEFAULT_STYLE?.MENU?.BACKGROUND_ACTIVE
+                          : EDITOR_DEFAULT_STYLE?.MENU?.BACKGROUND_INACTIVE
+                      }
+                      $borderRadius={8}
+                    >
+                      <ICON
+                        width={16}
+                        height={16}
+                        fill={
+                          isActive
+                            ? EDITOR_DEFAULT_STYLE?.MENU?.ICON_FILL_ACTIVE
+                            : EDITOR_DEFAULT_STYLE?.MENU?.ICON_FILL_INACTIVE
+                        }
+                      />
+                    </Button>
+                  </motion.div>
+                );
+              })}
+              <motion.div key="swap-blocks" variants={ITEM_VARIANTS}>
+                <Button
+                  onClick={() => handleSwapComponent()}
+                  $height={32}
+                  $isSquare
+                  $backgroundColor={
+                    activeMenu === "swap-blocks"
+                      ? EDITOR_DEFAULT_STYLE?.MENU?.BACKGROUND_ACTIVE
+                      : EDITOR_DEFAULT_STYLE?.MENU?.BACKGROUND_INACTIVE
+                  }
+                  $borderRadius={8}
+                >
+                  <ICON_MENU_SWAP
+                    width={16}
+                    height={16}
+                    fill={
+                      activeMenu === "swap-blocks"
+                        ? EDITOR_DEFAULT_STYLE?.MENU?.ICON_FILL_ACTIVE
+                        : EDITOR_DEFAULT_STYLE?.MENU?.ICON_FILL_INACTIVE
+                    }
+                  />
+                </Button>
+              </motion.div>
+              <motion.div key="save" variants={ITEM_VARIANTS}>
+                <Button
+                  onClick={() => handleSave()}
+                  $height={32}
+                  $isSquare
+                  $backgroundColor={EDITOR_DEFAULT_STYLE?.MENU?.BACKGROUND_INACTIVE}
+                  $borderRadius={8}
+                >
+                  <ICON_MENU_SAVE
+                    width={16}
+                    height={16}
+                    fill={EDITOR_DEFAULT_STYLE?.MENU?.ICON_FILL_INACTIVE}
+                  />
+                </Button>
+              </motion.div>
+              <motion.div key="publish" variants={ITEM_VARIANTS}>
+                <Button
+                  onClick={() => handlePublish()}
+                  $height={32}
+                  $width={84}
+                  $isSquare
+                  $backgroundColor={EDITOR_DEFAULT_STYLE?.MENU?.BACKGROUND_INACTIVE}
+                  $borderRadius={8}
+                >
+                  <Text
+                    $textTransform="capitalize"
+                    $color={EDITOR_DEFAULT_STYLE?.MENU?.ICON_FILL_INACTIVE}
+                    $fontSize={14}
+                    $fontWeight={500}
                   >
-                    <ICON
-                      width={16}
-                      height={16}
-                      fill={isActive ? DEFAULT_STYLE?.MENU_BACKGROUND : DEFAULT_STYLE?.MENU_FILL}
-                    />
-                  </Button>
-                </motion.div>
-              );
-            })}
-            <motion.div key="swap-blocks" variants={ITEM_VARIANTS}>
+                    publish
+                  </Text>
+                </Button>
+              </motion.div>
+            </ContainerList>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {selectedFreeformBlock && (
+            <motion.div
+              variants={FREEFORM_SETTING_VARIANTS}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              style={{ position: "absolute", right: 16 }}
+            >
               <Button
-                onClick={() => handleSwapComponent()}
                 $height={32}
                 $isSquare
                 $backgroundColor={
-                  activeMenu === "swap-blocks" ? DEFAULT_STYLE?.MENU_FILL : DEFAULT_STYLE?.MENU_BACKGROUND
+                  _.chain(modalAttribute).get(["type"]).includes("setting-freeform").value()
+                    ? EDITOR_DEFAULT_STYLE?.MENU?.BACKGROUND_ACTIVE
+                    : EDITOR_DEFAULT_STYLE?.MENU?.BACKGROUND_INACTIVE
                 }
                 $borderRadius={8}
+                onClick={() => handleFreeformOpenModal()}
               >
-                <ICON_MENU_SWAP
+                <ICON_MENU_SETTING_CONTAINER
                   width={16}
                   height={16}
                   fill={
-                    activeMenu === "swap-blocks" ? DEFAULT_STYLE?.MENU_BACKGROUND : DEFAULT_STYLE?.MENU_FILL
+                    _.chain(modalAttribute).get(["type"]).includes("setting-freeform").value()
+                      ? EDITOR_DEFAULT_STYLE?.MENU?.ICON_FILL_ACTIVE
+                      : EDITOR_DEFAULT_STYLE?.MENU?.ICON_FILL_INACTIVE
                   }
                 />
               </Button>
             </motion.div>
-            <motion.div key="save" variants={ITEM_VARIANTS}>
-              <Button
-                onClick={() => handleSave()}
-                $height={32}
-                $isSquare
-                $backgroundColor={DEFAULT_STYLE?.MENU_BACKGROUND}
-                $borderRadius={8}
-              >
-                <ICON_MENU_SAVE width={16} height={16} fill={DEFAULT_STYLE?.MENU_FILL} />
-              </Button>
-            </motion.div>
-            <motion.div key="publish" variants={ITEM_VARIANTS}>
-              <Button
-                onClick={() => handlePublish()}
-                $height={32}
-                $width={84}
-                $isSquare
-                $backgroundColor={DEFAULT_STYLE?.MENU_BACKGROUND}
-                $borderRadius={8}
-              >
-                <Text
-                  $textTransform="capitalize"
-                  $color={DEFAULT_STYLE?.MENU_FILL}
-                  $fontSize={14}
-                  $fontWeight={500}
-                >
-                  publish
-                </Text>
-              </Button>
-            </motion.div>
-          </ContainerList>
-        )}
-      </AnimatePresence>
-    </Container>
+          )}
+        </AnimatePresence>
+      </Container>
+    </ContainerWrapper>
   );
 };

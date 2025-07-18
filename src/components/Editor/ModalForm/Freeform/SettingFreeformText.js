@@ -56,47 +56,14 @@ export const ImportFreeformBlock = () => {
   const modalAttribute = useSelector((state) => state?.modalAttribute?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
 
-  const handleSelectItem = ({ value }) => {
-    const initialWidth = value === "TEXT" ? 250 : 100;
-    const initialHeight = value === "TEXT" ? 80 : 100;
-    // const initialValue = value === "TEXT" ? "insert your text" : null;
-
-    const initial = {
-      id: uuidv4(),
-      type: value,
-      x: initialWidth + 10, // px
-      y: initialHeight + 10, // px
-      attribute: { value: null, width: initialWidth, height: initialHeight },
-    };
-    batch(() => {
-      dispatch(setFreeformBlocks([...freeformBlocks, initial]));
-      dispatch(setActiveMenu(null));
-      dispatch(setModalAttribute({ ...modalAttribute, isVisible: false }));
-    });
-  };
-
   return (
     <Container>
       <ContainerHeader>
         <Text $fontSize={18} $fontWeight={500}>
-          Import absolute
+          Setting Text
         </Text>
         <Line />
       </ContainerHeader>
-      {_.map(SELECT_LIST, (item, index) => {
-        const value = _.get(item, ["value"]);
-        return (
-          <ContainerSelectItem key={index} onClick={() => handleSelectItem({ value })}>
-            <Text
-              $color={EDITOR_DEFAULT_STYLE?.IMPORT_FORM?.SELECT_TEXT_COLOR}
-              $fontSize={16}
-              $fontWeight={400}
-            >
-              {_.get(item, ["label"])}
-            </Text>
-          </ContainerSelectItem>
-        );
-      })}
     </Container>
   );
 };

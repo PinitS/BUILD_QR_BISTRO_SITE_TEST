@@ -1,10 +1,11 @@
+import { DEFAULT_STYLE } from "statics/DEFAULT_STYLE";
 import styled from "styled-components";
 
 export const Text = styled.span.attrs(({ $ellipsis = true, $maxLines = 1 }) => ({
   $ellipsis,
   $maxLines,
 }))`
-  color: ${({ $color = "#000000" }) => $color};
+  color: ${({ $color = DEFAULT_STYLE?.TEXT_COLOR }) => $color};
   font-family: "IBMPlexSansThai";
   font-weight: ${({ $fontWeight = 400 }) => $fontWeight};
 
