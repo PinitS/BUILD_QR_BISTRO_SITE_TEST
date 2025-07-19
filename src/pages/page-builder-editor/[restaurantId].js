@@ -54,8 +54,8 @@ export default () => {
         ...item,
         attribute: {
           ...item?.attribute,
-          x: Math.max(width, Math.min(newX, containerWidth)),
-          y: Math.max(height, Math.min(newY, containerHeight)),
+          x: newX,
+          y: newY,
         },
       };
     });

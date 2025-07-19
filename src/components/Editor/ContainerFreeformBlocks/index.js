@@ -54,8 +54,8 @@ export const ContainerFreeformBlocks = ({ $item, $containerWidth, $containerHeig
   const scaleW = $containerWidth / ocw;
   const scaleH = $containerHeight / och;
 
-  const x = _.get(attribute, ["x"]) * scaleW; // px
-  const y = _.get(attribute, ["y"]) * scaleH; // px
+  const x = _.get(attribute, ["x"]);
+  const y = _.get(attribute, ["y"]);
 
   const width = _.get(attribute, ["width"]) * scaleW;
   const height = _.get(attribute, ["height"]) * scaleH;
