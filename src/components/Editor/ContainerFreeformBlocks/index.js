@@ -22,8 +22,8 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  left: ${({ $x, $width }) => `calc(${$x}% - ${$width}px)`};
-  top: ${({ $y, $height }) => `calc(${$y}% - ${$height}px)`};
+  left: ${({ $x }) => `${$x}px`};
+  top: ${({ $y }) => `${$y}px`};
 
   width: ${({ $width }) => `${$width}px`};
   height: ${({ $height }) => `${$height}px`};
@@ -48,15 +48,17 @@ export const ContainerFreeformBlocks = ({ $item, $containerWidth, $containerHeig
   const ref = useRef(null);
   const id = _.get($item, ["id"]);
   const type = _.get($item, ["type"]);
-
-  const x = _.get($item, ["x"]); // px
-  const y = _.get($item, ["y"]); // px
-
-  const xPercent = (x / $containerWidth) * 100;
-  const yPercent = (y / $containerHeight) * 100;
+  const ocw = _.get($item, ["ocw"]);
+  const och = _.get($item, ["och"]);
   const attribute = _.get($item, ["attribute"]);
-  const width = _.get(attribute, ["width"]);
-  const height = _.get(attribute, ["height"]);
+  const scaleW = $containerWidth / ocw;
+  const scaleH = $containerHeight / och;
+
+  const x = _.get(attribute, ["x"]) * scaleW; // px
+  const y = _.get(attribute, ["y"]) * scaleH; // px
+
+  const width = _.get(attribute, ["width"]) * scaleW;
+  const height = _.get(attribute, ["height"]) * scaleH;
   const isActive = _.get(selectedFreeformBlock, ["id"]) === id;
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
@@ -78,8 +80,8 @@ export const ContainerFreeformBlocks = ({ $item, $containerWidth, $containerHeig
       {...listeners}
       {...attributes}
       $isActive={isActive}
-      $x={xPercent}
-      $y={yPercent}
+      $x={x}
+      $y={y}
       $width={width}
       $height={height}
       $transform={transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined}
