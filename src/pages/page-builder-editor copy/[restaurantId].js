@@ -7,17 +7,18 @@ import _ from "lodash";
 import React, { useRef } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
-import { DndContext, PointerSensor, useSensor, useSensors, useDraggable, closestCenter } from "@dnd-kit/core";
+import { DndContext, PointerSensor, useSensor, useSensors, closestCenter } from "@dnd-kit/core";
 import { setFreeformBlocks } from "@redux/reducers/editor/freeformBlocks.reducers";
 import { Container } from "@components/Editor/Container";
-import { Text } from "@components/Base/Text";
-import { LOREM_IPSUM } from "statics/LOREM_IPSUM";
+import { useContainerDimensions } from "@hooks/useContainerDimensions";
 
 export default () => {
-  const containerRef = useRef(null);
-  const containerRect = containerRef.current?.getBoundingClientRect();
-  const containerWidth = containerRect?.width || 1;
-  const containerHeight = containerRect?.height || 1;
+  // const containerRef = useRef(null);
+  // const containerRect = containerRef.current?.getBoundingClientRect();
+  // const containerWidth = containerRect?.width || 1;
+  // const containerHeight = containerRect?.height || 1;
+
+  const { width: containerWidth, height: containerHeight, ref: containerRef } = useContainerDimensions();
 
   const dispatch = useDispatch();
   const modalAttribute = useSelector((state) => state?.modalAttribute?.data, shallowEqual);
@@ -38,29 +39,29 @@ export default () => {
     const rect = container.getBoundingClientRect();
     const containerWidth = rect?.width;
     const containerHeight = rect?.height;
-    const newBlocks = _.map(freeformBlocks, (item) => {
-      const itemId = _.get(item, ["id"]);
-      const activeId = _.get(active, ["id"]);
-      if (itemId !== activeId) {
-        return item;
-      }
+    // const newBlocks = _.map(freeformBlocks, (item) => {
+    //   const itemId = _.get(item, ["id"]);
+    //   const activeId = _.get(active, ["id"]);
+    //   if (itemId !== activeId) {
+    //     return item;
+    //   }
 
-      const x = _.get(item, ["x"]);
-      const y = _.get(item, ["y"]);
-      const width = _.get(item, ["attribute", "width"]);
-      const height = _.get(item, ["attribute", "height"]);
+    //   const x = _.get(item, ["x"]);
+    //   const y = _.get(item, ["y"]);
+    //   const width = _.get(item, ["attribute", "width"]);
+    //   const height = _.get(item, ["attribute", "height"]);
 
-      const newX = (x || 0) + delta?.x;
-      const newY = (y || 0) + delta?.y;
+    //   const newX = (x || 0) + delta?.x;
+    //   const newY = (y || 0) + delta?.y;
 
-      return {
-        ...item,
-        x: Math.max(width, Math.min(newX, containerWidth)),
-        y: Math.max(height, Math.min(newY, containerHeight)),
-      };
-    });
+    //   return {
+    //     ...item,
+    //     x: Math.max(width, Math.min(newX, containerWidth)),
+    //     y: Math.max(height, Math.min(newY, containerHeight)),
+    //   };
+    // });
 
-    dispatch(setFreeformBlocks(newBlocks));
+    // dispatch(setFreeformBlocks(newBlocks));
   };
 
   const handleFreeformDragStart = () => {
@@ -96,7 +97,11 @@ export default () => {
         </DndContext>
       </Container>
 
-      <Modal>{_.get(modalAttribute, ["type"]) === "import-freeform-block" && <ImportFreeformBlock />}</Modal>
+      <Modal>
+        {_.get(modalAttribute, ["type"]) === "import-freeform-block" && (
+          <ImportFreeformBlock $containerWidth={containerWidth} $containerHeight={containerHeight} />
+        )}
+      </Modal>
     </Layout>
   );
 };
