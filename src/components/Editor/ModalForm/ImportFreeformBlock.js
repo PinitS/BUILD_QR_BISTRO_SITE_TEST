@@ -51,7 +51,7 @@ const SELECT_LIST = [
   { label: "IMAGE", value: "IMAGE" },
 ];
 
-export const ImportFreeformBlock = () => {
+export const ImportFreeformBlock = ({ $containerWidth, $containerHeight }) => {
   const dispatch = useDispatch();
   const modalAttribute = useSelector((state) => state?.modalAttribute?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
@@ -64,9 +64,9 @@ export const ImportFreeformBlock = () => {
     const initial = {
       id: uuidv4(),
       type: value,
-      x: initialWidth + 10, // px
-      y: initialHeight + 10, // px
-      attribute: { value: null, width: initialWidth, height: initialHeight },
+      ocw: $containerWidth,
+      och: $containerHeight,
+      attribute: { value: null, x: 10, y: 10, width: initialWidth, height: initialHeight },
     };
     batch(() => {
       dispatch(setFreeformBlocks([...freeformBlocks, initial]));
