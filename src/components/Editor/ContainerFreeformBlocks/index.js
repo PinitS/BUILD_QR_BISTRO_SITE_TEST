@@ -11,6 +11,7 @@ import { setModalAttribute } from "@redux/reducers/base/modalAttribute.reducers"
 import { setActiveMenu } from "@redux/reducers/editor/activeMenu.reducers";
 import { setIsCollapseMenu } from "@redux/reducers/editor/isCollapseMenu.reducers";
 import { EDITOR_DEFAULT_STYLE } from "statics/DEFAULT_STYLE";
+import { fitPxW } from "@utils/resolve/resolveSize";
 
 const Container = styled.div`
   position: absolute;
@@ -25,11 +26,7 @@ const Container = styled.div`
   left: ${({ $x }) => `${$x}px`};
   top: ${({ $y }) => `${$y}px`};
 
-  width: ${({ $width }) => `${$width}px`};
-  height: ${({ $height }) => `${$height}px`};
-
   transform: ${({ $transform }) => $transform || "none"};
-  /* background: #fff; */
   border-color: ${({ $isActive = false }) =>
     $isActive
       ? EDITOR_DEFAULT_STYLE?.IMPORT_FORM?.SELECT_BORDER_COLOR_ACTIVE
@@ -42,23 +39,14 @@ const Container = styled.div`
 
 export const ContainerFreeformBlocks = ({ $item, $containerWidth, $containerHeight }) => {
   const dispatch = useDispatch();
-
+  const scale = fitPxW({ containerWidth: $containerWidth });
   const selectedFreeformBlock = useSelector((state) => state?.selectedFreeformBlock?.data, shallowEqual);
 
   const ref = useRef(null);
   const id = _.get($item, ["id"]);
   const type = _.get($item, ["type"]);
-  const ocw = _.get($item, ["ocw"]);
-  const och = _.get($item, ["och"]);
-  const attribute = _.get($item, ["attribute"]);
-  const scaleW = $containerWidth / ocw;
-  const scaleH = $containerHeight / och;
-
-  const x = _.get(attribute, ["x"]);
-  const y = _.get(attribute, ["y"]);
-
-  const width = _.get(attribute, ["width"]) * scaleW;
-  const height = _.get(attribute, ["height"]) * scaleH;
+  const x = _.get($item, ["x"]) * scale;
+  const y = _.get($item, ["y"]);
   const isActive = _.get(selectedFreeformBlock, ["id"]) === id;
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
@@ -82,14 +70,12 @@ export const ContainerFreeformBlocks = ({ $item, $containerWidth, $containerHeig
       $isActive={isActive}
       $x={x}
       $y={y}
-      $width={width}
-      $height={height}
       $transform={transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined}
     >
       {(() => {
         switch (type) {
           case "TEXT":
-            return <ContainerFreeformBlockText key="TEXT" $item={$item} />;
+            return <ContainerFreeformBlockText key="TEXT" $item={$item} $containerWidth={$containerWidth} />;
           case "IMAGE":
             return <ContainerFreeformBlockImage key="IMAGE" $item={$item} />;
           default:

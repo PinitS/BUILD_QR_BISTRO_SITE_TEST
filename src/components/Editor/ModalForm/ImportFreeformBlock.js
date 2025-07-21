@@ -9,6 +9,12 @@ import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { EDITOR_DEFAULT_STYLE } from "statics/DEFAULT_STYLE";
+import {
+  initialFreeformImageAttribute,
+  initialFreeformTextAttribute,
+  initialImportFreeform,
+} from "@utils/importFreeform";
+import { fitPxW } from "@utils/resolve/resolveSize";
 
 const Container = styled.div`
   width: 324px;
@@ -57,16 +63,21 @@ export const ImportFreeformBlock = ({ $containerWidth, $containerHeight }) => {
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
 
   const handleSelectItem = ({ value }) => {
-    const initialWidth = value === "TEXT" ? 250 : 100;
-    const initialHeight = value === "TEXT" ? 80 : 100;
-    // const initialValue = value === "TEXT" ? "insert your text" : null;
+    const scale = fitPxW({ containerWidth: $containerWidth });
+    const initialX = Math.round(31 * scale);
+    const initialY = Math.round(31);
+
+    const initialAttribute =
+      value === "TEXT"
+        ? initialFreeformTextAttribute({ containerWidth: $containerWidth })
+        : initialFreeformImageAttribute({ containerWidth: $containerWidth });
 
     const initial = {
       id: uuidv4(),
       type: value,
-      ocw: $containerWidth,
-      och: $containerHeight,
-      attribute: { value: null, x: 10, y: 10, width: initialWidth, height: initialHeight },
+      x: initialX,
+      y: initialY,
+      attribute: { ...initialAttribute },
     };
     batch(() => {
       dispatch(setFreeformBlocks([...freeformBlocks, initial]));
@@ -86,7 +97,11 @@ export const ImportFreeformBlock = ({ $containerWidth, $containerHeight }) => {
       {_.map(SELECT_LIST, (item, index) => {
         const value = _.get(item, ["value"]);
         return (
-          <ContainerSelectItem key={index} onClick={() => handleSelectItem({ value })}>
+          <ContainerSelectItem
+            disabled={value !== "TEXT"}
+            key={index}
+            onClick={() => handleSelectItem({ value })}
+          >
             <Text
               $color={EDITOR_DEFAULT_STYLE?.IMPORT_FORM?.SELECT_TEXT_COLOR}
               $fontSize={16}

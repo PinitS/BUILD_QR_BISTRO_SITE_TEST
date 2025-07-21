@@ -13,6 +13,8 @@ import { Container } from "@components/Editor/Container";
 import { Text } from "@components/Base/Text";
 import { LOREM_IPSUM } from "statics/LOREM_IPSUM";
 import { useContainerDimensions } from "@hooks/useContainerDimensions";
+import { Grid } from "@components/Editor/Grid";
+import { fitPxW } from "@utils/resolve/resolveSize";
 
 export default () => {
   const { width: containerWidth, height: containerHeight, ref: containerRef } = useContainerDimensions();
@@ -22,7 +24,6 @@ export default () => {
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
 
-  console.log("containerRef :>> ", containerRef);
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 },
@@ -32,7 +33,6 @@ export default () => {
   const handleFreeformDragEnd = (event) => {
     const { active, delta } = event;
     const container = containerRef.current;
-    console.log("container :>> ", container);
     if (!container) return;
 
     const newBlocks = _.map(freeformBlocks, (item) => {
@@ -42,20 +42,22 @@ export default () => {
         return item;
       }
 
-      const x = _.get(item, ["attribute", "x"]);
-      const y = _.get(item, ["attribute", "y"]);
-      const width = _.get(item, ["attribute", "width"]);
-      const height = _.get(item, ["attribute", "height"]);
+      const x = _.get(item, ["x"]);
+      const y = _.get(item, ["y"]);
+      const scale = fitPxW({ containerWidth });
 
-      const newX = (x || 0) + delta?.x;
-      const newY = (y || 0) + delta?.y;
+      const deltaDesignX = delta.x / scale;
+      const deltaDesignY = delta.y;
+
+      const newX = x + deltaDesignX;
+      const newY = y + deltaDesignY;
 
       return {
         ...item,
+        x: newX,
+        y: newY,
         attribute: {
           ...item?.attribute,
-          x: newX,
-          y: newY,
         },
       };
     });
@@ -94,6 +96,7 @@ export default () => {
             );
           })}
         </DndContext>
+        <Grid $containerWidth={containerWidth} $containerHeight={containerHeight} />
       </Container>
 
       <Modal>
