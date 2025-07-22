@@ -97,12 +97,6 @@ export default () => {
             );
           })}
         </DndContext>
-        <Text $ellipsis={false}>
-          {LOREM_IPSUM}
-          {LOREM_IPSUM}
-          {LOREM_IPSUM}
-          {LOREM_IPSUM}
-        </Text>
         <Grid $containerWidth={containerWidth} $containerHeight={containerHeight} />
       </Container>
 
