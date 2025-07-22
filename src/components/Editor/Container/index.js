@@ -5,4 +5,5 @@ export const Container = styled.div`
   flex: 1;
   position: relative;
   background-color: ${EDITOR_DEFAULT_STYLE?.CONTAINER?.BACKGROUND};
+  overflow: hidden;
 `;

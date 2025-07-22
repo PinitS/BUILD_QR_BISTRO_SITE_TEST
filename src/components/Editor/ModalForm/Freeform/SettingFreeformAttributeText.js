@@ -1,11 +1,14 @@
 import { Button } from "@components/Base/Button";
 import { Text } from "@components/Base/Text";
 import _ from "lodash";
-import React from "react";
-import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useMemo } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { v4 as uuidv4 } from "uuid";
 import { EDITOR_DEFAULT_STYLE } from "statics/DEFAULT_STYLE";
+import { useForm } from "react-hook-form";
+import { Slider } from "@components/Base/Slider";
+import { Input } from "@components/Base/Input";
+import { setFreeformBlocks } from "@redux/reducers/editor/freeformBlocks.reducers";
 
 const Container = styled.div`
   width: 324px;
@@ -53,10 +56,54 @@ export const SettingFreeformAttributeText = () => {
   const modalAttribute = useSelector((state) => state?.modalAttribute?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const selectedFreeformBlock = useSelector((state) => state?.selectedFreeformBlock?.data, shallowEqual);
+  const selectedFreeformBlockId = _.get(selectedFreeformBlock, ["id"]);
 
-  // console.log("modalAttribute :>> ", modalAttribute);
-  console.log("selectedFreeformBlock :>> ", selectedFreeformBlock);
-  console.log("freeformBlocks :>> ", freeformBlocks);
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      value: _.get(selectedFreeformBlock, ["attribute", "value"]) || "",
+      size: _.get(selectedFreeformBlock, ["attribute", "size"]),
+    },
+  });
+
+  const targetIndex = useMemo(() => {
+    const result = _.findIndex(freeformBlocks, (item) => {
+      return _.get(item, ["id"]) === selectedFreeformBlockId;
+    });
+    return result;
+  }, [freeformBlocks, selectedFreeformBlockId]);
+
+  console.log("targetIndex :>> ", targetIndex);
+
+  const value = watch("value");
+  const size = watch("size");
+
+  useEffect(() => {
+    console.log("freeformBlocks :>> ", freeformBlocks);
+    if (targetIndex === -1) {
+      return;
+    }
+
+    const targetBlock = _.get(freeformBlocks, [targetIndex]);
+    const updatedAttr = { ...targetBlock?.attribute, value, size };
+
+    if (_.isEqual(targetBlock.attribute, updatedAttr)) {
+      return;
+    }
+
+    const updatedBlocks = [...freeformBlocks];
+    updatedBlocks[targetIndex] = {
+      ...targetBlock,
+      attribute: updatedAttr,
+    };
+
+    console.log("updatedBlocks :>> ", updatedBlocks);
+    dispatch(setFreeformBlocks(updatedBlocks));
+  }, [value, size]);
 
   return (
     <Container>
@@ -66,6 +113,8 @@ export const SettingFreeformAttributeText = () => {
         </Text>
         <Line />
       </ContainerHeader>
+      <Slider $control={control} $name="size" $label="Size" />
+      <Input $control={control} $name="value" $label="Text" />
     </Container>
   );
 };

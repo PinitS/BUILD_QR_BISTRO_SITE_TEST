@@ -27,15 +27,4 @@ export const Text = styled.span.attrs(({ $ellipsis = true, $maxLines = 1 }) => (
   padding-bottom: ${({ $pb = 0 }) => `${$pb}px`};
   padding-left: ${({ $pl = 0 }) => `${$pl}px`};
   padding-right: ${({ $pr = 0 }) => `${$pr}px`};
-
-  ${({ $ellipsis, $maxLines }) =>
-    $ellipsis
-      ? `
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: ${$maxLines};
-    -webkit-box-orient: vertical;
-  `
-      : ""}
 `;

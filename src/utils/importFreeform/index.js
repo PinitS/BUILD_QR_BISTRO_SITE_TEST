@@ -1,7 +1,7 @@
 import { fitPxW } from "@utils/resolve/resolveSize";
 
 export const initialFreeformTextAttribute = ({ containerWidth }) => {
-  const result = { value: null, mh: 12, mv: 4, size: 12 };
+  const result = { value: "", mh: 12, mv: 4, size: 12 };
   return result;
 };
 

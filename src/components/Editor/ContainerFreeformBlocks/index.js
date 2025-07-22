@@ -35,6 +35,7 @@ const Container = styled.div`
   border-style: dotted;
   border-radius: 8px;
   overflow: hidden;
+  z-index: 2;
 `;
 
 export const ContainerFreeformBlocks = ({ $item, $containerWidth, $containerHeight }) => {

@@ -22,6 +22,7 @@ import { setSelectedFreeformBlock } from "@redux/reducers/editor/selectedFreefor
 const ContainerWrapper = styled.div`
   top: 0px;
   position: sticky;
+  z-index: 20;
 `;
 const Container = styled.div`
   padding: 12px;

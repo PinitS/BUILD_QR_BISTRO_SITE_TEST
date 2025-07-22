@@ -14,6 +14,8 @@ import { useContainerDimensions } from "@hooks/useContainerDimensions";
 import { Grid } from "@components/Editor/Grid";
 import { fitPxW } from "@utils/resolve/resolveSize";
 import { SettingFreeformAttributeText } from "@components/Editor/ModalForm/Freeform/SettingFreeformAttributeText";
+import { Text } from "@components/Base/Text";
+import { LOREM_IPSUM } from "statics/LOREM_IPSUM";
 
 export default () => {
   const { width: containerWidth, height: containerHeight, ref: containerRef } = useContainerDimensions();
@@ -95,6 +97,12 @@ export default () => {
             );
           })}
         </DndContext>
+        <Text $ellipsis={false}>
+          {LOREM_IPSUM}
+          {LOREM_IPSUM}
+          {LOREM_IPSUM}
+          {LOREM_IPSUM}
+        </Text>
         <Grid $containerWidth={containerWidth} $containerHeight={containerHeight} />
       </Container>
 
