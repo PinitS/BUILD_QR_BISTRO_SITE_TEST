@@ -7,10 +7,8 @@ export const Button = styled.button`
   flex-direction: ${({ $flexDirection = "row" }) => $flexDirection};
   gap: ${({ $gap = 0 }) => `${$gap}px`};
 
-  width: ${({ $width = "auto" }) =>
-    typeof $width === "number" ? `${$width}px` : $width};
-  height: ${({ $height = "auto" }) =>
-    typeof $height === "number" ? `${$height}px` : $height};
+  width: ${({ $width = "auto" }) => (typeof $width === "number" ? `${$width}px` : $width)};
+  height: ${({ $height = "auto" }) => (typeof $height === "number" ? `${$height}px` : $height)};
 
   ${({ $isSquare }) =>
     $isSquare &&
@@ -35,11 +33,15 @@ export const Button = styled.button`
   opacity: ${({ $opacity = 1, disabled }) => (disabled ? 0.5 : $opacity)};
 
   border-color: ${({ $borderColor = "transparent" }) => $borderColor};
-  background-color: ${({ $backgroundColor = "transparent" }) =>
-    $backgroundColor};
+  background-color: ${({ $backgroundColor = "transparent" }) => $backgroundColor};
 
   cursor: pointer;
   box-sizing: border-box;
-
   transition: all 0.2s ease;
+  flex-shrink: 0;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;

@@ -10,11 +10,10 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { DndContext, PointerSensor, useSensor, useSensors, useDraggable, closestCenter } from "@dnd-kit/core";
 import { setFreeformBlocks } from "@redux/reducers/editor/freeformBlocks.reducers";
 import { Container } from "@components/Editor/Container";
-import { Text } from "@components/Base/Text";
-import { LOREM_IPSUM } from "statics/LOREM_IPSUM";
 import { useContainerDimensions } from "@hooks/useContainerDimensions";
 import { Grid } from "@components/Editor/Grid";
 import { fitPxW } from "@utils/resolve/resolveSize";
+import { SettingFreeformAttributeText } from "@components/Editor/ModalForm/Freeform/SettingFreeformAttributeText";
 
 export default () => {
   const { width: containerWidth, height: containerHeight, ref: containerRef } = useContainerDimensions();
@@ -102,6 +101,9 @@ export default () => {
       <Modal>
         {_.get(modalAttribute, ["type"]) === "import-freeform-block" && (
           <ImportFreeformBlock $containerWidth={containerWidth} $containerHeight={containerHeight} />
+        )}
+        {_.get(modalAttribute, ["type"]) === "setting-freeform-text" && (
+          <SettingFreeformAttributeText $containerWidth={containerWidth} $containerHeight={containerHeight} />
         )}
       </Modal>
     </Layout>

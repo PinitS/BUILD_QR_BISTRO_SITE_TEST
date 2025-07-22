@@ -1,8 +1,5 @@
 import { Button } from "@components/Base/Button";
 import { Text } from "@components/Base/Text";
-import { setModalAttribute } from "@redux/reducers/base/modalAttribute.reducers";
-import { setFreeformBlocks } from "@redux/reducers/editor/freeformBlocks.reducers";
-import { setActiveMenu } from "@redux/reducers/editor/activeMenu.reducers";
 import _ from "lodash";
 import React from "react";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -51,16 +48,21 @@ const SELECT_LIST = [
   { label: "IMAGE", value: "IMAGE" },
 ];
 
-export const ImportFreeformBlock = () => {
+export const SettingFreeformAttributeText = () => {
   const dispatch = useDispatch();
   const modalAttribute = useSelector((state) => state?.modalAttribute?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
+  const selectedFreeformBlock = useSelector((state) => state?.selectedFreeformBlock?.data, shallowEqual);
+
+  // console.log("modalAttribute :>> ", modalAttribute);
+  console.log("selectedFreeformBlock :>> ", selectedFreeformBlock);
+  console.log("freeformBlocks :>> ", freeformBlocks);
 
   return (
     <Container>
       <ContainerHeader>
         <Text $fontSize={18} $fontWeight={500}>
-          Setting Text
+          Setting Attribute (Text)
         </Text>
         <Line />
       </ContainerHeader>

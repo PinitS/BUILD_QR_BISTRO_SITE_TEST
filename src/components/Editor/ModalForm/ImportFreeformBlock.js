@@ -65,7 +65,7 @@ export const ImportFreeformBlock = ({ $containerWidth, $containerHeight }) => {
   const handleSelectItem = ({ value }) => {
     const scale = fitPxW({ containerWidth: $containerWidth });
     const initialX = Math.round(31 * scale);
-    const initialY = Math.round(31);
+    const initialY = Math.round(0);
 
     const initialAttribute =
       value === "TEXT"
