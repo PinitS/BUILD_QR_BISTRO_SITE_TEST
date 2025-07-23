@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import IMAGE_LOGO from "@assets/staticImages/IMAGE_APP_LOGO.png";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
@@ -19,6 +19,7 @@ import _ from "lodash";
 import { setSelectedLayoutDesign } from "@redux/reducers/selectedLayoutDesign.reducers";
 import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
 import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
+import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
 
 const Container = styled.div`
   position: relative;
@@ -74,6 +75,7 @@ export const ContainerHeader = () => {
   const dispatch = useDispatch();
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
+  const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
 
   const handleSelectSize = ({ value }) => {
     dispatch(setSelectedLayoutDesign(value));
@@ -82,12 +84,17 @@ export const ContainerHeader = () => {
   const handleSelectMainSideMenu = ({ value }) => {
     const currentMainSideMenuForm = _.get(importBlockAttr, ["form"]);
     const currentMainSideMenuIsVisible = _.get(importBlockAttr, ["isVisible"]);
-    const updateimportBlockAttr = !currentMainSideMenuIsVisible
+    const updateImportBlockAttr = !currentMainSideMenuIsVisible
       ? { isVisible: true, form: value }
       : currentMainSideMenuForm === value
         ? { isVisible: false, form: value }
         : { isVisible: true, form: value };
-    dispatch(setImportBlockAttr(updateimportBlockAttr));
+    const updateSelectedFreeformBlock = { ...customizeBlockAttr, isVisible: false };
+
+    batch(() => {
+      dispatch(setCustomizeBlockAttr(updateSelectedFreeformBlock));
+      dispatch(setImportBlockAttr(updateImportBlockAttr));
+    });
   };
 
   return (

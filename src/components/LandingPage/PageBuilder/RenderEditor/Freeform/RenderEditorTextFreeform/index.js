@@ -38,16 +38,15 @@ export const RenderEditorTextFreeform = ({ $item }) => {
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
 
   const id = _.get($item, ["id"]);
-  const type = _.get($item, ["type"]);
   const value = _.get($item, ["value"]);
   const color = _.get($item, ["color"]);
+  const fontWeight = _.get($item, ["fontWeight"]);
+  const fontFamily = _.get($item, ["fontFamily"]);
 
   const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
   const x = _.get(attribute, ["x"]);
   const y = _.get(attribute, ["y"]);
   const fontSize = _.get(attribute, ["fontSize"]);
-  const fontWeight = _.get(attribute, ["fontWeight"]);
-  const fontFamily = _.get(attribute, ["fontFamily"]);
 
   const isActive = _.get(customizeBlockAttr, ["id"]) === id && _.get(customizeBlockAttr, ["isVisible"]);
 
@@ -56,7 +55,7 @@ export const RenderEditorTextFreeform = ({ $item }) => {
   const handleSelectBlock = () => {
     const updateSelectedFreeformBlock = isActive
       ? { ...customizeBlockAttr, isVisible: false }
-      : { isVisible: true, id, type, block: "FREEFORM" };
+      : { isVisible: true, id, form: "CUSTOMIZE-FREEFORM-TEXT" };
     batch(() => {
       dispatch(setCustomizeBlockAttr(updateSelectedFreeformBlock));
       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
@@ -76,7 +75,7 @@ export const RenderEditorTextFreeform = ({ $item }) => {
       $y={attribute?.y}
       $transform={transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined}
     >
-      <Text $color={color} $fontSize={attribute?.size}>
+      <Text $color={color} $fontSize={fontSize}>
         {_.isEmpty(value) ? "Click Me To Edit" : value}
       </Text>
     </ContainerDraggable>

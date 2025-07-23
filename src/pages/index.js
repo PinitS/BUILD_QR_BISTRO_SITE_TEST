@@ -9,6 +9,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { DndContext, PointerSensor, useSensor, useSensors, useDraggable, closestCenter } from "@dnd-kit/core";
 import _ from "lodash";
 import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
+import { ContainerCustomizeBlock } from "@components/LandingPage/PageBuilder/Customize";
 
 export default () => {
   const dispatch = useDispatch();
@@ -67,6 +68,8 @@ export default () => {
     <Layouts>
       <ContainerHeader />
       <ContainerImportBlock />
+      <ContainerCustomizeBlock />
+
       <Container $layoutDesign={selectedLayoutDesign}>
         {/* FREEFORM */}
         <DndContext

@@ -39,15 +39,16 @@ export const ImportFreeformContainer = () => {
       type: "TEXT",
       value: "",
       color: "#17171B",
+      fontFamily: "IBMPlexSansThai",
       attribute: {
         DESKTOP: {
           isVisible: true,
           x: 0,
           y: 0,
-          size: 16,
+          fontSize: 16,
         },
-        TABLET: { isVisible: true, x: 0, y: 0, size: 14 },
-        MOBILE: { isVisible: true, x: 0, y: 0, size: 12 },
+        TABLET: { isVisible: true, x: 0, y: 0, fontSize: 14 },
+        MOBILE: { isVisible: true, x: 0, y: 0, fontSize: 12 },
       },
     };
 
@@ -64,7 +65,7 @@ export const ImportFreeformContainer = () => {
         <Text
           $fontFamily="Sen"
           $textTransform="capitalize"
-          $color={MAIN_COLORS?.MAIN?.TEXT_COLOR}
+          $color={MAIN_COLORS?.MAIN?.CONTAINER_IMPORT_TEXT}
           $fontSize={14}
           $fontWeight={600}
           $align="center"
@@ -82,7 +83,7 @@ export const ImportFreeformContainer = () => {
         <Text
           $fontFamily="Sen"
           $textTransform="capitalize"
-          $color={MAIN_COLORS?.MAIN?.TEXT_COLOR}
+          $color={MAIN_COLORS?.MAIN?.CONTAINER_IMPORT_TEXT}
           $fontSize={14}
           $fontWeight={500}
           $align="center"
@@ -100,7 +101,7 @@ export const ImportFreeformContainer = () => {
         <Text
           $fontFamily="Sen"
           $textTransform="capitalize"
-          $color={MAIN_COLORS?.MAIN?.TEXT_COLOR}
+          $color={MAIN_COLORS?.MAIN?.CONTAINER_IMPORT_TEXT}
           $fontSize={14}
           $fontWeight={500}
           $align="center"
