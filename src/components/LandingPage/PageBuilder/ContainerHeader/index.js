@@ -21,9 +21,11 @@ import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
 import { setMainSideMenuAttr } from "@redux/reducers/mainSideMenuAttr.reducers";
 
 const Container = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  justify-content: center;
   align-items: center;
   padding-left: ${MAIN_SIZE?.SPACING}px;
   padding-right: ${MAIN_SIZE?.SPACING}px;
@@ -34,6 +36,7 @@ const Container = styled.div`
   border-bottom-color: ${MAIN_COLORS?.MAIN?.LINE};
   border-bottom-width: 1px;
   border-bottom-style: solid;
+  height: 65px;
 `;
 
 const LOGO = styled(Image)`
@@ -46,11 +49,14 @@ const LOGO = styled(Image)`
 `;
 
 const ContainerAction = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: ${MAIN_SIZE?.SPACING}px;
 `;
+
+const ContainerActionMenuList = styled(ContainerAction)``;
 
 const DESIGN_SIZE_LIST = [
   { ICON: ICON_SELECT_DESKTOP, value: "DESKTOP" },
@@ -86,7 +92,7 @@ export const ContainerHeader = () => {
 
   return (
     <Container>
-      <ContainerAction>
+      <ContainerAction style={{ left: 12 }}>
         <LOGO src={IMAGE_LOGO} alt={MAIN_ATTR?.IMAGE_ALT} />
 
         {_.map(DESIGN_SIZE_LIST, (item, index) => {
@@ -112,7 +118,7 @@ export const ContainerHeader = () => {
         })}
       </ContainerAction>
 
-      <ContainerAction>
+      <ContainerActionMenuList>
         {_.map(MAIN_SIDE_MENU_LIST, (item, index) => {
           const ICON = _.get(item, ["ICON"]);
           const value = _.get(item, ["value"]);
@@ -135,20 +141,39 @@ export const ContainerHeader = () => {
             </Button>
           );
         })}
-      </ContainerAction>
+      </ContainerActionMenuList>
 
-      <ContainerAction>
+      <ContainerAction style={{ right: 12 }}>
         <Button
           $height={32}
           $pl={MAIN_SIZE?.SPACING}
           $pr={MAIN_SIZE?.SPACING}
           $borderRadius={6}
-          $backgroundColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
+          $borderColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
+          $backgroundColor={MAIN_COLORS?.BUTTON?.TEXT}
         >
           <Text
             $fontFamily="Sen"
             $textTransform="capitalize"
-            $color={MAIN_COLORS?.BUTTON?.TEXT}
+            $color={MAIN_COLORS?.BUTTON?.BACKGROUND}
+            $fontSize={14}
+            $fontWeight={500}
+          >
+            Preview
+          </Text>
+        </Button>
+        <Button
+          $height={32}
+          $pl={MAIN_SIZE?.SPACING}
+          $pr={MAIN_SIZE?.SPACING}
+          $borderRadius={6}
+          $borderColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
+          $backgroundColor={MAIN_COLORS?.BUTTON?.TEXT}
+        >
+          <Text
+            $fontFamily="Sen"
+            $textTransform="capitalize"
+            $color={MAIN_COLORS?.BUTTON?.BACKGROUND}
             $fontSize={14}
             $fontWeight={500}
           >

@@ -1,8 +1,9 @@
 import { Button } from "@components/LandingPage/Base/Button";
 import { Text } from "@components/LandingPage/Base/Text";
 import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
+import { setMainSideMenuAttr } from "@redux/reducers/mainSideMenuAttr.reducers";
 import React from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
@@ -30,6 +31,7 @@ const Line = styled.div`
 export const ImportFreeformContainer = () => {
   const dispatch = useDispatch();
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
+  const mainSideMenuAttr = useSelector((state) => state?.mainSideMenuAttr?.data, shallowEqual);
 
   const handleImportFreeformText = () => {
     const initial = {
@@ -42,12 +44,17 @@ export const ImportFreeformContainer = () => {
           isVisible: true,
           x: 0,
           y: 0,
+          size: 16,
         },
-        TABLET: { isVisible: true, x: 0, y: 0 },
-        MOBILE: { isVisible: true, x: 0, y: 0 },
+        TABLET: { isVisible: true, x: 0, y: 0, size: 14 },
+        MOBILE: { isVisible: true, x: 0, y: 0, size: 12 },
       },
     };
-    dispatch(setFreeformBlocks([...freeformBlocks, initial]));
+
+    batch(() => {
+      dispatch(setFreeformBlocks([...freeformBlocks, initial]));
+      dispatch(setMainSideMenuAttr({ ...mainSideMenuAttr, isVisible: false }));
+    });
   };
   const handleImportFreeformImage = () => {};
 

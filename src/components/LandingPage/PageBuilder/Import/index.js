@@ -4,7 +4,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { SIDE_MENU_VARIANTS } from "statics/VARIANTS";
-import { ImportFreeformContainer } from "@components/LandingPage/Import/Freeform/ImportFreeformContainer";
+import { ImportFreeformContainer } from "@components/LandingPage/PageBuilder/Import/Freeform/ImportFreeformContainer";
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -18,7 +18,7 @@ const Container = styled(motion.div)`
   z-index: 500;
 `;
 
-export const ContainerMainSideMenu = () => {
+export const ContainerImportBlock = () => {
   const mainSideMenuAttr = useSelector((state) => state?.mainSideMenuAttr?.data, shallowEqual);
   const isVisible = _.get(mainSideMenuAttr, ["isVisible"]);
   const form = _.get(mainSideMenuAttr, ["form"]);

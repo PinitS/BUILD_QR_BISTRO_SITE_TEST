@@ -1,9 +1,9 @@
 import _ from "lodash";
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { EditorTextFreeform } from "@components/LandingPage/Editor/Freeform/EditorTextFreeform";
+import { RenderEditorTextFreeform } from "@components/LandingPage/PageBuilder/RenderEditor/Freeform/RenderEditorTextFreeform";
 
-export const ContainerEditorFreeform = () => {
+export const ContainerRenderEditorFreeform = () => {
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
 
   return (
@@ -14,7 +14,7 @@ export const ContainerEditorFreeform = () => {
 
         switch (type) {
           case "TEXT":
-            return <EditorTextFreeform key={id} $item={item} />;
+            return <RenderEditorTextFreeform key={id} $item={item} />;
 
           default:
             break;

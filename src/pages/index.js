@@ -1,8 +1,8 @@
 import { Container } from "@components/LandingPage/Base/Container";
 import { Layouts } from "@components/LandingPage/Base/Layouts";
-import { ContainerEditorFreeform } from "@components/LandingPage/Editor/Freeform";
+import { ContainerRenderEditorFreeform } from "@components/LandingPage/PageBuilder/RenderEditor/Freeform";
 import { ContainerHeader } from "@components/LandingPage/PageBuilder/ContainerHeader";
-import { ContainerMainSideMenu } from "@components/LandingPage/PageBuilder/ContainerMainSideMenu";
+import { ContainerImportBlock } from "@components/LandingPage/PageBuilder/Import";
 import { Grid } from "@components/LandingPage/PageBuilder/Grid";
 import React from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -66,7 +66,7 @@ export default () => {
   return (
     <Layouts>
       <ContainerHeader />
-      <ContainerMainSideMenu />
+      <ContainerImportBlock />
       <Container $layoutDesign={selectedLayoutDesign}>
         {/* FREEFORM */}
         <DndContext
@@ -76,7 +76,7 @@ export default () => {
           onDragEnd={handleFreeformDragEnd}
           onDragCancel={handleFreeformDragCancel}
         >
-          <ContainerEditorFreeform />
+          <ContainerRenderEditorFreeform />
         </DndContext>
         {/* FREEFORM */}
         <Grid />
