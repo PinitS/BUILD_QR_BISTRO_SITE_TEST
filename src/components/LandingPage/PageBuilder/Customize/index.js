@@ -18,7 +18,7 @@ const Container = styled(motion.div)`
   z-index: 500;
 `;
 
-export const ContainerImportBlock = () => {
+export const ContainerCustomizeBlock = () => {
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
   const isVisible = _.get(importBlockAttr, ["isVisible"]);
   const form = _.get(importBlockAttr, ["form"]);

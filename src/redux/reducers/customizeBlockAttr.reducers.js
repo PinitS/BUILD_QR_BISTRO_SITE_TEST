@@ -5,15 +5,15 @@ const initialState = {
   data: null,
 };
 export const slice = createSlice({
-  name: "mainSideMenuAttr",
+  name: "customizeBlockAttr",
   initialState: _.cloneDeep(initialState),
   reducers: {
-    setMainSideMenuAttr: (state, action) => {
+    setCustomizeBlockAttr: (state, action) => {
       state.data = action.payload;
     },
   },
 });
 
-export const { setMainSideMenuAttr } = slice.actions;
+export const { setCustomizeBlockAttr } = slice.actions;
 
 export default slice.reducer;

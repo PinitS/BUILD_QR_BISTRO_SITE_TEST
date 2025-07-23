@@ -2,18 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 import _ from "lodash";
 
 const initialState = {
-  data: [],
+  data: null,
 };
 export const slice = createSlice({
-  name: "selectedFreeformBlock",
+  name: "importBlockAttr",
   initialState: _.cloneDeep(initialState),
   reducers: {
-    setSelectedFreeformBlock: (state, action) => {
+    setImportBlockAttr: (state, action) => {
       state.data = action.payload;
     },
   },
 });
 
-export const { setSelectedFreeformBlock } = slice.actions;
+export const { setImportBlockAttr } = slice.actions;
 
 export default slice.reducer;

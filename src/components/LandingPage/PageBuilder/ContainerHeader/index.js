@@ -18,7 +18,7 @@ import ICON_MENU_SWAP from "@assets/svgs/PAGE_BUILDER/MENU/ICON_MENU_SWAP.svg";
 import _ from "lodash";
 import { setSelectedLayoutDesign } from "@redux/reducers/selectedLayoutDesign.reducers";
 import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
-import { setMainSideMenuAttr } from "@redux/reducers/mainSideMenuAttr.reducers";
+import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
 
 const Container = styled.div`
   position: relative;
@@ -73,21 +73,21 @@ const MAIN_SIDE_MENU_LIST = [
 export const ContainerHeader = () => {
   const dispatch = useDispatch();
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
-  const mainSideMenuAttr = useSelector((state) => state?.mainSideMenuAttr?.data, shallowEqual);
+  const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
 
   const handleSelectSize = ({ value }) => {
     dispatch(setSelectedLayoutDesign(value));
   };
 
   const handleSelectMainSideMenu = ({ value }) => {
-    const currentMainSideMenuForm = _.get(mainSideMenuAttr, ["form"]);
-    const currentMainSideMenuIsVisible = _.get(mainSideMenuAttr, ["isVisible"]);
-    const updateMainSideMenuAttr = !currentMainSideMenuIsVisible
+    const currentMainSideMenuForm = _.get(importBlockAttr, ["form"]);
+    const currentMainSideMenuIsVisible = _.get(importBlockAttr, ["isVisible"]);
+    const updateimportBlockAttr = !currentMainSideMenuIsVisible
       ? { isVisible: true, form: value }
       : currentMainSideMenuForm === value
         ? { isVisible: false, form: value }
         : { isVisible: true, form: value };
-    dispatch(setMainSideMenuAttr(updateMainSideMenuAttr));
+    dispatch(setImportBlockAttr(updateimportBlockAttr));
   };
 
   return (
@@ -123,7 +123,7 @@ export const ContainerHeader = () => {
           const ICON = _.get(item, ["ICON"]);
           const value = _.get(item, ["value"]);
           const isActive =
-            value === _.get(mainSideMenuAttr, ["form"]) && _.get(mainSideMenuAttr, ["isVisible"]);
+            value === _.get(importBlockAttr, ["form"]) && _.get(importBlockAttr, ["isVisible"]);
           return (
             <Button
               onClick={() => handleSelectMainSideMenu({ value })}

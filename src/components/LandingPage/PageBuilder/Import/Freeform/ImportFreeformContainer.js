@@ -1,7 +1,7 @@
 import { Button } from "@components/LandingPage/Base/Button";
 import { Text } from "@components/LandingPage/Base/Text";
 import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
-import { setMainSideMenuAttr } from "@redux/reducers/mainSideMenuAttr.reducers";
+import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
 import React from "react";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
@@ -31,7 +31,7 @@ const Line = styled.div`
 export const ImportFreeformContainer = () => {
   const dispatch = useDispatch();
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
-  const mainSideMenuAttr = useSelector((state) => state?.mainSideMenuAttr?.data, shallowEqual);
+  const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
 
   const handleImportFreeformText = () => {
     const initial = {
@@ -53,7 +53,7 @@ export const ImportFreeformContainer = () => {
 
     batch(() => {
       dispatch(setFreeformBlocks([...freeformBlocks, initial]));
-      dispatch(setMainSideMenuAttr({ ...mainSideMenuAttr, isVisible: false }));
+      dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
     });
   };
   const handleImportFreeformImage = () => {};
