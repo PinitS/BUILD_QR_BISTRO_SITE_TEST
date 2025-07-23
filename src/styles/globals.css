@@ -47,11 +47,6 @@ img {
   display: block;
 }
 
-input:focus {
-  outline: none !important;
-  border: none !important;
-}
-
 div {
   -webkit-user-select: none; /* Chrome/Safari */
   -moz-user-select: none; /* Firefox */

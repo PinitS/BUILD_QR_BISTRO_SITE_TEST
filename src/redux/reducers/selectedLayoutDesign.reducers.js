@@ -2,18 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 import _ from "lodash";
 
 const initialState = {
-  data: [],
+  data: "DESKTOP",
 };
 export const slice = createSlice({
-  name: "stackBlocks",
+  name: "selectedLayoutDesign",
   initialState: _.cloneDeep(initialState),
   reducers: {
-    setStackBlocks: (state, action) => {
+    setSelectedLayoutDesign: (state, action) => {
       state.data = action.payload;
     },
   },
 });
 
-export const { setStackBlocks } = slice.actions;
+export const { setSelectedLayoutDesign } = slice.actions;
 
 export default slice.reducer;

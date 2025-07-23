@@ -1,0 +1,14 @@
+export const MAIN_COLORS = {
+  INPUT: {},
+  BUTTON: {
+    TEXT: "#F7F7FA",
+    BACKGROUND: "#17171B",
+  },
+  SWITCH: {},
+  MAIN: {
+    LINE: "#EFEFF4",
+    BODY_BACKGROUND: "#F8F8FA",
+    CONTAINER_BACKGROUND: "#FFFFFF",
+    MENU_BACKGROUND: "#FFFFFF",
+  },
+};
