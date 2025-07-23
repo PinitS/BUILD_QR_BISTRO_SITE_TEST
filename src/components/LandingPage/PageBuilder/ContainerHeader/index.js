@@ -3,7 +3,7 @@ import React from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import IMAGE_LOGO from "@assets/staticImages/IMAGE_APP_LOGO.png";
-import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
+import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import { Button } from "@components/LandingPage/Base/Button";
 import { Text } from "@components/LandingPage/Base/Text";
 import ICON_SELECT_DESKTOP from "@assets/svgs/PAGE_BUILDER/MENU/ICON_SELECT_DESKTOP.svg";
@@ -25,8 +25,8 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: ${MAIN_SIZE?.SPACING}px;
+  padding-right: ${MAIN_SIZE?.SPACING}px;
   padding-top: 8px;
   padding-bottom: 8px;
   background: ${MAIN_COLORS?.MAIN?.MENU_BACKGROUND};
@@ -49,7 +49,7 @@ const ContainerAction = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 8px;
+  gap: ${MAIN_SIZE?.SPACING}px;
 `;
 
 const DESIGN_SIZE_LIST = [
@@ -58,7 +58,7 @@ const DESIGN_SIZE_LIST = [
 ];
 
 const MAIN_SIDE_MENU_LIST = [
-  { ICON: ICON_MENU_IMPORT_ABSOLUTE, value: "IMPORT-FREE-CONTAINER" },
+  { ICON: ICON_MENU_IMPORT_ABSOLUTE, value: "IMPORT-FREEFORM-CONTAINER" },
   { ICON: ICON_MENU_IMPORT_CONTAINER, value: "IMPORT-STACK-CONTAINER" },
   { ICON: ICON_MENU_SETTING_BACKGROUND, value: "CUSTOMIZE-BACKGROUND" },
   { ICON: ICON_MENU_SWAP, value: "SWAP-STACK-CONTAINER" },
@@ -140,8 +140,8 @@ export const ContainerHeader = () => {
       <ContainerAction>
         <Button
           $height={32}
-          $pl={12}
-          $pr={12}
+          $pl={MAIN_SIZE?.SPACING}
+          $pr={MAIN_SIZE?.SPACING}
           $borderRadius={6}
           $backgroundColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
         >
@@ -157,8 +157,8 @@ export const ContainerHeader = () => {
         </Button>
         <Button
           $height={32}
-          $pl={12}
-          $pr={12}
+          $pl={MAIN_SIZE?.SPACING}
+          $pr={MAIN_SIZE?.SPACING}
           $borderRadius={6}
           $backgroundColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
         >

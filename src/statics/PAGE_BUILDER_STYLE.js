@@ -10,5 +10,10 @@ export const MAIN_COLORS = {
     BODY_BACKGROUND: "#F8F8FA",
     CONTAINER_BACKGROUND: "#FFFFFF",
     MENU_BACKGROUND: "#FFFFFF",
+    TEXT_COLOR: "#17171B",
   },
+};
+
+export const MAIN_SIZE = {
+  SPACING: 12,
 };

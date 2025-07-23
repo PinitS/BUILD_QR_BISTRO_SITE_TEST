@@ -25,6 +25,7 @@ import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 
 const Layout = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -39,7 +40,8 @@ const Layout = styled.div`
   border-left-color: ${MAIN_COLORS?.MAIN?.LINE};
   border-right-color: ${MAIN_COLORS?.MAIN?.LINE};
   max-width: ${({ $width }) => $width}px;
-  background: red;
+  background: white;
+  overflow: hidden;
 `;
 
 // @media (min-width: 480px) {
