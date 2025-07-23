@@ -17,6 +17,8 @@ import ICON_MENU_SWAP from "@assets/svgs/PAGE_BUILDER/MENU/ICON_MENU_SWAP.svg";
 //
 import _ from "lodash";
 import { setSelectedLayoutDesign } from "@redux/reducers/selectedLayoutDesign.reducers";
+import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
+import { setMainSideMenuAttr } from "@redux/reducers/mainSideMenuAttr.reducers";
 
 const Container = styled.div`
   display: flex;
@@ -35,8 +37,8 @@ const Container = styled.div`
 `;
 
 const LOGO = styled(Image)`
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  aspect-ratio: 1;
   border-color: ${MAIN_COLORS?.MAIN?.LINE};
   border-width: 1px;
   border-style: solid;
@@ -55,25 +57,37 @@ const DESIGN_SIZE_LIST = [
   { ICON: ICON_SELECT_MOBILE, value: "MOBILE" },
 ];
 
-const SETTING_LIST = [
-  { ICON: ICON_MENU_IMPORT_ABSOLUTE, value: "import-free-form" },
-  { ICON: ICON_MENU_IMPORT_CONTAINER, value: "import-free-container" },
-  { ICON: ICON_MENU_SETTING_BACKGROUND, value: "setting-background" },
-  { ICON: ICON_MENU_SWAP, value: "swap-container" },
+const MAIN_SIDE_MENU_LIST = [
+  { ICON: ICON_MENU_IMPORT_ABSOLUTE, value: "IMPORT-FREE-CONTAINER" },
+  { ICON: ICON_MENU_IMPORT_CONTAINER, value: "IMPORT-STACK-CONTAINER" },
+  { ICON: ICON_MENU_SETTING_BACKGROUND, value: "CUSTOMIZE-BACKGROUND" },
+  { ICON: ICON_MENU_SWAP, value: "SWAP-STACK-CONTAINER" },
 ];
 
 export const ContainerHeader = () => {
   const dispatch = useDispatch();
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
+  const mainSideMenuAttr = useSelector((state) => state?.mainSideMenuAttr?.data, shallowEqual);
 
   const handleSelectSize = ({ value }) => {
     dispatch(setSelectedLayoutDesign(value));
   };
 
+  const handleSelectMainSideMenu = ({ value }) => {
+    const currentMainSideMenuForm = _.get(mainSideMenuAttr, ["form"]);
+    const currentMainSideMenuIsVisible = _.get(mainSideMenuAttr, ["isVisible"]);
+    const updateMainSideMenuAttr = !currentMainSideMenuIsVisible
+      ? { isVisible: true, form: value }
+      : currentMainSideMenuForm === value
+        ? { isVisible: false, form: value }
+        : { isVisible: true, form: value };
+    dispatch(setMainSideMenuAttr(updateMainSideMenuAttr));
+  };
+
   return (
     <Container>
       <ContainerAction>
-        <LOGO src={IMAGE_LOGO} alt="QR-BISTRO" />
+        <LOGO src={IMAGE_LOGO} alt={MAIN_ATTR?.IMAGE_ALT} />
 
         {_.map(DESIGN_SIZE_LIST, (item, index) => {
           const ICON = _.get(item, ["ICON"]);
@@ -99,13 +113,14 @@ export const ContainerHeader = () => {
       </ContainerAction>
 
       <ContainerAction>
-        {_.map(SETTING_LIST, (item, index) => {
+        {_.map(MAIN_SIDE_MENU_LIST, (item, index) => {
           const ICON = _.get(item, ["ICON"]);
           const value = _.get(item, ["value"]);
-          const isActive = value === selectedLayoutDesign;
+          const isActive =
+            value === _.get(mainSideMenuAttr, ["form"]) && _.get(mainSideMenuAttr, ["isVisible"]);
           return (
             <Button
-              // onClick={() => handleSelectSize({ value })}
+              onClick={() => handleSelectMainSideMenu({ value })}
               key={index}
               $isSquare
               $height={32}
@@ -131,6 +146,7 @@ export const ContainerHeader = () => {
           $backgroundColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
         >
           <Text
+            $fontFamily="Sen"
             $textTransform="capitalize"
             $color={MAIN_COLORS?.BUTTON?.TEXT}
             $fontSize={14}
@@ -147,6 +163,7 @@ export const ContainerHeader = () => {
           $backgroundColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
         >
           <Text
+            $fontFamily="Sen"
             $textTransform="capitalize"
             $color={MAIN_COLORS?.BUTTON?.TEXT}
             $fontSize={14}

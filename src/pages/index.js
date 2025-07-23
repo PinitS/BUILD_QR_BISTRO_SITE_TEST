@@ -1,6 +1,7 @@
 import { Container } from "@components/LandingPage/Base/Container";
 import { Layouts } from "@components/LandingPage/Base/Layouts";
 import { ContainerHeader } from "@components/LandingPage/PageBuilder/ContainerHeader";
+import { ContainerMainSideMenu } from "@components/LandingPage/PageBuilder/ContainerMainSideMenu";
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
@@ -10,6 +11,7 @@ export default () => {
   return (
     <Layouts>
       <ContainerHeader />
+      <ContainerMainSideMenu />
       <Container $layoutDesign={selectedLayoutDesign}>{selectedLayoutDesign}</Container>
     </Layouts>
   );
