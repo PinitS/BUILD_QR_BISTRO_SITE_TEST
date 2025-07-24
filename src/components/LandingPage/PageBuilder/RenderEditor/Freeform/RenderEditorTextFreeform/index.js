@@ -75,7 +75,7 @@ export const RenderEditorTextFreeform = ({ $item }) => {
       $y={y}
       $transform={transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined}
     >
-      <Text $color={color} $fontSize={fontSize}>
+      <Text $fontFamily={fontFamily} $fontWeight={fontWeight} $color={color} $fontSize={fontSize}>
         {_.isEmpty(value) ? "Click Me To Edit" : value}
       </Text>
     </ContainerDraggable>

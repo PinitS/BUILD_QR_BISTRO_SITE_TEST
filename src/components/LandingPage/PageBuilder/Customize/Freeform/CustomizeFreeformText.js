@@ -10,6 +10,12 @@ import styled from "styled-components";
 import ICON_CUSTOMIZE_CLOSE from "@assets/svgs/PAGE_BUILDER/MENU/ICON_CUSTOMIZE_CLOSE.svg";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
 import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
+import { Select } from "@components/LandingPage/Base/Select";
+import {
+  FONT_FAMILY_OPTIONS,
+  FONT_SIZE_OPTIONS,
+  FONT_WEIGHT_OPTIONS,
+} from "statics/PAGE_BUILDER_TEXT_CUSTOMIZE";
 
 const Container = styled.div`
   display: flex;
@@ -66,7 +72,6 @@ export const CustomizeFreeformText = () => {
   const attribute = _.get(selectItem, ["attribute", selectedLayoutDesign]);
   const {
     control,
-    handleSubmit,
     watch,
     reset,
     formState: { errors },
@@ -109,13 +114,15 @@ export const CustomizeFreeformText = () => {
 
     console.log("fontFamily :>> ", fontFamily);
     console.log("fontWeight :>> ", fontWeight);
+    const currentFontFamily = _.get(selectItem, ["fontFamily"]);
+    let updateFontWeight = _.isEqual(fontFamily, currentFontFamily) ? fontWeight : 400;
 
     const updateSelectItem = {
       ...selectItem,
       value,
       color,
       fontFamily,
-      fontWeight: Number(fontWeight),
+      fontWeight: Number(updateFontWeight),
       attribute: {
         ...selectItem?.attribute,
         [selectedLayoutDesign]: {
@@ -126,13 +133,7 @@ export const CustomizeFreeformText = () => {
       },
     };
 
-    console.log("updateSelectItem :>> ", updateSelectItem);
-    console.log("selectItem :>> ", selectItem);
-
-    console.log("object :>> ", _.isEqual(updateSelectItem, selectItem));
-
     if (_.isEqual(updateSelectItem, selectItem)) {
-      console.log("isEqual :>> ");
       return;
     }
 
@@ -144,21 +145,13 @@ export const CustomizeFreeformText = () => {
     dispatch(setFreeformBlocks(updatedBlocks));
   }, [value, color, fontSize, fontWeight, fontFamily]);
 
-  // useEffect(() => {
-  //   const updateAttr = _.get(selectItem, ["attribute", selectedLayoutDesign]);
-  //   setValue("fontSize", String(_.get(updateAttr, ["fontSize"])), {
-  //     shouldDirty: true,
-  //   });
-  // }, [selectedLayoutDesign, setValue]);
-
   useEffect(() => {
-    const newAttr = _.get(selectItem, ["attribute", selectedLayoutDesign]);
-
+    const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
     reset({
       value: _.get(selectItem, ["value"], ""),
       color: _.get(selectItem, ["color"], "#000000"),
-      fontSize: String(_.get(newAttr, ["fontSize"], "16")),
-      fontWeight: String(_.get(selectItem, ["fontWeight"], "400")),
+      fontSize: String(_.get(attributeDevice, ["fontSize"], 16)),
+      fontWeight: String(_.get(selectItem, ["fontWeight"], 400)),
       fontFamily: _.get(selectItem, ["fontFamily"], "IBMPlexSansThai"),
     });
   }, [selectedLayoutDesign, selectItem]);
@@ -215,30 +208,43 @@ export const CustomizeFreeformText = () => {
           $name="value"
           $label="value"
         />
-        <Input
+        <Select
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"
+          $options={FONT_SIZE_OPTIONS}
           $control={control}
           $name="fontSize"
           $label={`font Size (${selectedLayoutDesign})`}
         />
-        <Input
+        <Select
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"
+          $options={FONT_FAMILY_OPTIONS}
           $control={control}
           $name="fontFamily"
           $label="family"
         />
-        <Input
+
+        <Select
+          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+          $fontFamily="Sen"
+          $options={_.get(FONT_WEIGHT_OPTIONS, [fontFamily])}
+          $control={control}
+          $name="fontWeight"
+          $label="font Weight"
+        />
+
+        {/* <Input
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"
           $control={control}
           $name="fontWeight"
           $label="font Weight"
-        />
+        /> */}
         <Input
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}

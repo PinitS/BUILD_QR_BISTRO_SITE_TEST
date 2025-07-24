@@ -34,6 +34,7 @@ const StyledInput = styled.input`
   font-family: "IBMPlexSansThai";
   font-size: 16px;
   color: ${({ $error, $color }) => ($error ? MAIN_COLORS?.MAIN?.ERROR_COLOR : $color)};
+  background: "#f2f2f2";
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 
   &:focus {
