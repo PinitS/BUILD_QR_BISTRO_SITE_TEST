@@ -71,8 +71,8 @@ export const RenderEditorTextFreeform = ({ $item }) => {
       {...listeners}
       {...attributes}
       $isActive={isActive}
-      $x={attribute?.x}
-      $y={attribute?.y}
+      $x={x}
+      $y={y}
       $transform={transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined}
     >
       <Text $color={color} $fontSize={fontSize}>

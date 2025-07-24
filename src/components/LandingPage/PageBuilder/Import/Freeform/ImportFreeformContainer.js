@@ -40,6 +40,7 @@ export const ImportFreeformContainer = () => {
       value: "",
       color: "#17171B",
       fontFamily: "IBMPlexSansThai",
+      fontWeight: 400,
       attribute: {
         DESKTOP: {
           isVisible: true,

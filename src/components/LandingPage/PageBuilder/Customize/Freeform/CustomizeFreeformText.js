@@ -2,13 +2,14 @@ import { Button } from "@components/LandingPage/Base/Button";
 import { Input } from "@components/LandingPage/Base/Input";
 import { Text } from "@components/LandingPage/Base/Text";
 import _ from "lodash";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 import ICON_CUSTOMIZE_CLOSE from "@assets/svgs/PAGE_BUILDER/MENU/ICON_CUSTOMIZE_CLOSE.svg";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
+import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
 
 const Container = styled.div`
   display: flex;
@@ -53,30 +54,115 @@ export const CustomizeFreeformText = () => {
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
 
   const selectItem = _.chain(freeformBlocks)
-    .findIndex((item) => {
+    .find((item) => {
       return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
-    })
-    .thru((index) => {
-      return _.get(freeformBlocks, [index]);
     })
     .value();
 
+  const indexItem = _.findIndex(freeformBlocks, (item) => {
+    return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
+  });
+
   const attribute = _.get(selectItem, ["attribute", selectedLayoutDesign]);
-  console.log("selectItem :>> ", selectItem);
-  console.log("attribute :>> ", attribute);
   const {
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
-    defaultValues: {},
+    defaultValues: {
+      value: _.get(selectItem, ["value"]),
+      color: _.get(selectItem, ["color"]),
+      fontSize: String(_.get(attribute, ["fontSize"])),
+      fontWeight: String(_.get(selectItem, ["fontWeight"])),
+      fontFamily: _.get(selectItem, ["fontFamily"]),
+    },
   });
 
   const handleCloseCustomize = () => {
-    const updateSelectedFreeformBlock = { ...customizeBlockAttr, isVisible: false };
-    dispatch(setCustomizeBlockAttr(updateSelectedFreeformBlock));
+    const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false };
+    dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
   };
+
+  const handleRemoveItem = () => {
+    const updateFreeformBlocks = _.filter(freeformBlocks, (item, index) => {
+      return _.get(selectItem, ["id"]) !== _.get(item, ["id"]);
+    });
+    const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false, id: null };
+    batch(() => {
+      dispatch(setFreeformBlocks(updateFreeformBlocks));
+      dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
+    });
+  };
+
+  const value = watch("value");
+  const color = watch("color");
+  const fontSize = watch("fontSize");
+  const fontWeight = watch("fontWeight");
+  const fontFamily = watch("fontFamily");
+
+  useEffect(() => {
+    if (indexItem === -1) {
+      return;
+    }
+
+    console.log("fontFamily :>> ", fontFamily);
+    console.log("fontWeight :>> ", fontWeight);
+
+    const updateSelectItem = {
+      ...selectItem,
+      value,
+      color,
+      fontFamily,
+      fontWeight: Number(fontWeight),
+      attribute: {
+        ...selectItem?.attribute,
+        [selectedLayoutDesign]: {
+          ...selectItem?.attribute[selectedLayoutDesign],
+          fontSize: Number(fontSize),
+          // isVisible: false,
+        },
+      },
+    };
+
+    console.log("updateSelectItem :>> ", updateSelectItem);
+    console.log("selectItem :>> ", selectItem);
+
+    console.log("object :>> ", _.isEqual(updateSelectItem, selectItem));
+
+    if (_.isEqual(updateSelectItem, selectItem)) {
+      console.log("isEqual :>> ");
+      return;
+    }
+
+    const updatedBlocks = [...freeformBlocks];
+    updatedBlocks[indexItem] = {
+      ...updateSelectItem,
+    };
+    console.log("updatedBlocks :>> ", updatedBlocks);
+    dispatch(setFreeformBlocks(updatedBlocks));
+  }, [value, color, fontSize, fontWeight, fontFamily]);
+
+  // useEffect(() => {
+  //   const updateAttr = _.get(selectItem, ["attribute", selectedLayoutDesign]);
+  //   setValue("fontSize", String(_.get(updateAttr, ["fontSize"])), {
+  //     shouldDirty: true,
+  //   });
+  // }, [selectedLayoutDesign, setValue]);
+
+  useEffect(() => {
+    const newAttr = _.get(selectItem, ["attribute", selectedLayoutDesign]);
+
+    reset({
+      value: _.get(selectItem, ["value"], ""),
+      color: _.get(selectItem, ["color"], "#000000"),
+      fontSize: String(_.get(newAttr, ["fontSize"], "16")),
+      fontWeight: String(_.get(selectItem, ["fontWeight"], "400")),
+      fontFamily: _.get(selectItem, ["fontFamily"], "IBMPlexSansThai"),
+    });
+  }, [selectedLayoutDesign, selectItem]);
+
   return (
     <Container>
       <ContainerHeader>
@@ -108,7 +194,7 @@ export const CustomizeFreeformText = () => {
           $height={MAIN_SIZE?.INPUT_DEFAULT_HEIGHT}
           $backgroundColor={MAIN_COLORS?.MAIN?.ERROR_COLOR}
           $width={"100%"}
-          onClick={() => handleCloseCustomize()}
+          onClick={() => handleRemoveItem()}
         >
           <Text
             $fontFamily="Sen"
@@ -122,38 +208,43 @@ export const CustomizeFreeformText = () => {
           </Text>
         </Button>
         <Input
+          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"
           $control={control}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $name="value"
           $label="value"
         />
         <Input
+          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"
           $control={control}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $name="fontSize"
           $label={`font Size (${selectedLayoutDesign})`}
         />
         <Input
+          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"
           $control={control}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-          $name="family"
+          $name="fontFamily"
           $label="family"
         />
         <Input
+          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"
           $control={control}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $name="fontWeight"
           $label="font Weight"
         />
         <Input
+          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"
           $control={control}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-          $name="Color"
+          $name="color"
           $label={`Color`}
         />
       </ContainerInput>

@@ -55,6 +55,7 @@ export const Input = ({
   $control,
   $name = "",
   $label = "",
+  $labelColor = MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR,
   $placeholder = "",
   $isShowLabel = true,
   $fontFamily = "IBMPlexSansThai",
@@ -76,7 +77,7 @@ export const Input = ({
             {$isShowLabel && (
               <Text
                 $fontFamily={$fontFamily}
-                $color={$color}
+                $color={$labelColor}
                 $fontSize={14}
                 $textTransform="uppercase"
                 $fontWeight={500}
