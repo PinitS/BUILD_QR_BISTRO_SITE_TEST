@@ -5,6 +5,7 @@ import { Text } from "@components/LandingPage/Base/Text";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
 import { resolveItemAttribute } from "@utils/resolve/resolveItemAttribute";
+import { resolveScaleSize } from "@utils/resolve/resolveScaleSize";
 
 const Container = styled.div`
   position: absolute;
@@ -27,7 +28,6 @@ const Container = styled.div`
 
 export const RenderViewTextFreeform = ({ $item }) => {
   const { device, scale } = useContainerDimensionContext();
-  console.log("scale :>> ", scale);
 
   const value = _.get($item, ["value"]);
   const color = _.get($item, ["color"]);
@@ -35,9 +35,13 @@ export const RenderViewTextFreeform = ({ $item }) => {
   const fontFamily = _.get($item, ["fontFamily"]);
 
   const attribute = resolveItemAttribute({ item: $item, device });
-  const x = _.get(attribute, ["x"]);
   const y = _.get(attribute, ["y"]);
-  const fontSize = _.get(attribute, ["fontSize"]);
+  const x = resolveScaleSize({ size: _.get(attribute, ["x"]), scale });
+  console.log("================== :>> ");
+  console.log("scale :>> ", scale);
+  console.log("x :>> ", x);
+  console.log("================== :>> ");
+  const fontSize = resolveScaleSize({ size: _.get(attribute, ["fontSize"]), scale });
 
   return (
     <Container $x={x} $y={y}>

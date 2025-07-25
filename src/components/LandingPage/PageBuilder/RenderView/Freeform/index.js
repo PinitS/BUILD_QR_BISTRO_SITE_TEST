@@ -7,7 +7,7 @@ import { RenderViewTextFreeform } from "./RenderViewTextFreeform";
 export const ContainerRenderViewFreeform = () => {
   const freeformBlocks = [
     {
-      id: "b8c7ebdf-8418-4cf3-a760-ef87872b2f22",
+      id: "8a5dee74-f531-4277-93e1-a931812ab1cf",
       type: "TEXT",
       value: "",
       color: "#17171B",
@@ -16,15 +16,15 @@ export const ContainerRenderViewFreeform = () => {
       attribute: {
         DESKTOP: {
           isVisible: true,
-          x: 84.1484375,
-          y: -0.40234375,
-          fontSize: 48,
+          x: 170.8470916748047,
+          y: -0.8855514526367188,
+          fontSize: 30,
         },
         MOBILE: {
           isVisible: true,
-          x: 106.921875,
-          y: -0.9609375,
-          fontSize: 16,
+          x: 142.109375,
+          y: -0.21634674072265625,
+          fontSize: 18,
         },
       },
     },

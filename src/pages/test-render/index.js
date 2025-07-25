@@ -22,8 +22,7 @@ const Container = styled.div`
 `;
 
 export default () => {
-  const { ref, device } = useContainerDimensionContext();
-  console.log("device :>> ", device);
+  const { ref } = useContainerDimensionContext();
   return (
     <Layouts>
       <Container ref={ref}>

@@ -4,7 +4,6 @@ import ContainerDimensionContext from "./ContainerDimensionContext";
 
 export const DESIGN_SIZE = {
   DESKTOP: 1024,
-  TABLET: 768,
   MOBILE: 425,
 };
 
@@ -33,7 +32,7 @@ export const ContainerDimensionProvider = ({ children }) => {
   } else if (containerWidth < DESIGN_SIZE.DESKTOP) {
     device = "TABLET";
   }
-  const scale = containerWidth / DESIGN_SIZE[device];
+  const scale = containerWidth / _.get(DESIGN_SIZE, [device], DESIGN_SIZE?.MOBILE);
 
   return (
     <ContainerDimensionContext.Provider

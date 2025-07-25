@@ -48,7 +48,6 @@ export const ImportFreeformContainer = () => {
           y: 0,
           fontSize: 16,
         },
-        TABLET: { isVisible: true, x: 0, y: 0, fontSize: 14 },
         MOBILE: { isVisible: true, x: 0, y: 0, fontSize: 12 },
       },
     };
