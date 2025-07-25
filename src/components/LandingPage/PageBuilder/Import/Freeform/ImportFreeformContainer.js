@@ -57,7 +57,29 @@ export const ImportFreeformContainer = () => {
       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
     });
   };
-  const handleImportFreeformImage = () => {};
+  const handleImportFreeformImage = () => {
+    const initial = {
+      id: uuid(),
+      type: "IMAGE",
+      value: "",
+      aspectRatio: 16 / 9,
+      resize: "contain",
+      attribute: {
+        DESKTOP: {
+          isVisible: true,
+          x: 0,
+          y: 0,
+          w: 200,
+        },
+        MOBILE: { isVisible: true, x: 0, y: 0, w: 100 },
+      },
+    };
+
+    batch(() => {
+      dispatch(setFreeformBlocks([...freeformBlocks, initial]));
+      dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
+    });
+  };
 
   return (
     <Container>

@@ -2,6 +2,7 @@ import _ from "lodash";
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { RenderEditorTextFreeform } from "@components/LandingPage/PageBuilder/RenderEditor/Freeform/RenderEditorTextFreeform";
+import { RenderEditorImageFreeform } from "./RenderEditorImageFreeform";
 
 export const ContainerRenderEditorFreeform = () => {
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
@@ -15,9 +16,10 @@ export const ContainerRenderEditorFreeform = () => {
         switch (type) {
           case "TEXT":
             return <RenderEditorTextFreeform key={id} $item={item} />;
-
+          case "IMAGE":
+            return <RenderEditorImageFreeform key={id} $item={item} />;
           default:
-            break;
+            return null;
         }
       })}
     </React.Fragment>
