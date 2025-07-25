@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CUSTOMIZE_VARIANTS } from "statics/VARIANTS";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import { CustomizeFreeformText } from "@components/LandingPage/PageBuilder/Customize/Freeform/CustomizeFreeformText";
+import { CustomizeFreeformImage } from "./Freeform/CustomizeFreeformImage";
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -32,6 +33,8 @@ export const ContainerCustomizeBlock = () => {
             switch (form) {
               case "CUSTOMIZE-FREEFORM-TEXT":
                 return <CustomizeFreeformText />;
+              case "CUSTOMIZE-FREEFORM-IMAGE":
+                return <CustomizeFreeformImage />;
 
               default:
                 return null;

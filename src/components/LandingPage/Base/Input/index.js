@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Controller } from "react-hook-form";
-import { EDITOR_DEFAULT_STYLE } from "statics/DEFAULT_STYLE";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import { Text } from "../Text";
 
@@ -36,7 +35,7 @@ const StyledInput = styled.input`
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 
   &:focus {
-    border-color: ${EDITOR_DEFAULT_STYLE?.DEFAULT_BORDER_COLOR} !important;
+    border-color: ${MAIN_COLORS?.MAIN?.BORDER_DEFAULT_COLOR} !important;
     outline: none !important;
   }
 `;

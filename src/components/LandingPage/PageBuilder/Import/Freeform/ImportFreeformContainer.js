@@ -62,16 +62,16 @@ export const ImportFreeformContainer = () => {
       id: uuid(),
       type: "IMAGE",
       value: "",
-      aspectRatio: 16 / 9,
+      aspectRatio: 1 / 1,
       resize: "contain",
       attribute: {
         DESKTOP: {
           isVisible: true,
           x: 0,
           y: 0,
-          w: 200,
+          size: 200,
         },
-        MOBILE: { isVisible: true, x: 0, y: 0, w: 100 },
+        MOBILE: { isVisible: true, x: 0, y: 0, size: 100 },
       },
     };
 

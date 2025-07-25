@@ -1,15 +1,15 @@
-import { DEFAULT_STYLE } from "statics/DEFAULT_STYLE";
+import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 
 export const Text = styled.span.attrs(({ $ellipsis = true, $maxLines = 1 }) => ({
   $ellipsis,
   $maxLines,
 }))`
-  color: ${({ $color = DEFAULT_STYLE?.TEXT_COLOR }) => $color};
+  color: ${({ $color = MAIN_COLORS?.MAIN?.TEXT_COLOR }) => $color};
   font-family: ${({ $fontFamily = "IBMPlexSansThai" }) => $fontFamily};
   font-weight: ${({ $fontWeight = 400 }) => Number($fontWeight)};
 
-  font-size: ${({ $fontSize = 16 }) => `${$fontSize}px`};
+  font-size: ${({ $fontSize = 16 }) => (typeof $width === "number" ? `${$fontSize}px` : $fontSize)};
 
   opacity: ${({ $disabled, $opacity = 1 }) => ($disabled ? 0.5 : $opacity)};
   width: ${({ $width = "auto" }) => (typeof $width === "number" ? `${$width}px` : $width)};

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Controller } from "react-hook-form";
 import _ from "lodash";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
-import { EDITOR_DEFAULT_STYLE } from "statics/DEFAULT_STYLE";
 import { Text } from "../Text";
 
 const Container = styled.div`
@@ -53,7 +52,7 @@ const StyledInput = styled.input`
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 
   &:focus {
-    border-color: ${EDITOR_DEFAULT_STYLE?.DEFAULT_BORDER_COLOR} !important;
+    border-color: ${MAIN_COLORS?.MAIN?.BORDER_DEFAULT_COLOR} !important;
     outline: none !important;
   }
 `;
@@ -65,7 +64,7 @@ const CurrentColor = styled.div`
   background-color: ${({ $color }) => $color};
   border-width: 1px;
   border-style: solid;
-  border-color: ${EDITOR_DEFAULT_STYLE?.DEFAULT_BORDER_COLOR} !important;
+  border-color: ${MAIN_COLORS?.MAIN?.BORDER_DEFAULT_COLOR} !important;
 `;
 
 const Transparent = styled.div`
@@ -74,7 +73,7 @@ const Transparent = styled.div`
   aspect-ratio: 1;
   border-width: 1px;
   border-style: solid;
-  border-color: ${EDITOR_DEFAULT_STYLE?.DEFAULT_BORDER_COLOR} !important;
+  border-color: ${MAIN_COLORS?.MAIN?.BORDER_DEFAULT_COLOR} !important;
   border-radius: 4px;
   background: #fafafa;
   cursor: pointer;

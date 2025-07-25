@@ -4,12 +4,11 @@ import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useDraggable } from "@dnd-kit/core";
 import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
-import { Text } from "@components/LandingPage/Base/Text";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
-import Image from "next/image";
-import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
 import { getAngleFromAspectRatio } from "@utils/getAngleFromAspectRatio";
+import { BlankImagePlaceHolder } from "@components/LandingPage/Base/Image/BlankImagePlaceHolder";
+import { ImageWrapper } from "@components/LandingPage/Base/Image/ImageWrapper";
 
 const ContainerDraggable = styled.div`
   position: absolute;
@@ -34,52 +33,6 @@ const ContainerDraggable = styled.div`
   z-index: 2;
 `;
 
-const ImageWrapper = styled.div`
-  position: relative;
-  width: ${({ $w }) => `${$w}px`};
-  aspect-ratio: ${({ $aspectRatio }) => $aspectRatio};
-`;
-
-const UploadBox = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background-color: #a6a6a6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 200%;
-    height: 1px;
-    background-color: #c5c5c5;
-    transform-origin: center;
-  }
-
-  &::before {
-    transform: ${({ $angle }) => `translate(-50%, -50%) rotate(${$angle}deg)`};
-  }
-
-  &::after {
-    transform: ${({ $angle }) => `translate(-50%, -50%) rotate(-${$angle}deg)`};
-  }
-`;
-
-const ANGLE_BY_ASPECT_RATIO = {
-  "1/1": 45,
-  "4/3": 36.87,
-  "16/9": 29.36,
-  "2/1": 26.57,
-  "3/4": 53.13,
-  "9/16": 60.64,
-};
-
 export const RenderEditorImageFreeform = ({ $item }) => {
   const dispatch = useDispatch();
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
@@ -96,12 +49,9 @@ export const RenderEditorImageFreeform = ({ $item }) => {
   const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
   const x = _.get(attribute, ["x"]);
   const y = _.get(attribute, ["y"]);
-  const w = _.get(attribute, ["w"]);
+  const size = _.get(attribute, ["size"]);
 
   const angle = getAngleFromAspectRatio(aspectRatio);
-
-  // const h = aspectRatio && w ? w / aspectRatio : "auto";
-  // console.log("h :>> ", h);
 
   const isActive = _.get(customizeBlockAttr, ["id"]) === id && _.get(customizeBlockAttr, ["isVisible"]);
 
@@ -128,22 +78,11 @@ export const RenderEditorImageFreeform = ({ $item }) => {
       $isActive={isActive}
       $x={x}
       $y={y}
-      $w={w}
+      $w={size}
       $transform={transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined}
     >
-      <ImageWrapper $w={w} $aspectRatio={aspectRatio}>
-        <UploadBox $angle={angle}>
-          <Text
-            $fontFamily="Sen"
-            $textTransform="capitalize"
-            $color={"#c5c5c5"}
-            $fontSize={14}
-            $fontWeight={500}
-            $align="start"
-          >
-            Blank Image
-          </Text>
-        </UploadBox>
+      <ImageWrapper $w={size} $aspectRatio={aspectRatio}>
+        <BlankImagePlaceHolder $angle={angle} />
         {/* <Image
           alt={MAIN_ATTR?.IMAGE_ALT}
           fill
