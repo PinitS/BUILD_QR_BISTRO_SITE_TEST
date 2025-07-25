@@ -29,6 +29,7 @@ const ContainerDraggable = styled.div`
   border-radius: 4px;
   overflow: hidden;
   z-index: 2;
+  box-sizing: border-box;
 `;
 
 export const RenderEditorTextFreeform = ({ $item }) => {

@@ -72,13 +72,16 @@ export const CustomizeFreeformImage = () => {
     control,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
       value: _.get(selectItem, ["value"]),
-      w: String(_.get(attribute, ["w"])),
-      backgroundColor: _.get(selectItem, ["backgroundColor"]),
+      aspectRatio: _.get(selectItem, ["aspectRatio"]),
       resize: String(_.get(selectItem, ["resize"])),
+      radius: String(_.get(selectItem, ["radius"])),
+      size: String(_.get(attribute, ["size"])),
+      backgroundColor: _.get(selectItem, ["backgroundColor"]),
     },
   });
 
@@ -98,11 +101,12 @@ export const CustomizeFreeformImage = () => {
     });
   };
 
-  //   const value = watch("value");
-  //   const color = watch("color");
-  //   const fontSize = watch("fontSize");
-  //   const fontWeight = watch("fontWeight");
-  //   const fontFamily = watch("fontFamily");
+  const value = watch("value");
+  const aspectRatio = watch("aspectRatio");
+  const resize = watch("resize");
+  const radius = watch("radius");
+  const size = watch("size");
+  const backgroundColor = watch("backgroundColor");
 
   //   useEffect(() => {
   //     if (indexItem === -1) {
@@ -195,15 +199,7 @@ export const CustomizeFreeformImage = () => {
           </Text>
         </Button>
 
-        <UploadFile></UploadFile>
-        <Input
-          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-          $fontFamily="Sen"
-          $control={control}
-          $name="value"
-          $label="value"
-        />
+        <UploadFile $setValue={setValue} $value={value} $aspectRatio={aspectRatio} $radius={radius} />
 
         <Select
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
@@ -219,8 +215,8 @@ export const CustomizeFreeformImage = () => {
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $control={control}
           $fontFamily="Sen"
-          $name="color"
-          $label={`Color`}
+          $name="backgroundColor"
+          $label={`background color`}
         />
       </ContainerInput>
     </Container>

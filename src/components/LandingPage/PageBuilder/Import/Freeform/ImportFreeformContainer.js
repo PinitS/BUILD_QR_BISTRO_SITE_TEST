@@ -61,9 +61,11 @@ export const ImportFreeformContainer = () => {
     const initial = {
       id: uuid(),
       type: "IMAGE",
-      value: "",
+      value: null,
       aspectRatio: 1 / 1,
+      radius: 2,
       resize: "contain",
+      backgroundColor: "#000000",
       attribute: {
         DESKTOP: {
           isVisible: true,

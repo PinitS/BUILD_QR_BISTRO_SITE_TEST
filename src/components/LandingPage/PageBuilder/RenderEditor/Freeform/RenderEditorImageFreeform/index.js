@@ -9,6 +9,8 @@ import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reduce
 import { getAngleFromAspectRatio } from "@utils/getAngleFromAspectRatio";
 import { BlankImagePlaceHolder } from "@components/LandingPage/Base/Image/BlankImagePlaceHolder";
 import { ImageWrapper } from "@components/LandingPage/Base/Image/ImageWrapper";
+import Image from "next/image";
+import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
 
 const ContainerDraggable = styled.div`
   position: absolute;
@@ -28,9 +30,10 @@ const ContainerDraggable = styled.div`
   transform: ${({ $transform }) => $transform || "none"};
   border-width: 2px;
   border-style: dotted;
-  border-radius: 4px;
+  border-radius: ${({ $radius }) => $radius}px;
   overflow: hidden;
   z-index: 2;
+  box-sizing: border-box;
 `;
 
 export const RenderEditorImageFreeform = ({ $item }) => {
@@ -43,8 +46,7 @@ export const RenderEditorImageFreeform = ({ $item }) => {
   const value = _.get($item, ["value"]);
   const aspectRatio = _.get($item, ["aspectRatio"]);
   const resize = _.get($item, ["resize"], "contain");
-
-  console.log("aspectRatio :>> ", aspectRatio);
+  const radius = _.get($item, ["radius"]);
 
   const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
   const x = _.get(attribute, ["x"]);
@@ -79,18 +81,15 @@ export const RenderEditorImageFreeform = ({ $item }) => {
       $x={x}
       $y={y}
       $w={size}
+      $radius={radius}
       $transform={transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined}
     >
       <ImageWrapper $w={size} $aspectRatio={aspectRatio}>
-        <BlankImagePlaceHolder $angle={angle} />
-        {/* <Image
-          alt={MAIN_ATTR?.IMAGE_ALT}
-          fill
-          style={{ objectFit: resize }}
-          src={
-            "https://d191sdiqrxs6vs.cloudfront.net/e30636f4-5f2c-462d-8cf7-68957fa5df3b/zone-layout/a0c1c79a-2dbb-4d31-aaf6-3df114401f67/649171bd-f390-4ce3-a9b3-7d21c1e68890.webp"
-          }
-        /> */}
+        {_.isNil(value) ? (
+          <BlankImagePlaceHolder $angle={angle} />
+        ) : (
+          <Image alt={MAIN_ATTR?.IMAGE_ALT} fill style={{ objectFit: resize }} src={value} />
+        )}
       </ImageWrapper>
     </ContainerDraggable>
   );
