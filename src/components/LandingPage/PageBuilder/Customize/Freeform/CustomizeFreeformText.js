@@ -16,6 +16,7 @@ import {
   FONT_SIZE_OPTIONS,
   FONT_WEIGHT_OPTIONS,
 } from "statics/PAGE_BUILDER_TEXT_CUSTOMIZE";
+import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
 
 const Container = styled.div`
   display: flex;
@@ -111,9 +112,6 @@ export const CustomizeFreeformText = () => {
     if (indexItem === -1) {
       return;
     }
-
-    console.log("fontFamily :>> ", fontFamily);
-    console.log("fontWeight :>> ", fontWeight);
     const currentFontFamily = _.get(selectItem, ["fontFamily"]);
     let updateFontWeight = _.isEqual(fontFamily, currentFontFamily) ? fontWeight : 400;
 
@@ -150,8 +148,8 @@ export const CustomizeFreeformText = () => {
     reset({
       value: _.get(selectItem, ["value"], ""),
       color: _.get(selectItem, ["color"], "#000000"),
-      fontSize: String(_.get(attributeDevice, ["fontSize"], 16)),
-      fontWeight: String(_.get(selectItem, ["fontWeight"], 400)),
+      fontSize: String(_.get(attributeDevice, ["fontSize"], "16")),
+      fontWeight: String(_.get(selectItem, ["fontWeight"], "400")),
       fontFamily: _.get(selectItem, ["fontFamily"], "IBMPlexSansThai"),
     });
   }, [selectedLayoutDesign, selectItem]);
@@ -236,20 +234,11 @@ export const CustomizeFreeformText = () => {
           $name="fontWeight"
           $label="font Weight"
         />
-
-        {/* <Input
+        <ColorPicker
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-          $fontFamily="Sen"
           $control={control}
-          $name="fontWeight"
-          $label="font Weight"
-        /> */}
-        <Input
-          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"
-          $control={control}
           $name="color"
           $label={`Color`}
         />

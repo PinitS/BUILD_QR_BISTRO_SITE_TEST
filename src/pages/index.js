@@ -10,6 +10,8 @@ import { DndContext, PointerSensor, useSensor, useSensors, useDraggable, closest
 import _ from "lodash";
 import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
 import { ContainerCustomizeBlock } from "@components/LandingPage/PageBuilder/Customize";
+import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
+import { useForm } from "react-hook-form";
 
 export default () => {
   const dispatch = useDispatch();
@@ -63,6 +65,11 @@ export default () => {
   const handleFreeformDragCancel = () => {
     document.body.classList.remove("dragging");
   };
+
+  const {
+    control,
+    formState: { errors },
+  } = useForm({});
 
   return (
     <Layouts>

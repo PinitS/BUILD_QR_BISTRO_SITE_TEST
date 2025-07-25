@@ -24,7 +24,6 @@ const StyledInput = styled.input`
   flex: 1;
   width: 100%;
   height: 100%;
-  border: none;
   border-radius: 8px;
   outline: none;
   padding-left: 12px;
@@ -34,7 +33,6 @@ const StyledInput = styled.input`
   font-family: "IBMPlexSansThai";
   font-size: 16px;
   color: ${({ $error, $color }) => ($error ? MAIN_COLORS?.MAIN?.ERROR_COLOR : $color)};
-  background: "#f2f2f2";
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 
   &:focus {
