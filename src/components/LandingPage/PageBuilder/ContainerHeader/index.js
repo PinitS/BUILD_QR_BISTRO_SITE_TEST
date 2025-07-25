@@ -76,6 +76,7 @@ export const ContainerHeader = () => {
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
+  const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
 
   const handleSelectSize = ({ value }) => {
     dispatch(setSelectedLayoutDesign(value));
@@ -95,6 +96,10 @@ export const ContainerHeader = () => {
       dispatch(setCustomizeBlockAttr(updateSelectedFreeformBlock));
       dispatch(setImportBlockAttr(updateImportBlockAttr));
     });
+  };
+
+  const handleSave = () => {
+    console.log("freeformBlocks :>> ", freeformBlocks);
   };
 
   return (
@@ -170,6 +175,7 @@ export const ContainerHeader = () => {
           </Text>
         </Button>
         <Button
+          onClick={() => handleSave()}
           $height={32}
           $pl={MAIN_SIZE?.SPACING}
           $pr={MAIN_SIZE?.SPACING}

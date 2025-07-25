@@ -62,7 +62,7 @@ export const Container = ({ children, $layoutDesign = "DESKTOP" }) => {
       case "DESKTOP":
         return 1024;
       case "MOBILE":
-        return 480;
+        return 425;
       default:
         return 1024;
     }
