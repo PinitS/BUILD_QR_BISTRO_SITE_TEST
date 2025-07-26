@@ -99,6 +99,15 @@ const Transparent = styled.div`
 `;
 
 const COLORS = [
+  "#000000",
+  "#474747",
+  "#5C5C5C",
+  "#707070",
+  "#999999",
+  "#ADADAD",
+  "#D6D6D6",
+  "#FFFFFF",
+  //
   "#2C0977",
   "#61187C",
   "#791A3D",
@@ -116,15 +125,15 @@ const COLORS = [
   "#FEB43F",
   "#FECB3E",
   "#FFF76B",
-  //
-  "#B18CFE",
-  "#E292FE",
-  "#F4A4C0",
-  "#FFB5AF",
-  "#FFC5AB",
-  "#FED9A8",
-  "#FDE4A8",
-  "#FFFBB9",
+  // //
+  // "#B18CFE",
+  // "#E292FE",
+  // "#F4A4C0",
+  // "#FFB5AF",
+  // "#FFC5AB",
+  // "#FED9A8",
+  // "#FDE4A8",
+  // "#FFFBB9",
 ];
 
 export const ColorPicker = ({

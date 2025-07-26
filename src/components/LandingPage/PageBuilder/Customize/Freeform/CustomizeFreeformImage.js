@@ -1,8 +1,7 @@
 import { Button } from "@components/LandingPage/Base/Button";
-import { Input } from "@components/LandingPage/Base/Input";
 import { Text } from "@components/LandingPage/Base/Text";
 import _ from "lodash";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
@@ -107,52 +106,53 @@ export const CustomizeFreeformImage = () => {
   const radius = watch("radius");
   const size = watch("size");
   const backgroundColor = watch("backgroundColor");
+  console.log("value :>> ", value);
 
-  //   useEffect(() => {
-  //     if (indexItem === -1) {
-  //       return;
-  //     }
-  //     const currentFontFamily = _.get(selectItem, ["fontFamily"]);
-  //     let updateFontWeight = _.isEqual(fontFamily, currentFontFamily) ? fontWeight : 400;
+  useEffect(() => {
+    if (indexItem === -1) {
+      return;
+    }
 
-  //     const updateSelectItem = {
-  //       ...selectItem,
-  //       value,
-  //       color,
-  //       fontFamily,
-  //       fontWeight: Number(updateFontWeight),
-  //       attribute: {
-  //         ...selectItem?.attribute,
-  //         [selectedLayoutDesign]: {
-  //           ...selectItem?.attribute[selectedLayoutDesign],
-  //           fontSize: Number(fontSize),
-  //           // isVisible: false,
-  //         },
-  //       },
-  //     };
+    const updateSelectItem = {
+      ...selectItem,
+      value,
+      aspectRatio,
+      resize,
+      radius: Number(radius),
+      backgroundColor,
+      attribute: {
+        ...selectItem?.attribute,
+        [selectedLayoutDesign]: {
+          ...selectItem?.attribute[selectedLayoutDesign],
+          size: Number(size),
+          // isVisible: false,
+        },
+      },
+    };
 
-  //     if (_.isEqual(updateSelectItem, selectItem)) {
-  //       return;
-  //     }
+    if (_.isEqual(updateSelectItem, selectItem)) {
+      return;
+    }
 
-  //     const updatedBlocks = [...freeformBlocks];
-  //     updatedBlocks[indexItem] = {
-  //       ...updateSelectItem,
-  //     };
-  //     console.log("updatedBlocks :>> ", updatedBlocks);
-  //     dispatch(setFreeformBlocks(updatedBlocks));
-  //   }, [value, color, fontSize, fontWeight, fontFamily]);
+    const updatedBlocks = [...freeformBlocks];
+    updatedBlocks[indexItem] = {
+      ...updateSelectItem,
+    };
+    console.log("updatedBlocks :>> ", updatedBlocks);
+    dispatch(setFreeformBlocks(updatedBlocks));
+  }, [value, aspectRatio, resize, radius, size, backgroundColor]);
 
-  //   useEffect(() => {
-  //     const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
-  //     reset({
-  //       value: _.get(selectItem, ["value"], ""),
-  //       color: _.get(selectItem, ["color"], "#000000"),
-  //       fontSize: String(_.get(attributeDevice, ["fontSize"], "16")),
-  //       fontWeight: String(_.get(selectItem, ["fontWeight"], "400")),
-  //       fontFamily: _.get(selectItem, ["fontFamily"], "IBMPlexSansThai"),
-  //     });
-  //   }, [selectedLayoutDesign, selectItem]);
+  useEffect(() => {
+    const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
+    reset({
+      value: _.get(selectItem, ["value"]),
+      aspectRatio: _.get(selectItem, ["aspectRatio"]),
+      resize: String(_.get(selectItem, ["resize"])),
+      radius: String(_.get(selectItem, ["radius"])),
+      size: String(_.get(attributeDevice, ["size"])),
+      backgroundColor: _.get(selectItem, ["backgroundColor"]),
+    });
+  }, [selectedLayoutDesign, selectItem]);
 
   return (
     <Container>
@@ -199,7 +199,12 @@ export const CustomizeFreeformImage = () => {
           </Text>
         </Button>
 
-        <UploadFile $setValue={setValue} $value={value} $aspectRatio={aspectRatio} $radius={radius} />
+        <UploadFile
+          $setValue={setValue}
+          $value={value}
+          $aspectRatio={aspectRatio}
+          $backgroundColor={backgroundColor}
+        />
 
         <Select
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}

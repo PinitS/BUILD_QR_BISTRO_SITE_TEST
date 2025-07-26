@@ -33,14 +33,14 @@ const Container = styled.div`
   }
 `;
 
-export const BlankImagePlaceHolder = ({ $angle }) => {
+export const BlankImagePlaceHolder = ({ $angle, $fontSize = undefined }) => {
   return (
     <Container $angle={$angle}>
       <Text
         $fontFamily="Sen"
         $textTransform="capitalize"
         $color={"#c5c5c5"}
-        $fontSize={"clamp(12px, 2vw, 20px)"}
+        $fontSize={$fontSize ? $fontSize : "clamp(8px, 2vw, 20px)"}
         $fontWeight={500}
         $align="start"
       >

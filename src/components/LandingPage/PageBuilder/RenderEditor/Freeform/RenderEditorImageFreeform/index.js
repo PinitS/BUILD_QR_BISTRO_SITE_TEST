@@ -26,6 +26,7 @@ const ContainerDraggable = styled.div`
   top: ${({ $y }) => `${$y}px`};
   border-color: ${({ $isActive = false }) =>
     $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE};
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
 
   transform: ${({ $transform }) => $transform || "none"};
   border-width: 2px;
@@ -47,6 +48,7 @@ export const RenderEditorImageFreeform = ({ $item }) => {
   const aspectRatio = _.get($item, ["aspectRatio"]);
   const resize = _.get($item, ["resize"], "contain");
   const radius = _.get($item, ["radius"]);
+  const backgroundColor = _.get($item, ["backgroundColor"]);
 
   const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
   const x = _.get(attribute, ["x"]);
@@ -81,6 +83,7 @@ export const RenderEditorImageFreeform = ({ $item }) => {
       $x={x}
       $y={y}
       $w={size}
+      $backgroundColor={backgroundColor}
       $radius={radius}
       $transform={transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined}
     >

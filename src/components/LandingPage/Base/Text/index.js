@@ -9,7 +9,7 @@ export const Text = styled.span.attrs(({ $ellipsis = true, $maxLines = 1 }) => (
   font-family: ${({ $fontFamily = "IBMPlexSansThai" }) => $fontFamily};
   font-weight: ${({ $fontWeight = 400 }) => Number($fontWeight)};
 
-  font-size: ${({ $fontSize = 16 }) => (typeof $width === "number" ? `${$fontSize}px` : $fontSize)};
+  font-size: ${({ $fontSize = 16 }) => (typeof $fontSize === "number" ? `${$fontSize}px` : $fontSize)};
 
   opacity: ${({ $disabled, $opacity = 1 }) => ($disabled ? 0.5 : $opacity)};
   width: ${({ $width = "auto" }) => (typeof $width === "number" ? `${$width}px` : $width)};
