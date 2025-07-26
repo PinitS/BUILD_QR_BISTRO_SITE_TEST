@@ -23,18 +23,18 @@ const Container = styled(motion.div)`
 `;
 
 export const ContainerCustomizeBlock = () => {
-  const dispatch = useDispatch(); // เพิ่ม
+  const dispatch = useDispatch();
 
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const isVisible = _.get(customizeBlockAttr, ["isVisible"]);
   const form = _.get(customizeBlockAttr, ["form"]);
   const containerRef = useRef(null);
 
-  const handleClickOutside = useCallback(() => {
-    dispatch(setCustomizeBlockAttr({ ...customizeBlockAttr, isVisible: false }));
-  }, [customizeBlockAttr, dispatch]);
+  // const handleClickOutside = useCallback(() => {
+  //   dispatch(setCustomizeBlockAttr({ ...customizeBlockAttr, isVisible: false }));
+  // }, [customizeBlockAttr, dispatch]);
 
-  useClickOutside({ ref: containerRef, cb: handleClickOutside });
+  // useClickOutside({ ref: containerRef, cb: handleClickOutside });
 
   return (
     <AnimatePresence>

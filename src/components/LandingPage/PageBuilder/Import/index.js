@@ -1,11 +1,14 @@
 import _ from "lodash";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useCallback, useRef } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { IMPORT_VARIANTS } from "statics/VARIANTS";
 import { ImportFreeformContainer } from "@components/LandingPage/PageBuilder/Import/Freeform/ImportFreeformContainer";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
+import { useClickOutside } from "@hooks/useClickOutside";
+import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
+import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -20,14 +23,29 @@ const Container = styled(motion.div)`
 `;
 
 export const ContainerImportBlock = () => {
+  const containerRef = useRef(null);
+  const dispatch = useDispatch();
+
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
   const isVisible = _.get(importBlockAttr, ["isVisible"]);
   const form = _.get(importBlockAttr, ["form"]);
 
+  // const handleClickOutside = useCallback(() => {
+  //   dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
+  // }, [importBlockAttr, dispatch]);
+
+  // useClickOutside({ ref: containerRef, cb: handleClickOutside });
+
   return (
     <AnimatePresence>
       {isVisible && (
-        <Container variants={IMPORT_VARIANTS} initial="hidden" animate="visible" exit="exit">
+        <Container
+          ref={containerRef}
+          variants={IMPORT_VARIANTS}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
           {(() => {
             switch (form) {
               case "IMPORT-FREEFORM-CONTAINER":

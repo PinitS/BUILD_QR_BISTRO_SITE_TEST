@@ -57,6 +57,7 @@ export const ImportFreeformContainer = () => {
       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
     });
   };
+
   const handleImportFreeformImage = () => {
     const initial = {
       id: uuid(),
