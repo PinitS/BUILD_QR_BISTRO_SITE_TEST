@@ -65,15 +65,15 @@ export const ImportFreeformContainer = () => {
       aspectRatio: 1 / 1,
       resize: "contain",
       backgroundColor: "#000000",
+      radius: 0,
       attribute: {
         DESKTOP: {
           isVisible: true,
           x: 1,
           y: 1,
           size: 200,
-          radius: 1,
         },
-        MOBILE: { isVisible: true, x: 1, y: 1, size: 100, radius: 1 },
+        MOBILE: { isVisible: true, x: 1, y: 1, size: 100 },
       },
     };
 

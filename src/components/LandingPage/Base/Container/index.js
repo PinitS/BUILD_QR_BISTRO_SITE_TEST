@@ -19,7 +19,7 @@ const Layout = styled.div`
   border-right-color: ${MAIN_COLORS?.MAIN?.LINE};
   max-width: ${({ $width }) => $width}px;
   background: white;
-  overflow: hidden;
+  overflow: scroll;
 `;
 
 export const Container = ({ children, $layoutDesign = "DESKTOP" }) => {

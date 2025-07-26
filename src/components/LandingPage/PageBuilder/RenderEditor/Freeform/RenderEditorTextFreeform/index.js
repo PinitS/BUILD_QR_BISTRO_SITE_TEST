@@ -22,11 +22,6 @@ const ContainerDraggable = styled.div`
   top: ${({ $y }) => `${$y}px`};
 
   transform: ${({ $transform }) => $transform || "none"};
-  /* border-width: 2px;
-  border-style: dotted;
-  border-radius: 4px;
-  border-color: ${({ $isActive = false }) =>
-    $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE}; */
 
   outline-width: 2px;
   outline-style: dashed;

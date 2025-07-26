@@ -56,17 +56,14 @@ export const Slide = ({
   $name,
   $label = "xxx",
   $labelColor = MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR,
-  $size,
+  $min = 1,
+  $max,
+  $valueIndicator,
   $isShowLabel = true,
   $isShowValue = true,
   $fontFamily = "IBMPlexSansThai",
 }) => {
-  const { containerWidth } = useContainerDimensionContext();
-  console.log("size :>> ");
-  console.log("containerWidth :>> ", containerWidth);
-
-  console.log("percent :>> ", (containerWidth / $size) * 100);
-
+  console.log("max :>> ", $max);
   return (
     <Container>
       <React.Fragment>
@@ -101,12 +98,12 @@ export const Slide = ({
                       const passed = state.index === 0;
                       return <Track key={key} {...rest} $isPassed={passed} />;
                     }}
-                    min={1}
-                    max={$size / 2}
+                    min={$min}
+                    max={$max}
                   />
                   {$isShowValue && (
                     <Text
-                      style={{ width: 50 }}
+                      style={{ width: 25 }}
                       $align="center"
                       $fontFamily={$fontFamily}
                       $color={$labelColor}
@@ -114,7 +111,8 @@ export const Slide = ({
                       $textTransform="uppercase"
                       $fontWeight={500}
                     >
-                      {(((value * 2) / $size) * 100).toFixed(0)}
+                      {$valueIndicator}
+                      {/* {(((value * 2) / $scaleMaxValue) * 100).toFixed(0)} */}
                     </Text>
                   )}
                 </React.Fragment>

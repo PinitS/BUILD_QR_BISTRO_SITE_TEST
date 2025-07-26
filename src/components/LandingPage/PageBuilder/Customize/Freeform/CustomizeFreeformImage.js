@@ -14,6 +14,7 @@ import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
 import { RESIZE_OPTIONS } from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
 import { UploadFile } from "@components/LandingPage/Base/UploadFile";
 import { Slide } from "@components/LandingPage/Base/Slide";
+import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
 
 const Container = styled.div`
   display: flex;
@@ -52,6 +53,7 @@ const ContainerInput = styled.div`
 
 export const CustomizeFreeformImage = () => {
   const dispatch = useDispatch();
+  const { containerWidth } = useContainerDimensionContext();
 
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
@@ -79,7 +81,7 @@ export const CustomizeFreeformImage = () => {
       value: _.get(selectItem, ["value"]),
       aspectRatio: _.get(selectItem, ["aspectRatio"]),
       resize: String(_.get(selectItem, ["resize"])),
-      radius: _.get(attribute, ["radius"]),
+      radius: _.get(selectItem, ["radius"]),
       size: _.get(attribute, ["size"]),
       backgroundColor: _.get(selectItem, ["backgroundColor"]),
     },
@@ -107,7 +109,6 @@ export const CustomizeFreeformImage = () => {
   const radius = watch("radius");
   const size = watch("size");
   const backgroundColor = watch("backgroundColor");
-  console.log("value :>> ", value);
 
   useEffect(() => {
     if (indexItem === -1) {
@@ -119,13 +120,13 @@ export const CustomizeFreeformImage = () => {
       value,
       aspectRatio,
       resize,
+      radius: Number(radius),
       backgroundColor,
       attribute: {
         ...selectItem?.attribute,
         [selectedLayoutDesign]: {
           ...selectItem?.attribute[selectedLayoutDesign],
           size: Number(size),
-          radius: Number(radius),
         },
       },
     };
@@ -148,7 +149,7 @@ export const CustomizeFreeformImage = () => {
       value: _.get(selectItem, ["value"]),
       aspectRatio: _.get(selectItem, ["aspectRatio"]),
       resize: String(_.get(selectItem, ["resize"])),
-      radius: _.get(attributeDevice, ["radius"]),
+      radius: _.get(selectItem, ["radius"]),
       size: _.get(attributeDevice, ["size"]),
       backgroundColor: _.get(selectItem, ["backgroundColor"]),
     });
@@ -206,7 +207,25 @@ export const CustomizeFreeformImage = () => {
           $backgroundColor={backgroundColor}
         />
 
-        <Slide $label="Radius" $fontFamily="Sen" $name="radius" $size={size} $control={control} />
+        <Slide
+          $label="Size"
+          $fontFamily="Sen"
+          $name="size"
+          $min={50}
+          $max={containerWidth}
+          $valueIndicator={((size / containerWidth) * 100).toFixed(0)}
+          $control={control}
+        />
+
+        <Slide
+          $label="Radius"
+          $fontFamily="Sen"
+          $name="radius"
+          $min={0}
+          $max={50}
+          $valueIndicator={(radius * 2).toFixed(0)}
+          $control={control}
+        />
 
         <Select
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}

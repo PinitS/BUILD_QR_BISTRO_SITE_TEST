@@ -25,15 +25,9 @@ const ContainerDraggable = styled.div`
   left: ${({ $x }) => `${$x}px`};
   top: ${({ $y }) => `${$y}px`};
 
-  /* outline-offset: -4px; */
   background-color: ${({ $backgroundColor }) => $backgroundColor};
-
   transform: ${({ $transform }) => $transform || "none"};
-  /* border-width: 2px;
-  border-style: dotted;
-  border-color: ${({ $isActive = false }) =>
-    $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE}; */
-  border-radius: ${({ $radius }) => $radius}px;
+  border-radius: ${({ $radius }) => $radius}%;
 
   outline-width: 2px;
   outline-style: dashed;
@@ -56,12 +50,12 @@ export const RenderEditorImageFreeform = ({ $item }) => {
   const aspectRatio = _.get($item, ["aspectRatio"]);
   const resize = _.get($item, ["resize"], "contain");
   const backgroundColor = _.get($item, ["backgroundColor"]);
+  const radius = _.get($item, ["radius"]);
 
   const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
   const x = _.get(attribute, ["x"]);
   const y = _.get(attribute, ["y"]);
   const size = _.get(attribute, ["size"]);
-  const radius = _.get(attribute, ["radius"]);
 
   const angle = getAngleFromAspectRatio(aspectRatio);
 
