@@ -24,14 +24,22 @@ const ContainerDraggable = styled.div`
 
   left: ${({ $x }) => `${$x}px`};
   top: ${({ $y }) => `${$y}px`};
-  border-color: ${({ $isActive = false }) =>
-    $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE};
+
+  /* outline-offset: -4px; */
   background-color: ${({ $backgroundColor }) => $backgroundColor};
 
   transform: ${({ $transform }) => $transform || "none"};
-  border-width: 2px;
+  /* border-width: 2px;
   border-style: dotted;
+  border-color: ${({ $isActive = false }) =>
+    $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE}; */
   border-radius: ${({ $radius }) => $radius}px;
+
+  outline-width: 2px;
+  outline-style: dashed;
+  outline-color: ${({ $isActive = false }) =>
+    $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE};
+
   overflow: hidden;
   z-index: 2;
   box-sizing: border-box;
@@ -47,13 +55,13 @@ export const RenderEditorImageFreeform = ({ $item }) => {
   const value = _.get($item, ["value"]);
   const aspectRatio = _.get($item, ["aspectRatio"]);
   const resize = _.get($item, ["resize"], "contain");
-  const radius = _.get($item, ["radius"]);
   const backgroundColor = _.get($item, ["backgroundColor"]);
 
   const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
   const x = _.get(attribute, ["x"]);
   const y = _.get(attribute, ["y"]);
   const size = _.get(attribute, ["size"]);
+  const radius = _.get(attribute, ["radius"]);
 
   const angle = getAngleFromAspectRatio(aspectRatio);
 

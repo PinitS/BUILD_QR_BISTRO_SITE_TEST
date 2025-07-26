@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Controller } from "react-hook-form";
 import _ from "lodash";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
-import { Text } from "../Text";
+import { Text } from "@components/LandingPage/Base/Text";
 
 const Container = styled.div`
   display: flex;

@@ -44,11 +44,11 @@ export const ImportFreeformContainer = () => {
       attribute: {
         DESKTOP: {
           isVisible: true,
-          x: 0,
-          y: 0,
+          x: 1,
+          y: 1,
           fontSize: 16,
         },
-        MOBILE: { isVisible: true, x: 0, y: 0, fontSize: 12 },
+        MOBILE: { isVisible: true, x: 1, y: 1, fontSize: 12 },
       },
     };
 
@@ -63,17 +63,17 @@ export const ImportFreeformContainer = () => {
       type: "IMAGE",
       value: null,
       aspectRatio: 1 / 1,
-      radius: 2,
       resize: "contain",
       backgroundColor: "#000000",
       attribute: {
         DESKTOP: {
           isVisible: true,
-          x: 0,
-          y: 0,
+          x: 1,
+          y: 1,
           size: 200,
+          radius: 1,
         },
-        MOBILE: { isVisible: true, x: 0, y: 0, size: 100 },
+        MOBILE: { isVisible: true, x: 1, y: 1, size: 100, radius: 1 },
       },
     };
 

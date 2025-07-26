@@ -13,6 +13,7 @@ import { Select } from "@components/LandingPage/Base/Select";
 import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
 import { RESIZE_OPTIONS } from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
 import { UploadFile } from "@components/LandingPage/Base/UploadFile";
+import { Slide } from "@components/LandingPage/Base/Slide";
 
 const Container = styled.div`
   display: flex;
@@ -78,7 +79,7 @@ export const CustomizeFreeformImage = () => {
       value: _.get(selectItem, ["value"]),
       aspectRatio: _.get(selectItem, ["aspectRatio"]),
       resize: String(_.get(selectItem, ["resize"])),
-      radius: String(_.get(selectItem, ["radius"])),
+      radius: String(_.get(attribute, ["radius"])),
       size: String(_.get(attribute, ["size"])),
       backgroundColor: _.get(selectItem, ["backgroundColor"]),
     },
@@ -118,14 +119,13 @@ export const CustomizeFreeformImage = () => {
       value,
       aspectRatio,
       resize,
-      radius: Number(radius),
       backgroundColor,
       attribute: {
         ...selectItem?.attribute,
         [selectedLayoutDesign]: {
           ...selectItem?.attribute[selectedLayoutDesign],
           size: Number(size),
-          // isVisible: false,
+          radius: Number(radius),
         },
       },
     };
@@ -205,6 +205,8 @@ export const CustomizeFreeformImage = () => {
           $aspectRatio={aspectRatio}
           $backgroundColor={backgroundColor}
         />
+
+        <Slide $label="Radius" $fontFamily="Sen" />
 
         <Select
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}

@@ -12,6 +12,7 @@ import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
 import { ContainerCustomizeBlock } from "@components/LandingPage/PageBuilder/Customize";
 import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
 import { useForm } from "react-hook-form";
+import { Slide } from "@components/LandingPage/Base/Slide";
 
 export default () => {
   const dispatch = useDispatch();

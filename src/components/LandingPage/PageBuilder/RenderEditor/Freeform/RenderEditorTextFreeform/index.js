@@ -20,13 +20,19 @@ const ContainerDraggable = styled.div`
 
   left: ${({ $x }) => `${$x}px`};
   top: ${({ $y }) => `${$y}px`};
-  border-color: ${({ $isActive = false }) =>
-    $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE};
 
   transform: ${({ $transform }) => $transform || "none"};
-  border-width: 2px;
+  /* border-width: 2px;
   border-style: dotted;
   border-radius: 4px;
+  border-color: ${({ $isActive = false }) =>
+    $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE}; */
+
+  outline-width: 2px;
+  outline-style: dashed;
+  outline-color: ${({ $isActive = false }) =>
+    $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE};
+
   overflow: hidden;
   z-index: 2;
   box-sizing: border-box;

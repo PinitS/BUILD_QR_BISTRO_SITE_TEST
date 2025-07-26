@@ -1,25 +1,3 @@
-// import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
-// import styled from "styled-components";
-
-// export const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   height: 100%;
-//   width: 100%;
-//   background: ${MAIN_COLORS?.MAIN?.CONTAINER_BACKGROUND};
-//   border-top-width: 0px;
-//   border-bottom-width: 1px;
-//   border-left-width: 1px;
-//   border-right-width: 1px;
-//   border-style: solid;
-//   border-bottom-color: ${MAIN_COLORS?.MAIN?.LINE};
-//   border-left-color: ${MAIN_COLORS?.MAIN?.LINE};
-//   border-right-color: ${MAIN_COLORS?.MAIN?.LINE};
-
-//   width: 100%;
-//   /* max-width: ${({ $width }) => $width}px; */
-// `;
-
 import React from "react";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
@@ -43,18 +21,6 @@ const Layout = styled.div`
   background: white;
   overflow: hidden;
 `;
-
-// @media (min-width: 480px) {
-//   width: 480px;
-// }
-
-// @media (min-width: 768px) {
-//   width: 768px;
-// }
-
-// @media (min-width: 1024px) {
-//   width: 1024px;
-// }
 
 export const Container = ({ children, $layoutDesign = "DESKTOP" }) => {
   const getLayouts = ({ layoutDesign = "DESKTOP" }) => {
