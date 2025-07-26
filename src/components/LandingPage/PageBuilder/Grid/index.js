@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React from "react";
+import { GRID_ATTRIBUTE } from "statics/GRID_ATTRIBUTE";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 
@@ -23,13 +24,13 @@ const VerticalLine = styled.div`
 `;
 
 export const Grid = () => {
-  const NUM_COLUMNS = 12;
+  const NUM_COLUMNS = GRID_ATTRIBUTE?.GRID_COLUMN;
   const step = 100 / NUM_COLUMNS;
 
   return (
     <Container>
       {_.map([...Array(NUM_COLUMNS + 1)], (item, index) => {
-        return index !== 0 && index !== 12 && <VerticalLine key={`v-${index}`} $left={index * step} />;
+        return index !== 0 && <VerticalLine key={`v-${index}`} $left={index * step} />;
       })}
     </Container>
   );

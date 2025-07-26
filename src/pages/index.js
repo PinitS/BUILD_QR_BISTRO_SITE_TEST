@@ -13,9 +13,12 @@ import { ContainerCustomizeBlock } from "@components/LandingPage/PageBuilder/Cus
 import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
 import { useForm } from "react-hook-form";
 import { Slide } from "@components/LandingPage/Base/Slide";
+import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
 
 export default () => {
   const dispatch = useDispatch();
+
+  const { containerWidth } = useContainerDimensionContext();
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
 
@@ -44,6 +47,7 @@ export default () => {
     const updatedAttr = {
       ...currentAttr,
       x: currentAttr.x + delta.x,
+      // x: snapToGrid(currentAttr.x + delta.x, containerWidth),
       y: currentAttr.y + delta.y,
     };
 

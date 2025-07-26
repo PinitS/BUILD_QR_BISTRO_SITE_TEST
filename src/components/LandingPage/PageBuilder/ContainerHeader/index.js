@@ -25,8 +25,8 @@ const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
-  /* justify-content: space-between; */
-  justify-content: center;
+  justify-content: space-between;
+  /* justify-content: center; */
   align-items: center;
   padding-left: ${MAIN_SIZE?.SPACING}px;
   padding-right: ${MAIN_SIZE?.SPACING}px;
@@ -50,7 +50,7 @@ const LOGO = styled(Image)`
 `;
 
 const ContainerAction = styled.div`
-  position: absolute;
+  /* position: absolute; */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -104,7 +104,7 @@ export const ContainerHeader = () => {
 
   return (
     <Container>
-      <ContainerAction style={{ left: 12 }}>
+      <ContainerAction>
         <LOGO src={IMAGE_LOGO} alt={MAIN_ATTR?.IMAGE_ALT} />
 
         {_.map(DESIGN_SIZE_LIST, (item, index) => {
@@ -155,7 +155,7 @@ export const ContainerHeader = () => {
         })}
       </ContainerActionMenuList>
 
-      <ContainerAction style={{ right: 12 }}>
+      <ContainerAction>
         <Button
           $height={32}
           $pl={MAIN_SIZE?.SPACING}

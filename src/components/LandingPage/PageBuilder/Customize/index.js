@@ -1,12 +1,14 @@
 import _ from "lodash";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useCallback, useEffect, useRef } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { CUSTOMIZE_VARIANTS } from "statics/VARIANTS";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import { CustomizeFreeformText } from "@components/LandingPage/PageBuilder/Customize/Freeform/CustomizeFreeformText";
 import { CustomizeFreeformImage } from "./Freeform/CustomizeFreeformImage";
+import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
+import { useClickOutside } from "@hooks/useClickOutside";
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -21,14 +23,29 @@ const Container = styled(motion.div)`
 `;
 
 export const ContainerCustomizeBlock = () => {
+  const dispatch = useDispatch(); // เพิ่ม
+
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const isVisible = _.get(customizeBlockAttr, ["isVisible"]);
   const form = _.get(customizeBlockAttr, ["form"]);
+  const containerRef = useRef(null);
+
+  const handleClickOutside = useCallback(() => {
+    dispatch(setCustomizeBlockAttr({ ...customizeBlockAttr, isVisible: false }));
+  }, [customizeBlockAttr, dispatch]);
+
+  useClickOutside({ ref: containerRef, cb: handleClickOutside });
 
   return (
     <AnimatePresence>
       {isVisible && (
-        <Container variants={CUSTOMIZE_VARIANTS} initial="hidden" animate="visible" exit="exit">
+        <Container
+          ref={containerRef}
+          variants={CUSTOMIZE_VARIANTS}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
           {(() => {
             switch (form) {
               case "CUSTOMIZE-FREEFORM-TEXT":

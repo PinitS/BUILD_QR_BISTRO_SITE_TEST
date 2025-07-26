@@ -64,7 +64,7 @@ export const ImportFreeformContainer = () => {
       value: null,
       aspectRatio: 1 / 1,
       resize: "contain",
-      backgroundColor: "#000000",
+      backgroundColor: "transparent",
       radius: 0,
       attribute: {
         DESKTOP: {
