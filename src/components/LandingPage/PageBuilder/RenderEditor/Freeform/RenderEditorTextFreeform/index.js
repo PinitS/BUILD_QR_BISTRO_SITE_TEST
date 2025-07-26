@@ -23,9 +23,9 @@ const ContainerDraggable = styled.div`
 
   transform: ${({ $transform }) => $transform || "none"};
 
-  outline-width: 2px;
-  outline-style: dashed;
-  outline-color: ${({ $isActive = false }) =>
+  border-width: 1px;
+  border-style: dashed;
+  border-color: ${({ $isActive = false }) =>
     $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE};
 
   overflow: hidden;

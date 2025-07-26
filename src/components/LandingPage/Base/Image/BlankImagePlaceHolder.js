@@ -36,7 +36,7 @@ const Container = styled.div`
 export const BlankImagePlaceHolder = ({ $angle, $fontSize = undefined }) => {
   return (
     <Container $angle={$angle}>
-      <Text
+      {/* <Text
         $fontFamily="Sen"
         $textTransform="capitalize"
         $color={"#c5c5c5"}
@@ -45,7 +45,7 @@ export const BlankImagePlaceHolder = ({ $angle, $fontSize = undefined }) => {
         $align="start"
       >
         Blank Image
-      </Text>
+      </Text> */}
     </Container>
   );
 };

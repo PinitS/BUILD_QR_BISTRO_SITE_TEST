@@ -141,11 +141,11 @@ export const ColorPicker = ({
   $name,
   $label = "",
   $labelColor = MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR,
+  $color = MAIN_COLORS?.MAIN?.INPUT_DEFAULT_COLOR,
   $isShowLabel = true,
   $fontFamily = "IBMPlexSansThai",
   $spacing = 8,
   $columns = 8,
-  $color = MAIN_COLORS?.MAIN?.INPUT_DEFAULT_COLOR,
 }) => {
   return (
     <Container>

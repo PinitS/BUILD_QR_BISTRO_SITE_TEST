@@ -27,11 +27,11 @@ const ContainerDraggable = styled.div`
 
   background-color: ${({ $backgroundColor }) => $backgroundColor};
   transform: ${({ $transform }) => $transform || "none"};
-  border-radius: ${({ $radius }) => $radius}%;
+  border-radius: ${({ $radius }) => $radius}px;
 
-  outline-width: 2px;
-  outline-style: dashed;
-  outline-color: ${({ $isActive = false }) =>
+  border-width: 1px;
+  border-style: dashed;
+  border-color: ${({ $isActive = false }) =>
     $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE};
 
   overflow: hidden;
@@ -86,7 +86,7 @@ export const RenderEditorImageFreeform = ({ $item }) => {
       $y={y}
       $w={size}
       $backgroundColor={backgroundColor}
-      $radius={radius}
+      $radius={(radius / 100) * size}
       $transform={transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined}
     >
       <ImageWrapper $w={size} $aspectRatio={aspectRatio}>

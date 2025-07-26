@@ -11,7 +11,7 @@ import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reduce
 import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
 import { Select } from "@components/LandingPage/Base/Select";
 import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
-import { RESIZE_OPTIONS } from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
+import { ASPECT_RATIO_LIST, RESIZE_OPTIONS } from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
 import { UploadFile } from "@components/LandingPage/Base/UploadFile";
 import { Slide } from "@components/LandingPage/Base/Slide";
 import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
@@ -64,6 +64,8 @@ export const CustomizeFreeformImage = () => {
       return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
     })
     .value();
+
+  console.log("selectItem :>> ", selectItem);
 
   const indexItem = _.findIndex(freeformBlocks, (item) => {
     return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
@@ -139,7 +141,6 @@ export const CustomizeFreeformImage = () => {
     updatedBlocks[indexItem] = {
       ...updateSelectItem,
     };
-    console.log("updatedBlocks :>> ", updatedBlocks);
     dispatch(setFreeformBlocks(updatedBlocks));
   }, [value, aspectRatio, resize, radius, size, backgroundColor]);
 
@@ -225,6 +226,16 @@ export const CustomizeFreeformImage = () => {
           $max={50}
           $valueIndicator={(radius * 2).toFixed(0)}
           $control={control}
+        />
+
+        <Select
+          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+          $fontFamily="Sen"
+          $options={ASPECT_RATIO_LIST}
+          $control={control}
+          $name="aspectRatio"
+          $label="aspect ratio"
         />
 
         <Select
