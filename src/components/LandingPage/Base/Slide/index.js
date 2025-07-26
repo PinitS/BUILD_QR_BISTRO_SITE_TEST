@@ -3,11 +3,14 @@ import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 import ReactSlider from "react-slider";
 import { Text } from "@components/LandingPage/Base/Text";
+import { Controller } from "react-hook-form";
+import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 8px;
 `;
 
 const ContainerSlide = styled.div`
@@ -53,11 +56,17 @@ export const Slide = ({
   $name,
   $label = "xxx",
   $labelColor = MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR,
+  $size,
   $isShowLabel = true,
   $isShowValue = true,
   $fontFamily = "IBMPlexSansThai",
 }) => {
-  const [value, setValue] = useState(10);
+  const { containerWidth } = useContainerDimensionContext();
+  console.log("size :>> ");
+  console.log("containerWidth :>> ", containerWidth);
+
+  console.log("percent :>> ", (containerWidth / $size) * 100);
+
   return (
     <Container>
       <React.Fragment>
@@ -73,35 +82,45 @@ export const Slide = ({
           </Text>
         )}
         <ContainerSlide>
-          <StyledSlider
-            value={value}
-            onChange={setValue}
-            renderThumb={(props, state) => {
-              const { key, ...rest } = props;
-              return <Thumb key={key} {...rest} />;
+          <Controller
+            control={$control}
+            name={$name}
+            render={({ field: { value, onChange } }) => {
+              return (
+                <React.Fragment>
+                  <StyledSlider
+                    value={value}
+                    onChange={onChange}
+                    renderThumb={(props, state) => {
+                      const { key, ...rest } = props;
+                      return <Thumb key={key} {...rest} />;
+                    }}
+                    renderTrack={(props, state) => {
+                      const { key, ...rest } = props;
+                      console.log("state :>> ", state);
+                      const passed = state.index === 0;
+                      return <Track key={key} {...rest} $isPassed={passed} />;
+                    }}
+                    min={1}
+                    max={$size / 2}
+                  />
+                  {$isShowValue && (
+                    <Text
+                      style={{ width: 50 }}
+                      $align="center"
+                      $fontFamily={$fontFamily}
+                      $color={$labelColor}
+                      $fontSize={14}
+                      $textTransform="uppercase"
+                      $fontWeight={500}
+                    >
+                      {(((value * 2) / $size) * 100).toFixed(0)}
+                    </Text>
+                  )}
+                </React.Fragment>
+              );
             }}
-            renderTrack={(props, state) => {
-              const { key, ...rest } = props;
-              console.log("state :>> ", state);
-              const passed = state.index === 0;
-              return <Track key={key} {...rest} $isPassed={passed} />;
-            }}
-            min={1}
-            max={100}
           />
-          {$isShowValue && (
-            <Text
-              style={{ width: 50 }}
-              $align="center"
-              $fontFamily={$fontFamily}
-              $color={$labelColor}
-              $fontSize={14}
-              $textTransform="uppercase"
-              $fontWeight={500}
-            >
-              {value}
-            </Text>
-          )}
         </ContainerSlide>
       </React.Fragment>
     </Container>

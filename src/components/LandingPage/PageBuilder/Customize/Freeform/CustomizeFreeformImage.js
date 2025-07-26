@@ -79,8 +79,8 @@ export const CustomizeFreeformImage = () => {
       value: _.get(selectItem, ["value"]),
       aspectRatio: _.get(selectItem, ["aspectRatio"]),
       resize: String(_.get(selectItem, ["resize"])),
-      radius: String(_.get(attribute, ["radius"])),
-      size: String(_.get(attribute, ["size"])),
+      radius: _.get(attribute, ["radius"]),
+      size: _.get(attribute, ["size"]),
       backgroundColor: _.get(selectItem, ["backgroundColor"]),
     },
   });
@@ -148,8 +148,8 @@ export const CustomizeFreeformImage = () => {
       value: _.get(selectItem, ["value"]),
       aspectRatio: _.get(selectItem, ["aspectRatio"]),
       resize: String(_.get(selectItem, ["resize"])),
-      radius: String(_.get(selectItem, ["radius"])),
-      size: String(_.get(attributeDevice, ["size"])),
+      radius: _.get(attributeDevice, ["radius"]),
+      size: _.get(attributeDevice, ["size"]),
       backgroundColor: _.get(selectItem, ["backgroundColor"]),
     });
   }, [selectedLayoutDesign, selectItem]);
@@ -206,7 +206,7 @@ export const CustomizeFreeformImage = () => {
           $backgroundColor={backgroundColor}
         />
 
-        <Slide $label="Radius" $fontFamily="Sen" />
+        <Slide $label="Radius" $fontFamily="Sen" $name="radius" $size={size} $control={control} />
 
         <Select
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
