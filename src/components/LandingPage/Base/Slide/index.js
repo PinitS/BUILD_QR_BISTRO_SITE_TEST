@@ -24,6 +24,7 @@ const ContainerSlide = styled.div`
 const StyledSlider = styled(ReactSlider)`
   flex: 1;
   height: 4px;
+  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
 `;
 
 const Thumb = styled.div`
@@ -35,7 +36,7 @@ const Thumb = styled.div`
   border-color: ${MAIN_COLORS?.BUTTON?.TEXT};
   background: ${MAIN_COLORS?.BUTTON?.BACKGROUND};
 
-  cursor: grab;
+  cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
   margin-top: -5px;
   outline: none;
 `;
@@ -54,16 +55,16 @@ const Track = styled.div`
 export const Slide = ({
   $control,
   $name,
-  $label = "xxx",
+  $label = "",
   $labelColor = MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR,
   $min = 1,
   $max,
+  $disabled = false,
   $valueIndicator,
   $isShowLabel = true,
   $isShowValue = true,
   $fontFamily = "IBMPlexSansThai",
 }) => {
-  console.log("max :>> ", $max);
   return (
     <Container>
       <React.Fragment>
@@ -86,15 +87,16 @@ export const Slide = ({
               return (
                 <React.Fragment>
                   <StyledSlider
+                    disabled={$disabled}
+                    $disabled={$disabled}
                     value={value}
                     onChange={onChange}
                     renderThumb={(props, state) => {
                       const { key, ...rest } = props;
-                      return <Thumb key={key} {...rest} />;
+                      return <Thumb $disabled={$disabled} key={key} {...rest} />;
                     }}
                     renderTrack={(props, state) => {
                       const { key, ...rest } = props;
-                      console.log("state :>> ", state);
                       const passed = state.index === 0;
                       return <Track key={key} {...rest} $isPassed={passed} />;
                     }}
@@ -112,7 +114,6 @@ export const Slide = ({
                       $fontWeight={500}
                     >
                       {$valueIndicator}
-                      {/* {(((value * 2) / $scaleMaxValue) * 100).toFixed(0)} */}
                     </Text>
                   )}
                 </React.Fragment>

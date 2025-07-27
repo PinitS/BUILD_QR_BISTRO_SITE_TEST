@@ -67,6 +67,8 @@ export const ImportFreeformContainer = () => {
       resize: "contain",
       backgroundColor: "transparent",
       radius: 0,
+      filterType: "NONE",
+      filterValue: null,
       attribute: {
         DESKTOP: {
           isVisible: true,

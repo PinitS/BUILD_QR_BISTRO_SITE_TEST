@@ -11,6 +11,7 @@ import { BlankImagePlaceHolder } from "@components/LandingPage/Base/Image/BlankI
 import { ImageWrapper } from "@components/LandingPage/Base/Image/ImageWrapper";
 import Image from "next/image";
 import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
+import { resolveImageFilter } from "@utils/resolve/resolveImageFilter";
 
 const ContainerDraggable = styled.div`
   position: absolute;
@@ -50,6 +51,11 @@ export const RenderEditorImageFreeform = ({ $item }) => {
   const aspectRatio = _.get($item, ["aspectRatio"]);
   const resize = _.get($item, ["resize"], "contain");
   const backgroundColor = _.get($item, ["backgroundColor"]);
+  const filterType = _.get($item, ["filterType"]);
+  const filterValue = _.get($item, ["filterValue"]);
+
+  const filterImage = resolveImageFilter({ filterType, filterValue });
+
   const radius = _.get($item, ["radius"]);
 
   const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
@@ -93,7 +99,12 @@ export const RenderEditorImageFreeform = ({ $item }) => {
         {_.isNil(value) ? (
           <BlankImagePlaceHolder $angle={angle} />
         ) : (
-          <Image alt={MAIN_ATTR?.IMAGE_ALT} fill style={{ objectFit: resize }} src={value} />
+          <Image
+            alt={MAIN_ATTR?.IMAGE_ALT}
+            fill
+            style={{ objectFit: resize, filter: filterImage }}
+            src={value}
+          />
         )}
       </ImageWrapper>
     </ContainerDraggable>

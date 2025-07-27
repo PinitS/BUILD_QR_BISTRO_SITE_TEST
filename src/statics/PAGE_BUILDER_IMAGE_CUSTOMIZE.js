@@ -12,3 +12,33 @@ export const ASPECT_RATIO_LIST = [
   { label: "3:4", value: 3 / 4 },
   { label: "9:16", value: 9 / 16 },
 ];
+
+export const FILTER_LIST = [
+  { label: "NONE", value: "none" },
+  { label: "NONE", value: "none" },
+  { label: "NONE", value: "none" },
+  { label: "NONE", value: "none" },
+  { label: "NONE", value: "none" },
+];
+
+export const FILTER_OPTIONS = [
+  { label: "None", value: "NONE" },
+  { label: "Grayscale", value: "GRAYSCALE" },
+  { label: "Brightness", value: "BRIGHTNESS" },
+  { label: "Contrast", value: "CONTRAST" },
+  { label: "Saturate", value: "SATURATE" },
+  { label: "Sepia", value: "SEPIA" },
+  { label: "Hue Rotate", value: "HUE_ROTATE" },
+  { label: "Blur", value: "BLUR" },
+];
+
+export const FILTER_OPTIONS_RANGE = {
+  NONE: { min: 0, max: 0, default: null },
+  GRAYSCALE: { min: 0, max: 100, default: 0 },
+  BRIGHTNESS: { min: 50, max: 200, default: 100 },
+  CONTRAST: { min: 50, max: 200, default: 100 },
+  SATURATE: { min: 0, max: 300, default: 100 },
+  SEPIA: { min: 0, max: 100, default: 0 },
+  HUE_ROTATE: { min: 0, max: 360, default: 0 },
+  BLUR: { min: 0, max: 20, default: 0 },
+};

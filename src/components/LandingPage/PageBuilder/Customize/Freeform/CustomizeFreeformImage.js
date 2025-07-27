@@ -11,7 +11,12 @@ import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reduce
 import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
 import { Select } from "@components/LandingPage/Base/Select";
 import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
-import { ASPECT_RATIO_LIST, RESIZE_OPTIONS } from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
+import {
+  ASPECT_RATIO_LIST,
+  FILTER_OPTIONS,
+  FILTER_OPTIONS_RANGE,
+  RESIZE_OPTIONS,
+} from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
 import { UploadFile } from "@components/LandingPage/Base/UploadFile";
 import { Slide } from "@components/LandingPage/Base/Slide";
 import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
@@ -83,6 +88,8 @@ export const CustomizeFreeformImage = () => {
       value: _.get(selectItem, ["value"]),
       aspectRatio: _.get(selectItem, ["aspectRatio"]),
       resize: String(_.get(selectItem, ["resize"])),
+      filterType: _.get(selectItem, ["filterType"]),
+      filterValue: _.get(selectItem, ["filterValue"]),
       radius: _.get(selectItem, ["radius"]),
       size: _.get(attribute, ["size"]),
       backgroundColor: _.get(selectItem, ["backgroundColor"]),
@@ -109,6 +116,9 @@ export const CustomizeFreeformImage = () => {
   const aspectRatio = watch("aspectRatio");
   const resize = watch("resize");
   const radius = watch("radius");
+  const filterType = watch("filterType");
+  const filterValue = watch("filterValue");
+
   const size = watch("size");
   const backgroundColor = watch("backgroundColor");
 
@@ -117,12 +127,21 @@ export const CustomizeFreeformImage = () => {
       return;
     }
 
+    console.log("filterType :>> ", filterType);
+
+    const updateFilterValue =
+      filterType !== _.get(selectItem, ["filterType"])
+        ? _.get(FILTER_OPTIONS_RANGE, [filterType, "default"])
+        : filterValue;
+
     const updateSelectItem = {
       ...selectItem,
       value,
       aspectRatio,
       resize,
       radius: Number(radius),
+      filterType,
+      filterValue: updateFilterValue,
       backgroundColor,
       attribute: {
         ...selectItem?.attribute,
@@ -142,7 +161,7 @@ export const CustomizeFreeformImage = () => {
       ...updateSelectItem,
     };
     dispatch(setFreeformBlocks(updatedBlocks));
-  }, [value, aspectRatio, resize, radius, size, backgroundColor]);
+  }, [value, aspectRatio, resize, radius, size, filterType, filterValue, backgroundColor]);
 
   useEffect(() => {
     const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
@@ -152,9 +171,15 @@ export const CustomizeFreeformImage = () => {
       resize: String(_.get(selectItem, ["resize"])),
       radius: _.get(selectItem, ["radius"]),
       size: _.get(attributeDevice, ["size"]),
+      filterType: _.get(selectItem, ["filterType"]),
+      filterValue: _.get(selectItem, ["filterValue"]),
       backgroundColor: _.get(selectItem, ["backgroundColor"]),
     });
   }, [selectedLayoutDesign, selectItem]);
+
+  const attributeFilterValue = _.get(FILTER_OPTIONS_RANGE, [filterType]);
+
+  console.log("attributeFilterValue :>> ", attributeFilterValue);
 
   return (
     <Container>
@@ -246,6 +271,29 @@ export const CustomizeFreeformImage = () => {
           $control={control}
           $name="resize"
           $label="resize"
+        />
+
+        <Select
+          $disabled={_.isNil(value)}
+          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+          $fontFamily="Sen"
+          $options={FILTER_OPTIONS}
+          $control={control}
+          $name="filterType"
+          $label="filter"
+        />
+
+        <Slide
+          $disabled={filterType === "NONE"}
+          $label="Filter value"
+          $fontFamily="Sen"
+          $name="filterValue"
+          $min={attributeFilterValue?.min}
+          $max={attributeFilterValue?.max}
+          $isShowValue={filterType !== "NONE"}
+          $valueIndicator={((filterValue / attributeFilterValue?.max) * 100).toFixed(0)}
+          $control={control}
         />
         <ColorPicker
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}

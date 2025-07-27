@@ -6,9 +6,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { IMPORT_VARIANTS } from "statics/VARIANTS";
 import { ImportFreeformContainer } from "@components/LandingPage/PageBuilder/Import/Freeform/ImportFreeformContainer";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
-import { useClickOutside } from "@hooks/useClickOutside";
-import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
-import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
+// import { useClickOutside } from "@hooks/useClickOutside";
+// import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
+// import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
+
+// const Overlay = styled.div`
+//   position: fixed;
+//   inset: 0;
+//   background-color: transparent; /* หรือ rgba(0,0,0,0.2) ถ้าอยาก dim */
+//   z-index: 499;
+// `;
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -36,26 +43,33 @@ export const ContainerImportBlock = () => {
 
   // useClickOutside({ ref: containerRef, cb: handleClickOutside });
 
+  // const handleClose = () => {
+  //   dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
+  // };
+
   return (
     <AnimatePresence>
       {isVisible && (
-        <Container
-          ref={containerRef}
-          variants={IMPORT_VARIANTS}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-        >
-          {(() => {
-            switch (form) {
-              case "IMPORT-FREEFORM-CONTAINER":
-                return <ImportFreeformContainer />;
+        <>
+          {/* <Overlay onClick={handleClose} /> */}
+          <Container
+            ref={containerRef}
+            variants={IMPORT_VARIANTS}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            {(() => {
+              switch (form) {
+                case "IMPORT-FREEFORM-CONTAINER":
+                  return <ImportFreeformContainer />;
 
-              default:
-                return null;
-            }
-          })()}
-        </Container>
+                default:
+                  return null;
+              }
+            })()}
+          </Container>
+        </>
       )}
     </AnimatePresence>
   );

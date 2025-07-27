@@ -24,7 +24,7 @@ export const Select = ({
   $options = [],
   $isMulti = false,
   $placeholder = "Select...",
-  $isDisabled = false,
+  $disabled = false,
   ...rest
 }) => {
   const findOption = (val) => {
@@ -68,7 +68,7 @@ export const Select = ({
                 options={$options}
                 isMulti={$isMulti}
                 placeholder={$placeholder}
-                isDisabled={$isDisabled}
+                isDisabled={$disabled}
                 {...rest}
                 styles={{
                   control: (base, state) => ({
