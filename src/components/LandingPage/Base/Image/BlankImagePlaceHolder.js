@@ -40,7 +40,7 @@ export const BlankImagePlaceHolder = ({ $angle, $fontSize = undefined }) => {
         $fontFamily="Sen"
         $textTransform="capitalize"
         $color={"#c5c5c5"}
-        $fontSize={$fontSize ? $fontSize : "clamp(8px, 2vw, 20px)"}
+        $fontSize={$fontSize ? $fontSize : "clamp(8px, 1vw, 20px)"}
         $fontWeight={500}
         $align="start"
       >

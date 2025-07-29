@@ -59,7 +59,7 @@ const ContainerInput = styled.div`
 export const CustomizeFreeformImage = () => {
   const dispatch = useDispatch();
   const { containerWidth } = useContainerDimensionContext();
-
+  console.log("containerWidth :>> ", containerWidth);
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
@@ -69,8 +69,6 @@ export const CustomizeFreeformImage = () => {
       return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
     })
     .value();
-
-  console.log("selectItem :>> ", selectItem);
 
   const indexItem = _.findIndex(freeformBlocks, (item) => {
     return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);

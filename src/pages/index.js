@@ -14,11 +14,12 @@ import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
 import { useForm } from "react-hook-form";
 import { Slide } from "@components/LandingPage/Base/Slide";
 import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
+import { LOREM_IPSUM } from "statics/LOREM_IPSUM";
 
 export default () => {
   const dispatch = useDispatch();
-
-  const { containerWidth } = useContainerDimensionContext();
+  const { ref: containerRef } = useContainerDimensionContext();
+  console.log("containerRef :>> ", containerRef);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const customizeBackground = useSelector((state) => state?.customizeBackground?.data, shallowEqual);
@@ -87,6 +88,7 @@ export default () => {
       <ContainerCustomizeBlock />
 
       <Container
+        ref={containerRef}
         $backgroundColor={_.get(customizeBackground, ["containerBackgroundColor"])}
         $containerBackgroundOpacity={_.get(customizeBackground, ["containerBackgroundOpacity"])}
         $layoutDesign={selectedLayoutDesign}
@@ -101,8 +103,10 @@ export default () => {
         >
           <ContainerRenderEditorFreeform />
         </DndContext>
+        <div>{LOREM_IPSUM}</div>
+        <div>{LOREM_IPSUM}</div>
+
         {/* FREEFORM */}
-        <Grid />
       </Container>
     </Layouts>
   );
