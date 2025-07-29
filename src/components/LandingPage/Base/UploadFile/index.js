@@ -42,15 +42,23 @@ const HiddenInput = styled.input`
   display: none;
 `;
 
+const ContainerButton = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
 const MOCK_UPLOAD_IMAGE =
   "https://d191sdiqrxs6vs.cloudfront.net/e30636f4-5f2c-462d-8cf7-68957fa5df3b/zone-layout/a0c1c79a-2dbb-4d31-aaf6-3df114401f67/649171bd-f390-4ce3-a9b3-7d21c1e68890.webp";
 
 export const UploadFile = ({
+  $useClearImage = false,
   $label = "",
   $setValue = () => undefined,
+  $nameValue = "value",
   $value = null,
   $aspectRatio = 1,
-  $backgroundColor,
   $allowType = [".png", ".jpg", ".jpeg"],
 }) => {
   const acceptExtension = _.join($allowType, ",");
@@ -70,9 +78,13 @@ export const UploadFile = ({
     if (file) {
       await hold({ sec: 0.3 });
       console.log("file?.blob :>> ", URL.createObjectURL(file));
-      $setValue("value", URL.createObjectURL(file));
+      $setValue($nameValue, URL.createObjectURL(file));
       // API HERE (file)
     }
+  };
+
+  const handleClearImage = () => {
+    $setValue($nameValue, null);
   };
 
   return (
@@ -84,17 +96,33 @@ export const UploadFile = ({
           <Image alt={MAIN_ATTR?.IMAGE_ALT} fill style={{ objectFit: "cover" }} src={$value} />
         )}
       </PreviewImage>
-      <Button
-        onClick={() => handleUploadFile()}
-        $width={100}
-        $height={32}
-        $backgroundColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
-        $borderRadius={6}
-      >
-        <Text $fontSize={12} $fontFamily="Sen" $color={MAIN_COLORS?.BUTTON?.TEXT}>
-          Upload
-        </Text>
-      </Button>
+      <ContainerButton>
+        <Button
+          onClick={() => handleUploadFile()}
+          $width={100}
+          $height={32}
+          $backgroundColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
+          $borderRadius={6}
+        >
+          <Text $fontSize={12} $fontFamily="Sen" $color={MAIN_COLORS?.BUTTON?.TEXT}>
+            Upload
+          </Text>
+        </Button>
+
+        {$useClearImage && (
+          <Button
+            onClick={() => handleClearImage()}
+            $width={100}
+            $height={32}
+            $backgroundColor={MAIN_COLORS?.MAIN?.ERROR_COLOR}
+            $borderRadius={6}
+          >
+            <Text $fontSize={12} $fontFamily="Sen" $color={MAIN_COLORS?.BUTTON?.TEXT}>
+              Clear
+            </Text>
+          </Button>
+        )}
+      </ContainerButton>
 
       <HiddenInput ref={fileInputRef} type="file" onChange={handleFileChange} accept={acceptExtension} />
     </Container>

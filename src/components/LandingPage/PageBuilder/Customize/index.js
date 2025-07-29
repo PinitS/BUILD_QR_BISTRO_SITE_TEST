@@ -9,6 +9,7 @@ import { CustomizeFreeformText } from "@components/LandingPage/PageBuilder/Custo
 import { CustomizeFreeformImage } from "./Freeform/CustomizeFreeformImage";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
 import { useClickOutside } from "@hooks/useClickOutside";
+import { CustomizeBackground } from "./Background/CustomizeBackground";
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -29,7 +30,7 @@ export const ContainerCustomizeBlock = () => {
   const isVisible = _.get(customizeBlockAttr, ["isVisible"]);
   const form = _.get(customizeBlockAttr, ["form"]);
   const containerRef = useRef(null);
-
+  console.log("form :>> ", form);
   // const handleClickOutside = useCallback(() => {
   //   dispatch(setCustomizeBlockAttr({ ...customizeBlockAttr, isVisible: false }));
   // }, [customizeBlockAttr, dispatch]);
@@ -52,6 +53,8 @@ export const ContainerCustomizeBlock = () => {
                 return <CustomizeFreeformText />;
               case "CUSTOMIZE-FREEFORM-IMAGE":
                 return <CustomizeFreeformImage />;
+              case "CUSTOMIZE-BACKGROUND":
+                return <CustomizeBackground />;
 
               default:
                 return null;

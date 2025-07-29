@@ -21,6 +21,7 @@ export default () => {
   const { containerWidth } = useContainerDimensionContext();
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
+  const customizeBackground = useSelector((state) => state?.customizeBackground?.data, shallowEqual);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -77,12 +78,19 @@ export default () => {
   } = useForm({});
 
   return (
-    <Layouts>
+    <Layouts
+      $backgroundColor={_.get(customizeBackground, ["bodyBackgroundColor"])}
+      $backgroundImage={_.get(customizeBackground, ["bodyBackgroundImage"])}
+    >
       <ContainerHeader />
       <ContainerImportBlock />
       <ContainerCustomizeBlock />
 
-      <Container $layoutDesign={selectedLayoutDesign}>
+      <Container
+        $backgroundColor={_.get(customizeBackground, ["containerBackgroundColor"])}
+        $containerBackgroundOpacity={_.get(customizeBackground, ["containerBackgroundOpacity"])}
+        $layoutDesign={selectedLayoutDesign}
+      >
         {/* FREEFORM */}
         <DndContext
           sensors={sensors}

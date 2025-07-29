@@ -8,7 +8,6 @@ const Layout = styled.div`
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background: ${MAIN_COLORS?.MAIN?.CONTAINER_BACKGROUND};
   border-top-width: 0px;
   border-bottom-width: 1px;
   border-left-width: 1px;
@@ -18,11 +17,16 @@ const Layout = styled.div`
   border-left-color: ${MAIN_COLORS?.MAIN?.LINE};
   border-right-color: ${MAIN_COLORS?.MAIN?.LINE};
   max-width: ${({ $width }) => $width}px;
-  background: white;
+  background-color: ${({ $backgroundColor = "transparent" }) => $backgroundColor};
   overflow: scroll;
 `;
 
-export const Container = ({ children, $layoutDesign = "DESKTOP" }) => {
+export const Container = ({
+  children,
+  $layoutDesign = "DESKTOP",
+  $backgroundColor,
+  $containerBackgroundOpacity,
+}) => {
   const getLayouts = ({ layoutDesign = "DESKTOP" }) => {
     switch (layoutDesign) {
       case "DESKTOP":
@@ -34,6 +38,25 @@ export const Container = ({ children, $layoutDesign = "DESKTOP" }) => {
     }
   };
 
+  const getBackgroundColorWithOpacity = ({ color, opacity }) => {
+    if (color === "transparent") {
+      return "transparent";
+    }
+
+    const alpha = Math.round(Math.max(0, Math.min(100, opacity)) * 2.55);
+    const alphaHex = alpha.toString(16).padStart(2, "0");
+    return `${color}${alphaHex}`;
+  };
+
   const width = getLayouts({ layoutDesign: $layoutDesign });
-  return <Layout $width={width}>{children}</Layout>;
+  const backgroundColor = getBackgroundColorWithOpacity({
+    color: $backgroundColor,
+    opacity: $containerBackgroundOpacity,
+  });
+
+  return (
+    <Layout $backgroundColor={backgroundColor} $width={width}>
+      {children}
+    </Layout>
+  );
 };

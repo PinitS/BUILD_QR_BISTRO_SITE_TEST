@@ -65,10 +65,10 @@ const DESIGN_SIZE_LIST = [
 ];
 
 const MAIN_SIDE_MENU_LIST = [
-  { ICON: ICON_MENU_IMPORT_ABSOLUTE, value: "IMPORT-FREEFORM-CONTAINER" },
-  { ICON: ICON_MENU_IMPORT_CONTAINER, value: "IMPORT-STACK-CONTAINER" },
-  { ICON: ICON_MENU_SETTING_BACKGROUND, value: "CUSTOMIZE-BACKGROUND" },
-  { ICON: ICON_MENU_SWAP, value: "SWAP-STACK-CONTAINER" },
+  { ICON: ICON_MENU_IMPORT_ABSOLUTE, value: "IMPORT-FREEFORM-CONTAINER", type: "IMPORT" },
+  { ICON: ICON_MENU_IMPORT_CONTAINER, value: "IMPORT-STACK-CONTAINER", type: "IMPORT" },
+  { ICON: ICON_MENU_SETTING_BACKGROUND, value: "CUSTOMIZE-BACKGROUND", type: "CUSTOMIZE" },
+  { ICON: ICON_MENU_SWAP, value: "SWAP-STACK-CONTAINER", type: "CUSTOMIZE" },
 ];
 
 export const ContainerHeader = () => {
@@ -82,7 +82,7 @@ export const ContainerHeader = () => {
     dispatch(setSelectedLayoutDesign(value));
   };
 
-  const handleSelectMainSideMenu = ({ value }) => {
+  const handleSelectMainImportSideMenu = ({ value }) => {
     const currentMainSideMenuForm = _.get(importBlockAttr, ["form"]);
     const currentMainSideMenuIsVisible = _.get(importBlockAttr, ["isVisible"]);
     const updateImportBlockAttr = !currentMainSideMenuIsVisible
@@ -94,6 +94,22 @@ export const ContainerHeader = () => {
 
     batch(() => {
       dispatch(setCustomizeBlockAttr(updateSelectedFreeformBlock));
+      dispatch(setImportBlockAttr(updateImportBlockAttr));
+    });
+    return;
+  };
+
+  const handleSelectMainCustomizeSideMenu = ({ value }) => {
+    const currentMainSideMenuForm = _.get(customizeBlockAttr, ["form"]);
+    const currentMainSideMenuIsVisible = _.get(customizeBlockAttr, ["isVisible"]);
+    const updateCustomizeBlockAttr = !currentMainSideMenuIsVisible
+      ? { isVisible: true, form: value }
+      : currentMainSideMenuForm === value
+        ? { isVisible: false, form: value }
+        : { isVisible: true, form: value };
+    const updateImportBlockAttr = { ...importBlockAttr, isVisible: false };
+    batch(() => {
+      dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
       dispatch(setImportBlockAttr(updateImportBlockAttr));
     });
   };
@@ -134,11 +150,18 @@ export const ContainerHeader = () => {
         {_.map(MAIN_SIDE_MENU_LIST, (item, index) => {
           const ICON = _.get(item, ["ICON"]);
           const value = _.get(item, ["value"]);
+          const type = _.get(item, ["type"]);
           const isActive =
-            value === _.get(importBlockAttr, ["form"]) && _.get(importBlockAttr, ["isVisible"]);
+            (value === _.get(importBlockAttr, ["form"]) && _.get(importBlockAttr, ["isVisible"])) ||
+            (value === _.get(customizeBlockAttr, ["form"]) && _.get(customizeBlockAttr, ["isVisible"]));
           return (
             <Button
-              onClick={() => handleSelectMainSideMenu({ value })}
+              onClick={() => {
+                type === "IMPORT"
+                  ? handleSelectMainImportSideMenu({ value })
+                  : handleSelectMainCustomizeSideMenu({ value });
+                // handleSelectMainImportSideMenu({ value });
+              }}
               key={index}
               $isSquare
               $height={32}
