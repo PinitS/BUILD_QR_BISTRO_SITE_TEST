@@ -11,19 +11,22 @@ export const ContainerDimensionProvider = ({ children }) => {
   const ref = useRef(null);
   const [containerWidth, setContainerWidth] = useState(DESIGN_SIZE.DESKTOP);
 
-  const updateSize = () => {
-    if (typeof window === "undefined" || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    setContainerWidth(rect.width);
-  };
-
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (!ref.current) return;
 
-    updateSize();
-    const handleResize = _.debounce(updateSize, 100);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        if (entry.contentRect) {
+          setContainerWidth(entry.contentRect.width);
+        }
+      }
+    });
+
+    observer.observe(ref.current);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   let device = "DESKTOP";

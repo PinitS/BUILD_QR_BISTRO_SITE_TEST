@@ -8,5 +8,5 @@ import customizeBackground from "@redux/reducers/customizeBackground.reducers";
 
 export const store = configureStore({
   reducer: { selectedLayoutDesign, importBlockAttr, freeformBlocks, customizeBackground, customizeBlockAttr },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

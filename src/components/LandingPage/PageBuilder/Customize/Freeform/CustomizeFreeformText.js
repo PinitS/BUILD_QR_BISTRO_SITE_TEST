@@ -139,7 +139,6 @@ export const CustomizeFreeformText = () => {
     updatedBlocks[indexItem] = {
       ...updateSelectItem,
     };
-    console.log("updatedBlocks :>> ", updatedBlocks);
     dispatch(setFreeformBlocks(updatedBlocks));
   }, [value, color, fontSize, fontWeight, fontFamily]);
 

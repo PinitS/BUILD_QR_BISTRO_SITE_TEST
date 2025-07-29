@@ -30,7 +30,6 @@ export const ContainerCustomizeBlock = () => {
   const isVisible = _.get(customizeBlockAttr, ["isVisible"]);
   const form = _.get(customizeBlockAttr, ["form"]);
   const containerRef = useRef(null);
-  console.log("form :>> ", form);
   // const handleClickOutside = useCallback(() => {
   //   dispatch(setCustomizeBlockAttr({ ...customizeBlockAttr, isVisible: false }));
   // }, [customizeBlockAttr, dispatch]);

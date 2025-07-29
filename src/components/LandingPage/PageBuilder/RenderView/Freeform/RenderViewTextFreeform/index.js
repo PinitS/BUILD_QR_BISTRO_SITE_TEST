@@ -37,10 +37,6 @@ export const RenderViewTextFreeform = ({ $item }) => {
   const attribute = resolveItemAttribute({ item: $item, device });
   const y = _.get(attribute, ["y"]);
   const x = resolveScaleSize({ size: _.get(attribute, ["x"]), scale });
-  console.log("================== :>> ");
-  console.log("scale :>> ", scale);
-  console.log("x :>> ", x);
-  console.log("================== :>> ");
   const fontSize = resolveScaleSize({ size: _.get(attribute, ["fontSize"]), scale });
 
   return (

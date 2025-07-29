@@ -77,7 +77,6 @@ export const UploadFile = ({
     const file = event.target.files?.[0];
     if (file) {
       await hold({ sec: 0.3 });
-      console.log("file?.blob :>> ", URL.createObjectURL(file));
       $setValue($nameValue, URL.createObjectURL(file));
       // API HERE (file)
     }

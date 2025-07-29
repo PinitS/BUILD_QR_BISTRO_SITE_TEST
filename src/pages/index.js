@@ -19,7 +19,6 @@ import { LOREM_IPSUM } from "statics/LOREM_IPSUM";
 export default () => {
   const dispatch = useDispatch();
   const { ref: containerRef } = useContainerDimensionContext();
-  console.log("containerRef :>> ", containerRef);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const customizeBackground = useSelector((state) => state?.customizeBackground?.data, shallowEqual);
@@ -33,7 +32,12 @@ export default () => {
   const handleFreeformDragEnd = (event) => {
     const { active, delta } = event;
     const activeId = _.get(active, ["id"]);
+    const blockEl = document.getElementById(`${activeId}`);
+    console.log("blockEl :>> ", blockEl);
+    const blockRect = blockEl?.getBoundingClientRect();
+    const blockWidth = blockRect?.width || 0;
 
+    console.log("blockWidth :>> ", blockWidth);
     const findIndex = _.findIndex(freeformBlocks, (item) => {
       return _.get(item, ["id"]) === activeId;
     });
@@ -73,11 +77,6 @@ export default () => {
     document.body.classList.remove("dragging");
   };
 
-  const {
-    control,
-    formState: { errors },
-  } = useForm({});
-
   return (
     <Layouts
       $backgroundColor={_.get(customizeBackground, ["bodyBackgroundColor"])}
@@ -93,7 +92,6 @@ export default () => {
         $containerBackgroundOpacity={_.get(customizeBackground, ["containerBackgroundOpacity"])}
         $layoutDesign={selectedLayoutDesign}
       >
-        {/* FREEFORM */}
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -103,10 +101,7 @@ export default () => {
         >
           <ContainerRenderEditorFreeform />
         </DndContext>
-        <div>{LOREM_IPSUM}</div>
-        <div>{LOREM_IPSUM}</div>
-
-        {/* FREEFORM */}
+        {/* <div style={{ maxWidth: "100%", overflow: "hidden" }}>{LOREM_IPSUM}</div> */}
       </Container>
     </Layouts>
   );

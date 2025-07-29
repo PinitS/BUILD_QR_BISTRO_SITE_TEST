@@ -44,11 +44,11 @@ export const ImportFreeformContainer = () => {
       attribute: {
         DESKTOP: {
           isVisible: true,
-          x: 1,
-          y: 1,
+          x: 0,
+          y: 0,
           fontSize: 16,
         },
-        MOBILE: { isVisible: true, x: 1, y: 1, fontSize: 12 },
+        MOBILE: { isVisible: true, x: 0, y: 0, fontSize: 12 },
       },
     };
 

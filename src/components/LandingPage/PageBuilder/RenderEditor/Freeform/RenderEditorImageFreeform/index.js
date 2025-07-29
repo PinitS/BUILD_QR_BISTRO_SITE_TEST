@@ -81,6 +81,7 @@ export const RenderEditorImageFreeform = ({ $item }) => {
 
   return (
     <ContainerDraggable
+      id={id}
       onClick={() => handleSelectBlock()}
       ref={(el) => {
         setNodeRef(el);

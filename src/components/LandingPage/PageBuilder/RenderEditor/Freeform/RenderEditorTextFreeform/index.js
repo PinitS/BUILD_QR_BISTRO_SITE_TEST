@@ -66,6 +66,7 @@ export const RenderEditorTextFreeform = ({ $item }) => {
 
   return (
     <ContainerDraggable
+      id={id}
       onClick={() => handleSelectBlock()}
       ref={(el) => {
         setNodeRef(el);

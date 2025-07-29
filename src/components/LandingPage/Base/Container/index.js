@@ -8,12 +8,11 @@ const Layout = styled.div`
   flex-direction: column;
   height: 100%;
   width: 100%;
-
   max-width: ${({ $width }) => $width}px;
   background-color: ${({ $backgroundColor = "transparent" }) => $backgroundColor};
   overflow-y: scroll;
-  overflow-x: hidden;
   box-sizing: border-box;
+  overflow-x: hidden;
 `;
 
 export const Container = React.forwardRef(

@@ -59,7 +59,6 @@ const ContainerInput = styled.div`
 export const CustomizeFreeformImage = () => {
   const dispatch = useDispatch();
   const { containerWidth } = useContainerDimensionContext();
-  console.log("containerWidth :>> ", containerWidth);
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
@@ -124,9 +123,6 @@ export const CustomizeFreeformImage = () => {
     if (indexItem === -1) {
       return;
     }
-
-    console.log("filterType :>> ", filterType);
-
     const updateFilterValue =
       filterType !== _.get(selectItem, ["filterType"])
         ? _.get(FILTER_OPTIONS_RANGE, [filterType, "default"])
@@ -176,8 +172,6 @@ export const CustomizeFreeformImage = () => {
   }, [selectedLayoutDesign, selectItem]);
 
   const attributeFilterValue = _.get(FILTER_OPTIONS_RANGE, [filterType]);
-
-  console.log("attributeFilterValue :>> ", attributeFilterValue);
 
   return (
     <Container>
