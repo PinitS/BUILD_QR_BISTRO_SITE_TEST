@@ -10,7 +10,6 @@ import _ from "lodash";
 import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
 import { ContainerCustomizeBlock } from "@components/LandingPage/PageBuilder/Customize";
 import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
-import { LOREM_IPSUM } from "statics/LOREM_IPSUM";
 import { getBoundingRectById } from "@utils/getBoundingRectById";
 
 export default () => {
@@ -30,13 +29,6 @@ export default () => {
     const { active, delta } = event;
     const activeId = _.get(active, ["id"]);
     const { elWidth } = getBoundingRectById({ id: activeId });
-
-    const containerHeight = containerRef?.current?.scrollHeight;
-
-    console.log("containerRef?.current?.scrollHeight :>> ", containerRef?.current?.scrollHeight);
-    console.log("containerRef?.current?.offsetHeight :>> ", containerRef?.current?.offsetHeight);
-
-    console.log("containerHeight :>> ", containerHeight);
     const findIndex = _.findIndex(freeformBlocks, (item) => {
       return _.get(item, ["id"]) === activeId;
     });
@@ -110,15 +102,6 @@ export default () => {
         >
           <ContainerRenderEditorFreeform />
         </DndContext>
-        <div>{LOREM_IPSUM}</div>
-        <div>{LOREM_IPSUM}</div>
-        <div>{LOREM_IPSUM}</div>
-        <div>{LOREM_IPSUM}</div>
-        <div>{LOREM_IPSUM}</div>
-        <div>{LOREM_IPSUM}</div>
-        <div>{LOREM_IPSUM}</div>
-        <div>{LOREM_IPSUM}</div>
-        <div>{LOREM_IPSUM}</div>
       </Container>
     </Layouts>
   );
