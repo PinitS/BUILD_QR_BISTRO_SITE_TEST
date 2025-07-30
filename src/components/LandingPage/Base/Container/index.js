@@ -1,5 +1,4 @@
 import React from "react";
-import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 
 const Layout = styled.div`
@@ -7,12 +6,12 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 100%;
+  width: ${({ $width }) => $width}px;
   max-width: ${({ $width }) => $width}px;
   background-color: ${({ $backgroundColor = "transparent" }) => $backgroundColor};
   overflow-y: scroll;
-  box-sizing: border-box;
   overflow-x: hidden;
+  box-sizing: border-box;
 `;
 
 export const Container = React.forwardRef(

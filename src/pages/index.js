@@ -3,22 +3,19 @@ import { Layouts } from "@components/LandingPage/Base/Layouts";
 import { ContainerRenderEditorFreeform } from "@components/LandingPage/PageBuilder/RenderEditor/Freeform";
 import { ContainerHeader } from "@components/LandingPage/PageBuilder/ContainerHeader";
 import { ContainerImportBlock } from "@components/LandingPage/PageBuilder/Import";
-import { Grid } from "@components/LandingPage/PageBuilder/Grid";
 import React from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { DndContext, PointerSensor, useSensor, useSensors, useDraggable, closestCenter } from "@dnd-kit/core";
 import _ from "lodash";
 import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
 import { ContainerCustomizeBlock } from "@components/LandingPage/PageBuilder/Customize";
-import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
-import { useForm } from "react-hook-form";
-import { Slide } from "@components/LandingPage/Base/Slide";
 import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
 import { LOREM_IPSUM } from "statics/LOREM_IPSUM";
+import { getBoundingRectById } from "@utils/getBoundingRectById";
 
 export default () => {
   const dispatch = useDispatch();
-  const { ref: containerRef } = useContainerDimensionContext();
+  const { ref: containerRef, containerWidth } = useContainerDimensionContext();
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const customizeBackground = useSelector((state) => state?.customizeBackground?.data, shallowEqual);
@@ -32,12 +29,14 @@ export default () => {
   const handleFreeformDragEnd = (event) => {
     const { active, delta } = event;
     const activeId = _.get(active, ["id"]);
-    const blockEl = document.getElementById(`${activeId}`);
-    console.log("blockEl :>> ", blockEl);
-    const blockRect = blockEl?.getBoundingClientRect();
-    const blockWidth = blockRect?.width || 0;
+    const { elWidth } = getBoundingRectById({ id: activeId });
 
-    console.log("blockWidth :>> ", blockWidth);
+    const containerHeight = containerRef?.current?.scrollHeight;
+
+    console.log("containerRef?.current?.scrollHeight :>> ", containerRef?.current?.scrollHeight);
+    console.log("containerRef?.current?.offsetHeight :>> ", containerRef?.current?.offsetHeight);
+
+    console.log("containerHeight :>> ", containerHeight);
     const findIndex = _.findIndex(freeformBlocks, (item) => {
       return _.get(item, ["id"]) === activeId;
     });
@@ -52,9 +51,8 @@ export default () => {
 
     const updatedAttr = {
       ...currentAttr,
-      x: currentAttr.x + delta.x,
-      // x: snapToGrid(currentAttr.x + delta.x, containerWidth),
-      y: currentAttr.y + delta.y,
+      x: Math.max(0, Math.min(currentAttr.x + delta.x, containerWidth - elWidth)),
+      y: Math.max(0, currentAttr.y + delta.y),
     };
 
     const newAttribute = {
@@ -67,14 +65,25 @@ export default () => {
     };
 
     dispatch(setFreeformBlocks(updatedBlocks));
+    if (containerRef?.current) {
+      containerRef.current.style.overflowY = "scroll";
+      containerRef.current.style.overflowX = "hidden";
+    }
   };
 
   const handleFreeformDragStart = () => {
     document.body.classList.add("dragging");
+    if (containerRef?.current) {
+      containerRef.current.style.overflow = "hidden";
+    }
   };
 
   const handleFreeformDragCancel = () => {
     document.body.classList.remove("dragging");
+    if (containerRef?.current) {
+      containerRef.current.style.overflowY = "scroll";
+      containerRef.current.style.overflowX = "hidden";
+    }
   };
 
   return (
@@ -101,7 +110,15 @@ export default () => {
         >
           <ContainerRenderEditorFreeform />
         </DndContext>
-        {/* <div style={{ maxWidth: "100%", overflow: "hidden" }}>{LOREM_IPSUM}</div> */}
+        <div>{LOREM_IPSUM}</div>
+        <div>{LOREM_IPSUM}</div>
+        <div>{LOREM_IPSUM}</div>
+        <div>{LOREM_IPSUM}</div>
+        <div>{LOREM_IPSUM}</div>
+        <div>{LOREM_IPSUM}</div>
+        <div>{LOREM_IPSUM}</div>
+        <div>{LOREM_IPSUM}</div>
+        <div>{LOREM_IPSUM}</div>
       </Container>
     </Layouts>
   );
