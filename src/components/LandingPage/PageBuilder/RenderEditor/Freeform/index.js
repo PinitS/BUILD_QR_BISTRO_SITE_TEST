@@ -2,7 +2,7 @@ import _ from "lodash";
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { RenderEditorTextFreeform } from "@components/LandingPage/PageBuilder/RenderEditor/Freeform/RenderEditorTextFreeform";
-import { RenderEditorImageFreeform } from "./RenderEditorImageFreeform";
+import { RenderEditorImageFreeform } from "@components/LandingPage/PageBuilder/RenderEditor/Freeform/RenderEditorImageFreeform";
 
 export const ContainerRenderEditorFreeform = () => {
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);

@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { IMPORT_VARIANTS } from "statics/VARIANTS";
 import { ImportFreeformContainer } from "@components/LandingPage/PageBuilder/Import/Freeform/ImportFreeformContainer";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
+import { ImportStackContainer } from "@components/LandingPage/PageBuilder/Import/Stack/ImportStackContainer";
 // import { useClickOutside } from "@hooks/useClickOutside";
 // import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
 // import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
@@ -63,6 +64,9 @@ export const ContainerImportBlock = () => {
               switch (form) {
                 case "IMPORT-FREEFORM-CONTAINER":
                   return <ImportFreeformContainer />;
+
+                case "IMPORT-STACK-CONTAINER":
+                  return <ImportStackContainer />;
 
                 default:
                   return null;

@@ -11,6 +11,7 @@ import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
 import { ContainerCustomizeBlock } from "@components/LandingPage/PageBuilder/Customize";
 import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
 import { getBoundingRectById } from "@utils/getBoundingRectById";
+import { ContainerRenderEditorStack } from "@components/LandingPage/PageBuilder/RenderEditor/Stack";
 
 export default () => {
   const dispatch = useDispatch();
@@ -102,6 +103,8 @@ export default () => {
         >
           <ContainerRenderEditorFreeform />
         </DndContext>
+
+        <ContainerRenderEditorStack />
       </Container>
     </Layouts>
   );
