@@ -5,6 +5,7 @@ const Layout = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100%;
   width: ${({ $width }) => $width}px;
   max-width: ${({ $width }) => $width}px;

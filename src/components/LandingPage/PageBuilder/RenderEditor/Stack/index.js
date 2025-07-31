@@ -5,7 +5,6 @@ import { RenderEditorVoidStack } from "./RenderEditorVoidStack";
 
 export const ContainerRenderEditorStack = () => {
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
-  console.log("stackBlocks :>> ", stackBlocks);
   return (
     <React.Fragment>
       {_.map(stackBlocks, (item) => {

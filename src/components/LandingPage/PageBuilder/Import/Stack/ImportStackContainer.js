@@ -40,9 +40,8 @@ export const ImportStackContainer = () => {
       type: "VOID",
       attribute: {
         DESKTOP: {
-          width: "100%",
+          width: 90,
           height: 200,
-          // backgroundColor: "transparent",
           backgroundColor: "red",
           borderRadius: 0,
         },
@@ -87,6 +86,26 @@ export const ImportStackContainer = () => {
           $align="center"
         >
           Container
+        </Text>
+      </Button>
+
+      <Button
+        $borderRadius={6}
+        $borderColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
+        $height={42}
+        $borderStyle="dashed"
+
+        // onClick={() => handleImportFreeformImage()}
+      >
+        <Text
+          $fontFamily="Sen"
+          $textTransform="capitalize"
+          $color={MAIN_COLORS?.MAIN?.CONTAINER_IMPORT_TEXT}
+          $fontSize={14}
+          $fontWeight={500}
+          $align="center"
+        >
+          Table
         </Text>
       </Button>
 
