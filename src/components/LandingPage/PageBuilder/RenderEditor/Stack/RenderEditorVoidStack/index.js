@@ -10,7 +10,6 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
   box-sizing: border-box;
   width: ${({ $width = 100 }) => $width}%;
   height: ${({ $height = 200 }) => (typeof $height === "number" ? `${$height}px` : $height)};
@@ -21,6 +20,7 @@ const Container = styled.div`
   border-color: ${({ $isActive = false }) =>
     $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE};
   flex-shrink: 0;
+  overflow: hidden;
 `;
 
 export const RenderEditorVoidStack = ({ $item }) => {

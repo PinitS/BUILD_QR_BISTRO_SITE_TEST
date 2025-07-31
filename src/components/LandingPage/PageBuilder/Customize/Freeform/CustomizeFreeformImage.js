@@ -15,6 +15,7 @@ import {
   ASPECT_RATIO_LIST,
   FILTER_OPTIONS,
   FILTER_OPTIONS_RANGE,
+  LIMIT_IMAGE_SIZE,
   RESIZE_OPTIONS,
 } from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
 import { UploadFile } from "@components/LandingPage/Base/UploadFile";
@@ -58,7 +59,6 @@ const ContainerInput = styled.div`
 
 export const CustomizeFreeformImage = () => {
   const dispatch = useDispatch();
-  const { containerWidth } = useContainerDimensionContext();
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
@@ -230,8 +230,8 @@ export const CustomizeFreeformImage = () => {
           $fontFamily="Sen"
           $name="size"
           $min={50}
-          $max={containerWidth}
-          $valueIndicator={((size / containerWidth) * 100).toFixed(0)}
+          $max={_.get(LIMIT_IMAGE_SIZE, [selectedLayoutDesign])}
+          $valueIndicator={((size / _.get(LIMIT_IMAGE_SIZE, [selectedLayoutDesign])) * 100).toFixed(0)}
           $control={control}
         />
 

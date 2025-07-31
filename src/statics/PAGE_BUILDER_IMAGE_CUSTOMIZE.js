@@ -42,3 +42,8 @@ export const FILTER_OPTIONS_RANGE = {
   HUE_ROTATE: { min: 0, max: 360, default: 0 },
   BLUR: { min: 0, max: 20, default: 0 },
 };
+
+export const LIMIT_IMAGE_SIZE = {
+  DESKTOP: 1024 / 2,
+  MOBILE: 425 / 2,
+};
