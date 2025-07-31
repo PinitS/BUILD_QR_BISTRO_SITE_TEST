@@ -11,6 +11,7 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 8px;
+  flex-shrink: 0;
 `;
 
 const ContainerSlide = styled.div`
@@ -50,6 +51,13 @@ const Track = styled.div`
   background: ${MAIN_COLORS?.BUTTON?.TEXT};
   background: ${({ $isPassed }) =>
     $isPassed ? MAIN_COLORS?.BUTTON?.TEXT : `${MAIN_COLORS?.BUTTON?.TEXT}99`};
+`;
+
+const ContainerText = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 16px;
 `;
 
 export const Slide = ({
@@ -103,19 +111,21 @@ export const Slide = ({
                     min={$min}
                     max={$max}
                   />
-                  {$isShowValue && (
-                    <Text
-                      style={{ width: 25 }}
-                      $align="center"
-                      $fontFamily={$fontFamily}
-                      $color={$labelColor}
-                      $fontSize={14}
-                      $textTransform="uppercase"
-                      $fontWeight={500}
-                    >
-                      {$valueIndicator}
-                    </Text>
-                  )}
+                  <ContainerText>
+                    {$isShowValue && (
+                      <Text
+                        style={{ width: 25 }}
+                        $align="center"
+                        $fontFamily={$fontFamily}
+                        $color={$labelColor}
+                        $fontSize={14}
+                        $textTransform="uppercase"
+                        $fontWeight={500}
+                      >
+                        {$valueIndicator}
+                      </Text>
+                    )}
+                  </ContainerText>
                 </React.Fragment>
               );
             }}

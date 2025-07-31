@@ -287,6 +287,7 @@ export const CustomizeFreeformImage = () => {
           $valueIndicator={((filterValue / attributeFilterValue?.max) * 100).toFixed(0)}
           $control={control}
         />
+
         <ColorPicker
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}

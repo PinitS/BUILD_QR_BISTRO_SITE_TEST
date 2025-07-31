@@ -11,7 +11,7 @@ const Container = styled.div`
   overflow: hidden;
   box-sizing: border-box;
   width: ${({ $width = 100 }) => $width}%;
-  height: ${({ $height = 200 }) => $height}px;
+  height: ${({ $height = 200 }) => (typeof $height === "number" ? `${$height}px` : $height)};
   background: ${({ $backgroundColor = 100 }) => $backgroundColor};
   border-radius: ${({ $borderRadius = 0 }) => $borderRadius};
   border-width: 1px;
