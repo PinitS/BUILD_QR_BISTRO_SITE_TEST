@@ -99,6 +99,7 @@ export const Slide = ({
                     $disabled={$disabled}
                     value={value}
                     onChange={onChange}
+                    // onAfterChange={onChange}
                     renderThumb={(props, state) => {
                       const { key, ...rest } = props;
                       return <Thumb $disabled={$disabled} key={key} {...rest} />;

@@ -35,22 +35,21 @@ export const ImportStackContainer = () => {
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
 
   const handleImportStackVoidContainer = () => {
-    const initialStackId = uuid();
     const initial = {
       id: uuid(),
       type: "VOID",
       attribute: {
         DESKTOP: {
-          width: 90,
+          width: 100,
           height: 200,
-          backgroundColor: "red",
+          backgroundColor: "transparent",
           borderRadius: 0,
           paddingHorizontal: 6,
           paddingVertical: 6,
           marginTop: 0,
           marginBottom: 0,
-          columns: [initialStackId],
-          columnStacks: { [initialStackId]: [] },
+          columns: ["LEFT"],
+          columnStacks: { LEFT: [] },
         },
         MOBILE: {
           width: 100,
@@ -61,8 +60,8 @@ export const ImportStackContainer = () => {
           paddingVertical: 6,
           marginTop: 0,
           marginBottom: 0,
-          columns: [initialStackId],
-          columnStacks: { [initialStackId]: [] },
+          columns: ["LEFT"],
+          columnStacks: { LEFT: [] },
         },
       },
     };
