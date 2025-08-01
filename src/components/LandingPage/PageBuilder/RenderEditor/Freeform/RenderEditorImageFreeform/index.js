@@ -98,7 +98,7 @@ export const RenderEditorImageFreeform = ({ $item }) => {
     >
       <ImageWrapper $w={size} $aspectRatio={aspectRatio}>
         {_.isNil(value) ? (
-          <BlankImagePlaceHolder $angle={angle} />
+          <BlankImagePlaceHolder $angle={angle} $size={size} />
         ) : (
           <Image
             alt={MAIN_ATTR?.IMAGE_ALT}

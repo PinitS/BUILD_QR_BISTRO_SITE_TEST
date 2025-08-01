@@ -1,3 +1,5 @@
+import { DESIGN_SIZE } from "./DESIGN_SIZE";
+
 export const RESIZE_OPTIONS = [
   { label: "fill", value: "fill" },
   { label: "contain", value: "contain" },
@@ -44,6 +46,6 @@ export const FILTER_OPTIONS_RANGE = {
 };
 
 export const LIMIT_IMAGE_SIZE = {
-  DESKTOP: 1024 / 2,
-  MOBILE: 425 / 2,
+  DESKTOP: DESIGN_SIZE?.DESKTOP / 2,
+  MOBILE: DESIGN_SIZE?.MOBILE / 2,
 };
