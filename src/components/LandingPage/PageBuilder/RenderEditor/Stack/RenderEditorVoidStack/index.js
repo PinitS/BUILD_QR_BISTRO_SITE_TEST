@@ -8,6 +8,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
+  flex-direction: ${({ $direction = "center" }) => $direction};
   justify-content: ${({ $justifyContent = "center" }) => $justifyContent};
   align-items: ${({ $alignItems = "center" }) => $alignItems};
   gap: ${({ $spacing = 0 }) => $spacing}px;

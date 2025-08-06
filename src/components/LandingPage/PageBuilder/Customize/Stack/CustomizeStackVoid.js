@@ -10,6 +10,8 @@ import ICON_CUSTOMIZE_CLOSE from "@assets/svgs/PAGE_BUILDER/MENU/ICON_CUSTOMIZE_
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
 import { Slide } from "@components/LandingPage/Base/Slide";
 import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
+import { DIRECTION_OPTIONS } from "statics/PAGE_BUILDER_VOID";
+import { Select } from "@components/LandingPage/Base/Select";
 
 const Container = styled.div`
   display: flex;
@@ -97,7 +99,6 @@ export const CustomizeStackVoid = () => {
     });
   };
 
-  const width = watch("width");
   const spacing = watch("spacing");
   const direction = watch("direction");
   const alignItems = watch("alignItems");
@@ -195,22 +196,15 @@ export const CustomizeStackVoid = () => {
           </Text>
         </Button>
 
-        {/* <UploadFile
-          $setValue={setValue}
-          $value={value}
-          $aspectRatio={aspectRatio}
-          $backgroundColor={backgroundColor}
-        /> */}
-
-        {/* <Slide
-          $label="Size"
+        <Select
+          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"
-          $name="size"
-          $min={50}
-          $max={_.get(LIMIT_IMAGE_SIZE, [selectedLayoutDesign])}
-          $valueIndicator={((size / _.get(LIMIT_IMAGE_SIZE, [selectedLayoutDesign])) * 100).toFixed(0)}
+          $options={DIRECTION_OPTIONS}
           $control={control}
-        /> */}
+          $name="direction"
+          $label="direction"
+        />
 
         <Slide
           $label="Spacing"
@@ -243,26 +237,6 @@ export const CustomizeStackVoid = () => {
         />
 
         {/* <Select
-          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-          $fontFamily="Sen"
-          $options={ASPECT_RATIO_LIST}
-          $control={control}
-          $name="aspectRatio"
-          $label="aspect ratio"
-        /> */}
-
-        {/* <Select
-          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-          $fontFamily="Sen"
-          $options={RESIZE_OPTIONS}
-          $control={control}
-          $name="resize"
-          $label="resize"
-        /> */}
-
-        {/* <Select
           $disabled={_.isNil(value)}
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
@@ -283,15 +257,6 @@ export const CustomizeStackVoid = () => {
           $isShowValue={filterType !== "NONE"}
           $valueIndicator={((filterValue / attributeFilterValue?.max) * 100).toFixed(0)}
           $control={control}
-        /> */}
-
-        {/* <ColorPicker
-          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-          $control={control}
-          $fontFamily="Sen"
-          $name="backgroundColor"
-          $label={`background color`}
         /> */}
       </ContainerInput>
     </Container>
