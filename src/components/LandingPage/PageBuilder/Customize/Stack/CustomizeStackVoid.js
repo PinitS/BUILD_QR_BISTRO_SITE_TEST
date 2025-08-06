@@ -8,18 +8,8 @@ import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 import ICON_CUSTOMIZE_CLOSE from "@assets/svgs/PAGE_BUILDER/MENU/ICON_CUSTOMIZE_CLOSE.svg";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
-import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
-import { Select } from "@components/LandingPage/Base/Select";
-import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
-import {
-  ASPECT_RATIO_LIST,
-  FILTER_OPTIONS,
-  FILTER_OPTIONS_RANGE,
-  LIMIT_IMAGE_SIZE,
-  RESIZE_OPTIONS,
-} from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
-import { UploadFile } from "@components/LandingPage/Base/UploadFile";
 import { Slide } from "@components/LandingPage/Base/Slide";
+import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
 
 const Container = styled.div`
   display: flex;
@@ -56,23 +46,24 @@ const ContainerInput = styled.div`
   overflow-y: scroll;
 `;
 
-export const CustomizeFreeformImage = () => {
+export const CustomizeStackVoid = () => {
   const dispatch = useDispatch();
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
-  const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
+  const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
 
-  const selectItem = _.chain(freeformBlocks)
+  const selectItem = _.chain(stackBlocks)
     .find((item) => {
       return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
     })
     .value();
 
-  const indexItem = _.findIndex(freeformBlocks, (item) => {
+  const indexItem = _.findIndex(stackBlocks, (item) => {
     return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
   });
 
   const attribute = _.get(selectItem, ["attribute", selectedLayoutDesign]);
+
   const {
     control,
     watch,
@@ -81,14 +72,12 @@ export const CustomizeFreeformImage = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      value: _.get(selectItem, ["value"]),
-      aspectRatio: _.get(selectItem, ["aspectRatio"]),
-      resize: String(_.get(selectItem, ["resize"])),
-      filterType: _.get(selectItem, ["filterType"]),
-      filterValue: _.get(selectItem, ["filterValue"]),
-      radius: _.get(selectItem, ["radius"]),
-      size: _.get(attribute, ["size"]),
-      backgroundColor: _.get(selectItem, ["backgroundColor"]),
+      spacing: String(_.get(attribute, ["spacing"])),
+      direction: _.get(attribute, ["direction"]),
+      alignItems: _.get(attribute, ["alignItems"]),
+      justifyContent: _.get(attribute, ["justifyContent"]),
+      paddingHorizontal: String(_.get(attribute, ["paddingHorizontal"])),
+      paddingVertical: String(_.get(attribute, ["paddingVertical"])),
     },
   });
 
@@ -98,49 +87,41 @@ export const CustomizeFreeformImage = () => {
   };
 
   const handleRemoveItem = () => {
-    const updateFreeformBlocks = _.filter(freeformBlocks, (item, index) => {
+    const updateStackBlocks = _.filter(stackBlocks, (item, index) => {
       return _.get(selectItem, ["id"]) !== _.get(item, ["id"]);
     });
     const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false, id: null };
     batch(() => {
-      dispatch(setFreeformBlocks(updateFreeformBlocks));
+      dispatch(setStackBlocks(updateStackBlocks));
       dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
     });
   };
 
-  const value = watch("value");
-  const aspectRatio = watch("aspectRatio");
-  const resize = watch("resize");
-  const radius = watch("radius");
-  const filterType = watch("filterType");
-  const filterValue = watch("filterValue");
-
-  const size = watch("size");
-  const backgroundColor = watch("backgroundColor");
+  const width = watch("width");
+  const spacing = watch("spacing");
+  const direction = watch("direction");
+  const alignItems = watch("alignItems");
+  const justifyContent = watch("justifyContent");
+  const paddingHorizontal = watch("paddingHorizontal");
+  const paddingVertical = watch("paddingVertical");
 
   useEffect(() => {
     if (indexItem === -1) {
       return;
     }
-    const updateFilterValue =
-      filterType !== _.get(selectItem, ["filterType"])
-        ? _.get(FILTER_OPTIONS_RANGE, [filterType, "default"])
-        : filterValue;
 
     const updateSelectItem = {
       ...selectItem,
-      value,
-      aspectRatio,
-      resize,
-      radius: Number(radius),
-      filterType,
-      filterValue: updateFilterValue,
-      backgroundColor,
       attribute: {
         ...selectItem?.attribute,
         [selectedLayoutDesign]: {
           ...selectItem?.attribute[selectedLayoutDesign],
-          size: Number(size),
+          spacing: Number(spacing),
+          direction,
+          alignItems,
+          justifyContent,
+          paddingHorizontal: Number(paddingHorizontal),
+          paddingVertical: Number(paddingVertical),
         },
       },
     };
@@ -149,28 +130,25 @@ export const CustomizeFreeformImage = () => {
       return;
     }
 
-    const updatedBlocks = [...freeformBlocks];
+    const updatedBlocks = [...stackBlocks];
     updatedBlocks[indexItem] = {
       ...updateSelectItem,
     };
-    dispatch(setFreeformBlocks(updatedBlocks));
-  }, [value, aspectRatio, resize, radius, size, filterType, filterValue, backgroundColor]);
+
+    dispatch(setStackBlocks(updatedBlocks));
+  }, [spacing, direction, alignItems, justifyContent, paddingHorizontal, paddingVertical]);
 
   useEffect(() => {
     const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
     reset({
-      value: _.get(selectItem, ["value"]),
-      aspectRatio: _.get(selectItem, ["aspectRatio"]),
-      resize: String(_.get(selectItem, ["resize"])),
-      radius: _.get(selectItem, ["radius"]),
-      size: _.get(attributeDevice, ["size"]),
-      filterType: _.get(selectItem, ["filterType"]),
-      filterValue: _.get(selectItem, ["filterValue"]),
-      backgroundColor: _.get(selectItem, ["backgroundColor"]),
+      spacing: _.get(attributeDevice, ["spacing"]),
+      direction: _.get(attributeDevice, ["direction"]),
+      alignItems: _.get(attributeDevice, ["alignItems"]),
+      justifyContent: _.get(attributeDevice, ["justifyContent"]),
+      paddingHorizontal: _.get(attributeDevice, ["paddingHorizontal"]),
+      paddingVertical: _.get(attributeDevice, ["paddingVertical"]),
     });
   }, [selectedLayoutDesign, selectItem]);
-
-  const attributeFilterValue = _.get(FILTER_OPTIONS_RANGE, [filterType]);
 
   return (
     <Container>
@@ -184,7 +162,7 @@ export const CustomizeFreeformImage = () => {
             $fontWeight={500}
             $align="start"
           >
-            Customize Freeform (Image)
+            Customize Stack (Void)
           </Text>
           <Button $height={24} $isSquare $mt={4} onClick={() => handleCloseCustomize()}>
             <ICON_CUSTOMIZE_CLOSE
@@ -217,14 +195,14 @@ export const CustomizeFreeformImage = () => {
           </Text>
         </Button>
 
-        <UploadFile
+        {/* <UploadFile
           $setValue={setValue}
           $value={value}
           $aspectRatio={aspectRatio}
           $backgroundColor={backgroundColor}
-        />
+        /> */}
 
-        <Slide
+        {/* <Slide
           $label="Size"
           $fontFamily="Sen"
           $name="size"
@@ -232,19 +210,39 @@ export const CustomizeFreeformImage = () => {
           $max={_.get(LIMIT_IMAGE_SIZE, [selectedLayoutDesign])}
           $valueIndicator={((size / _.get(LIMIT_IMAGE_SIZE, [selectedLayoutDesign])) * 100).toFixed(0)}
           $control={control}
-        />
+        /> */}
 
         <Slide
-          $label="Radius"
+          $label="Spacing"
           $fontFamily="Sen"
-          $name="radius"
+          $name="spacing"
           $min={0}
-          $max={50}
-          $valueIndicator={(radius * 2).toFixed(0)}
+          $max={250}
+          $valueIndicator={spacing}
           $control={control}
         />
 
-        <Select
+        <Slide
+          $label="Padding (Horizontal)"
+          $fontFamily="Sen"
+          $name="paddingHorizontal"
+          $min={0}
+          $max={250}
+          $valueIndicator={paddingHorizontal}
+          $control={control}
+        />
+
+        <Slide
+          $label="Padding (Vertical)"
+          $fontFamily="Sen"
+          $name="paddingVertical"
+          $min={0}
+          $max={250}
+          $valueIndicator={paddingVertical}
+          $control={control}
+        />
+
+        {/* <Select
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"
@@ -252,9 +250,9 @@ export const CustomizeFreeformImage = () => {
           $control={control}
           $name="aspectRatio"
           $label="aspect ratio"
-        />
+        /> */}
 
-        <Select
+        {/* <Select
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"
@@ -262,9 +260,9 @@ export const CustomizeFreeformImage = () => {
           $control={control}
           $name="resize"
           $label="resize"
-        />
+        /> */}
 
-        <Select
+        {/* <Select
           $disabled={_.isNil(value)}
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
@@ -273,9 +271,9 @@ export const CustomizeFreeformImage = () => {
           $control={control}
           $name="filterType"
           $label="filter"
-        />
+        /> */}
 
-        <Slide
+        {/* <Slide
           $disabled={filterType === "NONE"}
           $label="Filter value"
           $fontFamily="Sen"
@@ -285,16 +283,16 @@ export const CustomizeFreeformImage = () => {
           $isShowValue={filterType !== "NONE"}
           $valueIndicator={((filterValue / attributeFilterValue?.max) * 100).toFixed(0)}
           $control={control}
-        />
+        /> */}
 
-        <ColorPicker
+        {/* <ColorPicker
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $control={control}
           $fontFamily="Sen"
           $name="backgroundColor"
           $label={`background color`}
-        />
+        /> */}
       </ContainerInput>
     </Container>
   );

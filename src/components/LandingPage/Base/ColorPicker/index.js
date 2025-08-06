@@ -46,7 +46,7 @@ const StyledInput = styled.input`
   border-width: 2px;
   border-style: solid;
   border-color: ${({ $error }) => ($error ? `${MAIN_COLORS?.MAIN?.ERROR_COLOR}` : `#f2f2f2`)};
-  font-family: "IBMPlexSansThai";
+  font-family: "Sen";
   font-size: 14px;
   color: ${({ $error, $color }) => ($error ? MAIN_COLORS?.MAIN?.ERROR_COLOR : $color)};
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
@@ -143,7 +143,7 @@ export const ColorPicker = ({
   $labelColor = MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR,
   $color = MAIN_COLORS?.MAIN?.INPUT_DEFAULT_COLOR,
   $isShowLabel = true,
-  $fontFamily = "IBMPlexSansThai",
+  $fontFamily = "Sen",
   $spacing = 8,
   $columns = 8,
 }) => {
@@ -160,7 +160,7 @@ export const ColorPicker = ({
                   $fontFamily={$fontFamily}
                   $color={$labelColor}
                   $fontSize={14}
-                  $textTransform="uppercase"
+                  $textTransform="capitalize"
                   $fontWeight={500}
                 >
                   {$label}

@@ -6,10 +6,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CUSTOMIZE_VARIANTS } from "statics/VARIANTS";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import { CustomizeFreeformText } from "@components/LandingPage/PageBuilder/Customize/Freeform/CustomizeFreeformText";
-import { CustomizeFreeformImage } from "./Freeform/CustomizeFreeformImage";
+import { CustomizeFreeformImage } from "@components/LandingPage/PageBuilder/Customize/Freeform/CustomizeFreeformImage";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
 import { useClickOutside } from "@hooks/useClickOutside";
-import { CustomizeBackground } from "./Background/CustomizeBackground";
+import { CustomizeBackground } from "@components/LandingPage/PageBuilder/Customize/Background/CustomizeBackground";
+import { CustomizeStackVoid } from "@components/LandingPage/PageBuilder/Customize/Stack/CustomizeStackVoid";
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -54,6 +55,8 @@ export const ContainerCustomizeBlock = () => {
                 return <CustomizeFreeformImage />;
               case "CUSTOMIZE-BACKGROUND":
                 return <CustomizeBackground />;
+              case "CUSTOMIZE-STACK-VOID":
+                return <CustomizeStackVoid />;
 
               default:
                 return null;

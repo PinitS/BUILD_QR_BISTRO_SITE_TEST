@@ -19,7 +19,7 @@ export const Select = ({
   $color = MAIN_COLORS?.MAIN?.INPUT_DEFAULT_COLOR,
   $labelColor = MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR,
   $height = MAIN_SIZE.INPUT_DEFAULT_HEIGHT,
-  $fontFamily = "IBMPlexSansThai",
+  $fontFamily = "Sen",
   $control,
   $options = [],
   $isMulti = false,
@@ -47,7 +47,7 @@ export const Select = ({
                   $fontFamily={$fontFamily}
                   $color={$labelColor}
                   $fontSize={14}
-                  $textTransform="uppercase"
+                  $textTransform="capitalize"
                   $fontWeight={500}
                 >
                   {$label}
@@ -75,7 +75,7 @@ export const Select = ({
                     ...base,
                     height: $height,
                     borderRadius: 8,
-                    fontFamily: "IBMPlexSansThai",
+                    fontFamily: "Sen",
                     fontSize: 16,
                     borderColor: state.isFocused ? "#f2f2f2" : base.borderColor,
                     boxShadow: "none",
@@ -86,7 +86,7 @@ export const Select = ({
                   option: (base, state) => ({
                     ...base,
                     backgroundColor: state.isSelected ? "#f2f2f2" : state.isFocused ? "#f2f2f2" : "#fff",
-                    fontFamily: "IBMPlexSansThai",
+                    fontFamily: $fontFamily,
                     fontSize: 14,
                     color: $color,
                     cursor: "pointer",

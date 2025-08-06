@@ -6,7 +6,7 @@ export const Text = styled.span.attrs(({ $ellipsis = true, $maxLines = 1 }) => (
   $maxLines,
 }))`
   color: ${({ $color = MAIN_COLORS?.MAIN?.TEXT_COLOR }) => $color};
-  font-family: ${({ $fontFamily = "IBMPlexSansThai" }) => $fontFamily};
+  font-family: ${({ $fontFamily = "Sen" }) => $fontFamily};
   font-weight: ${({ $fontWeight = 400 }) => Number($fontWeight)};
 
   font-size: ${({ $fontSize = 16 }) => (typeof $fontSize === "number" ? `${$fontSize}px` : $fontSize)};

@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { Button } from "@components/LandingPage/Base/Button";
-import { ImageWrapper } from "../Image/ImageWrapper";
 import { BlankImagePlaceHolder } from "../Image/BlankImagePlaceHolder";
 import { getAngleFromAspectRatio } from "@utils/getAngleFromAspectRatio";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";

@@ -60,17 +60,12 @@ const ContainerText = styled.div`
   height: 16px;
 `;
 
-export const Slide = ({
-  $control,
+export const Radio = ({
   $name,
   $label = "",
   $labelColor = MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR,
-  $min = 1,
-  $max,
   $disabled = false,
-  $valueIndicator,
   $isShowLabel = true,
-  $isShowValue = true,
   $fontFamily = "Sen",
 }) => {
   return (
@@ -88,7 +83,7 @@ export const Slide = ({
           </Text>
         )}
         <ContainerSlide>
-          <Controller
+          {/* <Controller
             control={$control}
             name={$name}
             render={({ field: { value, onChange } }) => {
@@ -120,7 +115,7 @@ export const Slide = ({
                         $fontFamily={$fontFamily}
                         $color={$labelColor}
                         $fontSize={14}
-                        $textTransform="capitalize"
+                        $textTransform="uppercase"
                         $fontWeight={500}
                       >
                         {$valueIndicator}
@@ -130,7 +125,7 @@ export const Slide = ({
                 </React.Fragment>
               );
             }}
-          />
+          /> */}
         </ContainerSlide>
       </React.Fragment>
     </Container>

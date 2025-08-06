@@ -1,6 +1,5 @@
 import { Button } from "@components/LandingPage/Base/Button";
 import { Text } from "@components/LandingPage/Base/Text";
-import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
 import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
 import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
 import React from "react";
@@ -40,28 +39,22 @@ export const ImportStackContainer = () => {
       type: "VOID",
       attribute: {
         DESKTOP: {
-          width: 100,
-          height: 200,
-          backgroundColor: "transparent",
-          borderRadius: 0,
-          paddingHorizontal: 6,
-          paddingVertical: 6,
-          marginTop: 0,
-          marginBottom: 0,
-          columns: ["LEFT"],
-          columnStacks: { LEFT: [] },
+          spacing: 0,
+          direction: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          paddingHorizontal: 0,
+          paddingVertical: 0,
+          columns: { LEFT: { height: 200, backgroundColor: "transparent" }, RIGHT: null },
         },
         MOBILE: {
-          width: 100,
-          height: 200,
-          backgroundColor: "transparent",
-          borderRadius: 0,
-          paddingHorizontal: 6,
-          paddingVertical: 6,
-          marginTop: 0,
-          marginBottom: 0,
-          columns: ["LEFT"],
-          columnStacks: { LEFT: [] },
+          spacing: 20,
+          direction: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          paddingHorizontal: 0,
+          paddingVertical: 0,
+          columns: { LEFT: { height: 200 }, RIGHT: null },
         },
       },
     };

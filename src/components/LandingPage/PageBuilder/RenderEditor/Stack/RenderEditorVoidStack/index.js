@@ -8,19 +8,24 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  width: ${({ $width = 100 }) => $width}%;
-  height: ${({ $height = 200 }) => (typeof $height === "number" ? `${$height}px` : $height)};
-  background: ${({ $backgroundColor = 100 }) => $backgroundColor};
-  border-radius: ${({ $borderRadius = 0 }) => $borderRadius};
+  justify-content: ${({ $justifyContent = "center" }) => $justifyContent};
+  align-items: ${({ $alignItems = "center" }) => $alignItems};
+  gap: ${({ $spacing = 0 }) => $spacing}px;
+  width: 100%;
+  height: auto;
+  padding-top: ${({ $paddingVertical = 0 }) => $paddingVertical}px;
+  padding-bottom: ${({ $paddingVertical = 0 }) => $paddingVertical}px;
+
+  padding-left: ${({ $paddingHorizontal = 0 }) => $paddingHorizontal}px;
+  padding-right: ${({ $paddingHorizontal = 0 }) => $paddingHorizontal}px;
+
   border-width: 1px;
   border-style: dashed;
   border-color: ${({ $isActive = false }) =>
     $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE};
   flex-shrink: 0;
   overflow: hidden;
+  box-sizing: border-box;
 `;
 
 export const RenderEditorVoidStack = ({ $item }) => {
@@ -30,11 +35,15 @@ export const RenderEditorVoidStack = ({ $item }) => {
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
 
   const id = _.get($item, ["id"]);
+
   const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
-  const width = _.get(attribute, ["width"]);
-  const height = _.get(attribute, ["height"]);
-  const backgroundColor = _.get(attribute, ["backgroundColor"]);
-  const borderRadius = _.get(attribute, ["borderRadius"]);
+  const spacing = _.get(attribute, ["spacing"]);
+  const direction = _.get(attribute, ["direction"]);
+  const alignItems = _.get(attribute, ["alignItems"]);
+  const justifyContent = _.get(attribute, ["justifyContent"]);
+  const paddingHorizontal = _.get(attribute, ["paddingHorizontal"]);
+  const paddingVertical = _.get(attribute, ["paddingVertical"]);
+  const columns = _.get(attribute, ["columns"]);
 
   const isActive = _.get(customizeBlockAttr, ["id"]) === id && _.get(customizeBlockAttr, ["isVisible"]);
 
@@ -51,11 +60,28 @@ export const RenderEditorVoidStack = ({ $item }) => {
   return (
     <Container
       onClick={() => handleSelectMainVoidBlock()}
-      $width={width}
-      $height={height}
-      $backgroundColor={backgroundColor}
-      $borderRadius={borderRadius}
+      $spacing={spacing}
+      $direction={direction}
+      $alignItems={alignItems}
+      $justifyContent={justifyContent}
+      $paddingHorizontal={paddingHorizontal}
+      $paddingVertical={paddingVertical}
       $isActive={isActive}
-    ></Container>
+    >
+      {_.map(columns, (colItem, colIndex) => {
+        // console.log("colIndex :>> ", colIndex);
+        // console.log("colItem :>> ", colItem);
+        return (
+          <div
+            key={colIndex}
+            style={{
+              width: "100%",
+              height: colIndex === "LEFT" ? 200 : 100,
+              backgroundColor: colIndex === "LEFT" ? "red" : "green",
+            }}
+          />
+        );
+      })}
+    </Container>
   );
 };
