@@ -10,8 +10,7 @@ import ICON_CUSTOMIZE_CLOSE from "@assets/svgs/PAGE_BUILDER/MENU/ICON_CUSTOMIZE_
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
 import { Slide } from "@components/LandingPage/Base/Slide";
 import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
-import { DIRECTION_OPTIONS } from "statics/PAGE_BUILDER_VOID";
-import { Select } from "@components/LandingPage/Base/Select";
+import { COLUMN_HEIGHT_OPTIONS_RANGE } from "statics/PAGE_BUILDER_VOID";
 
 const Container = styled.div`
   display: flex;
@@ -41,11 +40,10 @@ const Line = styled.div`
 `;
 
 const ContainerInput = styled.div`
-  height: 350px;
   display: flex;
   flex-direction: column;
   gap: ${MAIN_SIZE?.SPACING}px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 `;
 
 export const CustomizeStackVoid = () => {
@@ -74,10 +72,9 @@ export const CustomizeStackVoid = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      height: String(_.get(attribute, ["height"])),
       spacing: String(_.get(attribute, ["spacing"])),
-      direction: _.get(attribute, ["direction"]),
-      alignItems: _.get(attribute, ["alignItems"]),
-      justifyContent: _.get(attribute, ["justifyContent"]),
+      columns: String(_.get(attribute, ["columns"])),
       paddingHorizontal: String(_.get(attribute, ["paddingHorizontal"])),
       paddingVertical: String(_.get(attribute, ["paddingVertical"])),
     },
@@ -99,10 +96,10 @@ export const CustomizeStackVoid = () => {
     });
   };
 
+  const height = watch("height");
   const spacing = watch("spacing");
-  const direction = watch("direction");
-  const alignItems = watch("alignItems");
-  const justifyContent = watch("justifyContent");
+  const columns = watch("columns");
+
   const paddingHorizontal = watch("paddingHorizontal");
   const paddingVertical = watch("paddingVertical");
 
@@ -117,10 +114,9 @@ export const CustomizeStackVoid = () => {
         ...selectItem?.attribute,
         [selectedLayoutDesign]: {
           ...selectItem?.attribute[selectedLayoutDesign],
+          height: Number(height),
           spacing: Number(spacing),
-          direction,
-          alignItems,
-          justifyContent,
+          columns: Number(columns),
           paddingHorizontal: Number(paddingHorizontal),
           paddingVertical: Number(paddingVertical),
         },
@@ -137,15 +133,14 @@ export const CustomizeStackVoid = () => {
     };
 
     dispatch(setStackBlocks(updatedBlocks));
-  }, [spacing, direction, alignItems, justifyContent, paddingHorizontal, paddingVertical]);
+  }, [height, columns, spacing, paddingHorizontal, paddingVertical]);
 
   useEffect(() => {
     const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
     reset({
+      height: _.get(attributeDevice, ["height"]),
+      columns: _.get(attributeDevice, ["columns"]),
       spacing: _.get(attributeDevice, ["spacing"]),
-      direction: _.get(attributeDevice, ["direction"]),
-      alignItems: _.get(attributeDevice, ["alignItems"]),
-      justifyContent: _.get(attributeDevice, ["justifyContent"]),
       paddingHorizontal: _.get(attributeDevice, ["paddingHorizontal"]),
       paddingVertical: _.get(attributeDevice, ["paddingVertical"]),
     });
@@ -153,112 +148,96 @@ export const CustomizeStackVoid = () => {
 
   return (
     <Container>
-      <ContainerHeader>
-        <ContainerTitle>
-          <Text
-            $fontFamily="Sen"
-            $textTransform="capitalize"
-            $color={MAIN_COLORS?.MAIN?.CONTAINER_CUSTOMIZE_TEXT}
-            $fontSize={16}
-            $fontWeight={500}
-            $align="start"
+      <React.Fragment>
+        <ContainerHeader>
+          <ContainerTitle>
+            <Text
+              $fontFamily="Sen"
+              $textTransform="capitalize"
+              $color={MAIN_COLORS?.MAIN?.CONTAINER_CUSTOMIZE_TEXT}
+              $fontSize={16}
+              $fontWeight={500}
+              $align="start"
+            >
+              Customize Stack (Void)
+            </Text>
+            <Button $height={24} $isSquare $mt={4} onClick={() => handleCloseCustomize()}>
+              <ICON_CUSTOMIZE_CLOSE
+                width={18}
+                height={18}
+                stroke={MAIN_COLORS?.MAIN?.CONTAINER_CUSTOMIZE_TEXT}
+              />
+            </Button>
+          </ContainerTitle>
+
+          <Line />
+        </ContainerHeader>
+        <ContainerInput>
+          <Button
+            $borderRadius={8}
+            $height={MAIN_SIZE?.INPUT_DEFAULT_HEIGHT}
+            $backgroundColor={MAIN_COLORS?.MAIN?.ERROR_COLOR}
+            $width={"100%"}
+            onClick={() => handleRemoveItem()}
           >
-            Customize Stack (Void)
-          </Text>
-          <Button $height={24} $isSquare $mt={4} onClick={() => handleCloseCustomize()}>
-            <ICON_CUSTOMIZE_CLOSE
-              width={18}
-              height={18}
-              stroke={MAIN_COLORS?.MAIN?.CONTAINER_CUSTOMIZE_TEXT}
-            />
+            <Text
+              $fontFamily="Sen"
+              $textTransform="capitalize"
+              $color={MAIN_COLORS?.MAIN?.CONTAINER_CUSTOMIZE_TEXT}
+              $fontSize={16}
+              $fontWeight={400}
+              $align="start"
+            >
+              Delete
+            </Text>
           </Button>
-        </ContainerTitle>
-
-        <Line />
-      </ContainerHeader>
-      <ContainerInput>
-        <Button
-          $borderRadius={8}
-          $height={MAIN_SIZE?.INPUT_DEFAULT_HEIGHT}
-          $backgroundColor={MAIN_COLORS?.MAIN?.ERROR_COLOR}
-          $width={"100%"}
-          onClick={() => handleRemoveItem()}
-        >
-          <Text
+          <Slide
+            $label="columns"
             $fontFamily="Sen"
-            $textTransform="capitalize"
-            $color={MAIN_COLORS?.MAIN?.CONTAINER_CUSTOMIZE_TEXT}
-            $fontSize={16}
-            $fontWeight={400}
-            $align="start"
-          >
-            Delete
-          </Text>
-        </Button>
-
-        <Select
-          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-          $fontFamily="Sen"
-          $options={DIRECTION_OPTIONS}
-          $control={control}
-          $name="direction"
-          $label="direction"
-        />
-
-        <Slide
-          $label="Spacing"
-          $fontFamily="Sen"
-          $name="spacing"
-          $min={0}
-          $max={250}
-          $valueIndicator={spacing}
-          $control={control}
-        />
-
-        <Slide
-          $label="Padding (Horizontal)"
-          $fontFamily="Sen"
-          $name="paddingHorizontal"
-          $min={0}
-          $max={250}
-          $valueIndicator={paddingHorizontal}
-          $control={control}
-        />
-
-        <Slide
-          $label="Padding (Vertical)"
-          $fontFamily="Sen"
-          $name="paddingVertical"
-          $min={0}
-          $max={250}
-          $valueIndicator={paddingVertical}
-          $control={control}
-        />
-
-        {/* <Select
-          $disabled={_.isNil(value)}
-          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-          $fontFamily="Sen"
-          $options={FILTER_OPTIONS}
-          $control={control}
-          $name="filterType"
-          $label="filter"
-        /> */}
-
-        {/* <Slide
-          $disabled={filterType === "NONE"}
-          $label="Filter value"
-          $fontFamily="Sen"
-          $name="filterValue"
-          $min={attributeFilterValue?.min}
-          $max={attributeFilterValue?.max}
-          $isShowValue={filterType !== "NONE"}
-          $valueIndicator={((filterValue / attributeFilterValue?.max) * 100).toFixed(0)}
-          $control={control}
-        /> */}
-      </ContainerInput>
+            $name="columns"
+            $min={1}
+            $max={4}
+            $valueIndicator={columns}
+            $control={control}
+          />
+          <Slide
+            $label="Height"
+            $fontFamily="Sen"
+            $name="height"
+            $min={_.get(COLUMN_HEIGHT_OPTIONS_RANGE, [selectedLayoutDesign, "min"])}
+            $max={_.get(COLUMN_HEIGHT_OPTIONS_RANGE, [selectedLayoutDesign, "max"])}
+            $valueIndicator={height}
+            $control={control}
+          />
+          <Slide
+            $label="Spacing"
+            $fontFamily="Sen"
+            $name="spacing"
+            $min={0}
+            $max={64}
+            $valueIndicator={spacing}
+            $control={control}
+          />
+          <Slide
+            $label="Padding (Horizontal)"
+            $fontFamily="Sen"
+            $name="paddingHorizontal"
+            $min={0}
+            $max={64}
+            $valueIndicator={paddingHorizontal}
+            $control={control}
+          />
+          <Slide
+            $label="Padding (Vertical)"
+            $fontFamily="Sen"
+            $name="paddingVertical"
+            $min={0}
+            $max={64}
+            $valueIndicator={paddingVertical}
+            $control={control}
+          />
+        </ContainerInput>
+      </React.Fragment>
     </Container>
   );
 };

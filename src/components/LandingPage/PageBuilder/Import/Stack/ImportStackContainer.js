@@ -2,9 +2,11 @@ import { Button } from "@components/LandingPage/Base/Button";
 import { Text } from "@components/LandingPage/Base/Text";
 import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
 import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
+import _ from "lodash";
 import React from "react";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
+import { COLUMN_HEIGHT_OPTIONS_RANGE } from "statics/PAGE_BUILDER_VOID";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 
@@ -39,22 +41,30 @@ export const ImportStackContainer = () => {
       type: "VOID",
       attribute: {
         DESKTOP: {
-          spacing: 0,
-          direction: "row",
-          alignItems: "center",
-          justifyContent: "center",
-          paddingHorizontal: 0,
-          paddingVertical: 0,
-          columns: { LEFT: { height: 200, backgroundColor: "transparent" }, RIGHT: null },
+          height: _.get(COLUMN_HEIGHT_OPTIONS_RANGE, ["DESKTOP", "default"]),
+          spacing: 8,
+          paddingHorizontal: 8,
+          paddingVertical: 8,
+          columns: 2,
+          columnItems: [
+            { type: null, isVisible: true, attribute: null },
+            { type: null, isVisible: true, attribute: null },
+            { type: null, isVisible: true, attribute: null },
+            { type: null, isVisible: true, attribute: null },
+          ],
         },
         MOBILE: {
-          spacing: 20,
-          direction: "row",
-          alignItems: "center",
-          justifyContent: "center",
-          paddingHorizontal: 0,
-          paddingVertical: 0,
-          columns: { LEFT: { height: 200 }, RIGHT: null },
+          height: _.get(COLUMN_HEIGHT_OPTIONS_RANGE, ["MOBILE", "default"]),
+          spacing: 4,
+          paddingHorizontal: 4,
+          paddingVertical: 4,
+          columns: 2,
+          columnItems: [
+            { type: null, isVisible: true, attribute: null },
+            { type: null, isVisible: true, attribute: null },
+            { type: null, isVisible: true, attribute: null },
+            { type: null, isVisible: true, attribute: null },
+          ],
         },
       },
     };

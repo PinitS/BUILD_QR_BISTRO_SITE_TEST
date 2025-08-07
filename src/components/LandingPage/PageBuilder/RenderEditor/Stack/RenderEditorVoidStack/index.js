@@ -7,10 +7,10 @@ import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: ${({ $direction = "center" }) => $direction};
-  justify-content: ${({ $justifyContent = "center" }) => $justifyContent};
-  align-items: ${({ $alignItems = "center" }) => $alignItems};
+  display: grid;
+  grid-template-columns: ${({ $columns = 1 }) => `repeat(${$columns}, 1fr)`};
+  align-items: center;
+  justify-content: center;
   gap: ${({ $spacing = 0 }) => $spacing}px;
   width: 100%;
   height: auto;
@@ -38,16 +38,13 @@ export const RenderEditorVoidStack = ({ $item }) => {
   const id = _.get($item, ["id"]);
 
   const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
+  const columns = _.get(attribute, ["columns"]);
+  const height = _.get(attribute, ["height"]);
   const spacing = _.get(attribute, ["spacing"]);
-  const direction = _.get(attribute, ["direction"]);
-  const alignItems = _.get(attribute, ["alignItems"]);
-  const justifyContent = _.get(attribute, ["justifyContent"]);
   const paddingHorizontal = _.get(attribute, ["paddingHorizontal"]);
   const paddingVertical = _.get(attribute, ["paddingVertical"]);
-  const columns = _.get(attribute, ["columns"]);
 
   const isActive = _.get(customizeBlockAttr, ["id"]) === id && _.get(customizeBlockAttr, ["isVisible"]);
-
   const handleSelectMainVoidBlock = () => {
     const updateSelectedStackBlock = isActive
       ? { ...customizeBlockAttr, isVisible: false }
@@ -62,14 +59,12 @@ export const RenderEditorVoidStack = ({ $item }) => {
     <Container
       onClick={() => handleSelectMainVoidBlock()}
       $spacing={spacing}
-      $direction={direction}
-      $alignItems={alignItems}
-      $justifyContent={justifyContent}
+      $columns={columns}
       $paddingHorizontal={paddingHorizontal}
       $paddingVertical={paddingVertical}
       $isActive={isActive}
     >
-      {_.map(columns, (colItem, colIndex) => {
+      {_.map(new Array(columns), (colItem, colIndex) => {
         // console.log("colIndex :>> ", colIndex);
         // console.log("colItem :>> ", colItem);
         return (
@@ -77,7 +72,7 @@ export const RenderEditorVoidStack = ({ $item }) => {
             key={colIndex}
             style={{
               width: "100%",
-              height: colIndex === "LEFT" ? 200 : 100,
+              height,
               backgroundColor: colIndex === "LEFT" ? "red" : "green",
             }}
           />

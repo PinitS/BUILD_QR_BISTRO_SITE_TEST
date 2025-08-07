@@ -95,6 +95,7 @@ export const Slide = ({
               return (
                 <React.Fragment>
                   <StyledSlider
+                    step={1}
                     disabled={$disabled}
                     $disabled={$disabled}
                     value={value}
