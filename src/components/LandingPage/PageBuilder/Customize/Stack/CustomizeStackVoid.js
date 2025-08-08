@@ -1,16 +1,12 @@
 import { Button } from "@components/LandingPage/Base/Button";
 import { Text } from "@components/LandingPage/Base/Text";
 import _ from "lodash";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect } from "react";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 import ICON_CUSTOMIZE_CLOSE from "@assets/svgs/PAGE_BUILDER/MENU/ICON_CUSTOMIZE_CLOSE.svg";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
-import { Slide } from "@components/LandingPage/Base/Slide";
-import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
-import { COLUMN_HEIGHT_OPTIONS_RANGE } from "statics/PAGE_BUILDER_VOID";
 import { CustomizeBlock } from "./CustomizeBlock";
 import { setSelectedStackBlockColumnItem } from "@redux/reducers/selectedStackBlockColumnItem.reducers";
 
@@ -72,14 +68,22 @@ export const CustomizeStackVoid = () => {
     .value();
 
   const attribute = _.get(selectItem, ["attribute", selectedLayoutDesign]);
+  const columns = _.get(attribute, ["columns"]);
+  const columnItems = _.get(attribute, ["columnItems"]);
 
   const handleCloseCustomize = () => {
     const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false };
-    dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
+    batch(() => {
+      dispatch(setSelectedStackBlockColumnItem(null));
+      dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
+    });
   };
 
-  const handleSelectedColumnItem = ({ index }) => {
-    const updateSelectedStackBlockColumnItem = selectedStackBlockColumnItem === index ? null : index;
+  const handleSelectedColumnItem = ({ columnItemId }) => {
+    const updateSelectedStackBlockColumnItem =
+      selectedStackBlockColumnItem === columnItemId ? null : columnItemId;
+
+    console.log("updateSelectedStackBlockColumnItem :>> ", updateSelectedStackBlockColumnItem);
     dispatch(setSelectedStackBlockColumnItem(updateSelectedStackBlockColumnItem));
   };
 
@@ -119,38 +123,42 @@ export const CustomizeStackVoid = () => {
       </ContainerInput>
       <Line />
       <ContainerFooter $columns={Number(attribute?.columns)}>
-        {_.map(new Array(Number(attribute?.columns)), (item, index) => {
-          const isActive = index === selectedStackBlockColumnItem;
-          return (
-            <Button
-              key={index}
-              $borderRadius={6}
-              $height={32}
-              $backgroundColor={
-                isActive
-                  ? MAIN_COLORS?.MAIN?.BUTTON_CUSTOMIZE_COLUMN_ITEM_BACKGROUND_ACTIVE
-                  : MAIN_COLORS?.MAIN?.BUTTON_CUSTOMIZE_COLUMN_ITEM_BACKGROUND_INACTIVE
-              }
-              $width={"100%"}
-              onClick={() => handleSelectedColumnItem({ index: index })}
-            >
-              <Text
-                $fontFamily="Sen"
-                $textTransform="capitalize"
-                $color={
+        {_.chain(columnItems)
+          .take(columns)
+          .map((item, index) => {
+            const id = _.get(item, ["id"]);
+            const isActive = id === selectedStackBlockColumnItem;
+            return (
+              <Button
+                key={index}
+                $borderRadius={6}
+                $height={32}
+                $backgroundColor={
                   isActive
-                    ? MAIN_COLORS?.MAIN?.BUTTON_CUSTOMIZE_COLUMN_ITEM_TEXT_ACTIVE
-                    : MAIN_COLORS?.MAIN?.BUTTON_CUSTOMIZE_COLUMN_ITEM_TEXT_INACTIVE
+                    ? MAIN_COLORS?.MAIN?.BUTTON_CUSTOMIZE_COLUMN_ITEM_BACKGROUND_ACTIVE
+                    : MAIN_COLORS?.MAIN?.BUTTON_CUSTOMIZE_COLUMN_ITEM_BACKGROUND_INACTIVE
                 }
-                $fontSize={16}
-                $fontWeight={400}
-                $align="start"
+                $width={"100%"}
+                onClick={() => handleSelectedColumnItem({ columnItemId: id })}
               >
-                {index + 1}
-              </Text>
-            </Button>
-          );
-        })}
+                <Text
+                  $fontFamily="Sen"
+                  $textTransform="capitalize"
+                  $color={
+                    isActive
+                      ? MAIN_COLORS?.MAIN?.BUTTON_CUSTOMIZE_COLUMN_ITEM_TEXT_ACTIVE
+                      : MAIN_COLORS?.MAIN?.BUTTON_CUSTOMIZE_COLUMN_ITEM_TEXT_INACTIVE
+                  }
+                  $fontSize={16}
+                  $fontWeight={400}
+                  $align="start"
+                >
+                  {index + 1}
+                </Text>
+              </Button>
+            );
+          })
+          .value()}
       </ContainerFooter>
     </Container>
   );

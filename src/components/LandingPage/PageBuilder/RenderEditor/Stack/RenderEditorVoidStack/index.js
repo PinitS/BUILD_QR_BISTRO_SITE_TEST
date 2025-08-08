@@ -34,11 +34,17 @@ export const RenderEditorVoidStack = ({ $item }) => {
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
+  const selectedStackBlockColumnItem = useSelector(
+    (state) => state?.selectedStackBlockColumnItem?.data,
+    shallowEqual,
+  );
 
   const id = _.get($item, ["id"]);
 
   const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
   const columns = _.get(attribute, ["columns"]);
+  const columnItems = _.get(attribute, ["columnItems"]);
+
   const height = _.get(attribute, ["height"]);
   const spacing = _.get(attribute, ["spacing"]);
   const paddingHorizontal = _.get(attribute, ["paddingHorizontal"]);
@@ -55,6 +61,8 @@ export const RenderEditorVoidStack = ({ $item }) => {
     });
   };
 
+  console.log("selectedStackBlockColumnItem :>> ", selectedStackBlockColumnItem);
+
   return (
     <Container
       onClick={() => handleSelectMainVoidBlock()}
@@ -64,20 +72,39 @@ export const RenderEditorVoidStack = ({ $item }) => {
       $paddingVertical={paddingVertical}
       $isActive={isActive}
     >
-      {_.map(new Array(columns), (colItem, colIndex) => {
+      {_.chain(columnItems)
+        .take(columns)
+        .map((item, index) => {
+          const id = _.get(item, ["id"]);
+          const isActive = id === selectedStackBlockColumnItem;
+          return (
+            <div
+              key={index}
+              style={{
+                width: "100%",
+                height,
+                backgroundColor: isActive ? "red" : "black",
+              }}
+            />
+          );
+        })
+        .value()}
+      {/* {_.map(new Array(columns), (colItem, colIndex) => {
         // console.log("colIndex :>> ", colIndex);
         // console.log("colItem :>> ", colItem);
+
+        const isActive = selectedStackBlockColumnItem === colIndex;
         return (
           <div
             key={colIndex}
             style={{
               width: "100%",
               height,
-              backgroundColor: colIndex === "LEFT" ? "red" : "green",
+              backgroundColor: isActive ? "red" : "black",
             }}
           />
         );
-      })}
+      })} */}
     </Container>
   );
 };

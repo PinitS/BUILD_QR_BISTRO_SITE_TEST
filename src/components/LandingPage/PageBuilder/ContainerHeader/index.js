@@ -20,6 +20,7 @@ import { setSelectedLayoutDesign } from "@redux/reducers/selectedLayoutDesign.re
 import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
 import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
+import { setSelectedStackBlockColumnItem } from "@redux/reducers/selectedStackBlockColumnItem.reducers";
 
 const Container = styled.div`
   position: relative;
@@ -93,6 +94,7 @@ export const ContainerHeader = () => {
     const updateSelectedFreeformBlock = { ...customizeBlockAttr, isVisible: false };
 
     batch(() => {
+      dispatch(setSelectedStackBlockColumnItem(null));
       dispatch(setCustomizeBlockAttr(updateSelectedFreeformBlock));
       dispatch(setImportBlockAttr(updateImportBlockAttr));
     });
@@ -109,6 +111,7 @@ export const ContainerHeader = () => {
         : { isVisible: true, form: value };
     const updateImportBlockAttr = { ...importBlockAttr, isVisible: false };
     batch(() => {
+      dispatch(setSelectedStackBlockColumnItem(null));
       dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
       dispatch(setImportBlockAttr(updateImportBlockAttr));
     });
