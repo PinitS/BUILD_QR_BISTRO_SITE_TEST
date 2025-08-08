@@ -151,7 +151,7 @@ export const CustomizeFreeformText = () => {
       fontWeight: String(_.get(selectItem, ["fontWeight"], "400")),
       fontFamily: _.get(selectItem, ["fontFamily"], "IBMPlexSansThai"),
     });
-  }, [selectedLayoutDesign, selectItem]);
+  }, [selectedLayoutDesign]);
 
   return (
     <Container>

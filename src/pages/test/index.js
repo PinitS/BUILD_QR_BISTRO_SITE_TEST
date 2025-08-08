@@ -21,6 +21,7 @@ const ContainerItem = styled.div`
 `;
 
 export default () => {
+  console.log("data :>> ");
   return (
     <Layout>
       <Container>

@@ -1,7 +1,7 @@
 import { Button } from "@components/LandingPage/Base/Button";
 import { Text } from "@components/LandingPage/Base/Text";
 import _ from "lodash";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
@@ -11,6 +11,8 @@ import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reduce
 import { Slide } from "@components/LandingPage/Base/Slide";
 import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
 import { COLUMN_HEIGHT_OPTIONS_RANGE } from "statics/PAGE_BUILDER_VOID";
+import { CustomizeBlock } from "./CustomizeBlock";
+import { setSelectedStackBlockColumnItem } from "@redux/reducers/selectedStackBlockColumnItem.reducers";
 
 const Container = styled.div`
   display: flex;
@@ -40,10 +42,17 @@ const Line = styled.div`
 `;
 
 const ContainerInput = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${MAIN_SIZE?.SPACING}px;
-  /* overflow-y: scroll; */
+  height: 310px;
+  overflow-y: scroll;
+`;
+
+const ContainerFooter = styled.div`
+  display: grid;
+  grid-template-columns: ${({ $columns = 1 }) => `repeat(${$columns}, 1fr)`};
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
 `;
 
 export const CustomizeStackVoid = () => {
@@ -51,6 +60,10 @@ export const CustomizeStackVoid = () => {
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
+  const selectedStackBlockColumnItem = useSelector(
+    (state) => state?.selectedStackBlockColumnItem?.data,
+    shallowEqual,
+  );
 
   const selectItem = _.chain(stackBlocks)
     .find((item) => {
@@ -58,186 +71,87 @@ export const CustomizeStackVoid = () => {
     })
     .value();
 
-  const indexItem = _.findIndex(stackBlocks, (item) => {
-    return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
-  });
-
   const attribute = _.get(selectItem, ["attribute", selectedLayoutDesign]);
-
-  const {
-    control,
-    watch,
-    reset,
-    setValue,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      height: String(_.get(attribute, ["height"])),
-      spacing: String(_.get(attribute, ["spacing"])),
-      columns: String(_.get(attribute, ["columns"])),
-      paddingHorizontal: String(_.get(attribute, ["paddingHorizontal"])),
-      paddingVertical: String(_.get(attribute, ["paddingVertical"])),
-    },
-  });
 
   const handleCloseCustomize = () => {
     const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false };
     dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
   };
 
-  const handleRemoveItem = () => {
-    const updateStackBlocks = _.filter(stackBlocks, (item, index) => {
-      return _.get(selectItem, ["id"]) !== _.get(item, ["id"]);
-    });
-    const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false, id: null };
-    batch(() => {
-      dispatch(setStackBlocks(updateStackBlocks));
-      dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
-    });
+  const handleSelectedColumnItem = ({ index }) => {
+    const updateSelectedStackBlockColumnItem = selectedStackBlockColumnItem === index ? null : index;
+    dispatch(setSelectedStackBlockColumnItem(updateSelectedStackBlockColumnItem));
   };
 
-  const height = watch("height");
-  const spacing = watch("spacing");
-  const columns = watch("columns");
-
-  const paddingHorizontal = watch("paddingHorizontal");
-  const paddingVertical = watch("paddingVertical");
-
   useEffect(() => {
-    if (indexItem === -1) {
-      return;
-    }
-
-    const updateSelectItem = {
-      ...selectItem,
-      attribute: {
-        ...selectItem?.attribute,
-        [selectedLayoutDesign]: {
-          ...selectItem?.attribute[selectedLayoutDesign],
-          height: Number(height),
-          spacing: Number(spacing),
-          columns: Number(columns),
-          paddingHorizontal: Number(paddingHorizontal),
-          paddingVertical: Number(paddingVertical),
-        },
-      },
-    };
-
-    if (_.isEqual(updateSelectItem, selectItem)) {
-      return;
-    }
-
-    const updatedBlocks = [...stackBlocks];
-    updatedBlocks[indexItem] = {
-      ...updateSelectItem,
-    };
-
-    dispatch(setStackBlocks(updatedBlocks));
-  }, [height, columns, spacing, paddingHorizontal, paddingVertical]);
-
-  useEffect(() => {
-    const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
-    reset({
-      height: _.get(attributeDevice, ["height"]),
-      columns: _.get(attributeDevice, ["columns"]),
-      spacing: _.get(attributeDevice, ["spacing"]),
-      paddingHorizontal: _.get(attributeDevice, ["paddingHorizontal"]),
-      paddingVertical: _.get(attributeDevice, ["paddingVertical"]),
-    });
-  }, [selectedLayoutDesign, selectItem]);
+    dispatch(setSelectedStackBlockColumnItem(null));
+  }, [selectedLayoutDesign]);
 
   return (
     <Container>
-      <React.Fragment>
-        <ContainerHeader>
-          <ContainerTitle>
-            <Text
-              $fontFamily="Sen"
-              $textTransform="capitalize"
-              $color={MAIN_COLORS?.MAIN?.CONTAINER_CUSTOMIZE_TEXT}
-              $fontSize={16}
-              $fontWeight={500}
-              $align="start"
-            >
-              Customize Stack (Void)
-            </Text>
-            <Button $height={24} $isSquare $mt={4} onClick={() => handleCloseCustomize()}>
-              <ICON_CUSTOMIZE_CLOSE
-                width={18}
-                height={18}
-                stroke={MAIN_COLORS?.MAIN?.CONTAINER_CUSTOMIZE_TEXT}
-              />
-            </Button>
-          </ContainerTitle>
-
-          <Line />
-        </ContainerHeader>
-        <ContainerInput>
-          <Button
-            $borderRadius={8}
-            $height={MAIN_SIZE?.INPUT_DEFAULT_HEIGHT}
-            $backgroundColor={MAIN_COLORS?.MAIN?.ERROR_COLOR}
-            $width={"100%"}
-            onClick={() => handleRemoveItem()}
+      <ContainerHeader>
+        <ContainerTitle>
+          <Text
+            $fontFamily="Sen"
+            $textTransform="capitalize"
+            $color={MAIN_COLORS?.MAIN?.CONTAINER_CUSTOMIZE_TEXT}
+            $fontSize={16}
+            $fontWeight={500}
+            $align="start"
           >
-            <Text
-              $fontFamily="Sen"
-              $textTransform="capitalize"
-              $color={MAIN_COLORS?.MAIN?.CONTAINER_CUSTOMIZE_TEXT}
-              $fontSize={16}
-              $fontWeight={400}
-              $align="start"
-            >
-              Delete
-            </Text>
+            Customize Stack (Void)
+          </Text>
+          <Button $height={24} $isSquare $mt={4} onClick={() => handleCloseCustomize()}>
+            <ICON_CUSTOMIZE_CLOSE
+              width={18}
+              height={18}
+              stroke={MAIN_COLORS?.MAIN?.CONTAINER_CUSTOMIZE_TEXT}
+            />
           </Button>
-          <Slide
-            $label="columns"
-            $fontFamily="Sen"
-            $name="columns"
-            $min={1}
-            $max={4}
-            $valueIndicator={columns}
-            $control={control}
-          />
-          <Slide
-            $label="Height"
-            $fontFamily="Sen"
-            $name="height"
-            $min={_.get(COLUMN_HEIGHT_OPTIONS_RANGE, [selectedLayoutDesign, "min"])}
-            $max={_.get(COLUMN_HEIGHT_OPTIONS_RANGE, [selectedLayoutDesign, "max"])}
-            $valueIndicator={height}
-            $control={control}
-          />
-          <Slide
-            $label="Spacing"
-            $fontFamily="Sen"
-            $name="spacing"
-            $min={0}
-            $max={64}
-            $valueIndicator={spacing}
-            $control={control}
-          />
-          <Slide
-            $label="Padding (Horizontal)"
-            $fontFamily="Sen"
-            $name="paddingHorizontal"
-            $min={0}
-            $max={64}
-            $valueIndicator={paddingHorizontal}
-            $control={control}
-          />
-          <Slide
-            $label="Padding (Vertical)"
-            $fontFamily="Sen"
-            $name="paddingVertical"
-            $min={0}
-            $max={64}
-            $valueIndicator={paddingVertical}
-            $control={control}
-          />
-        </ContainerInput>
-      </React.Fragment>
+        </ContainerTitle>
+        <Line />
+      </ContainerHeader>
+      <ContainerInput>
+        {_.isNil(selectedStackBlockColumnItem) && <CustomizeBlock />}
+        {!_.isNil(selectedStackBlockColumnItem) && (
+          <div style={{ flex: 1, width: "100%", height: "100%", background: "yellow" }}></div>
+        )}
+      </ContainerInput>
+      <Line />
+      <ContainerFooter $columns={Number(attribute?.columns)}>
+        {_.map(new Array(Number(attribute?.columns)), (item, index) => {
+          const isActive = index === selectedStackBlockColumnItem;
+          return (
+            <Button
+              key={index}
+              $borderRadius={6}
+              $height={32}
+              $backgroundColor={
+                isActive
+                  ? MAIN_COLORS?.MAIN?.BUTTON_CUSTOMIZE_COLUMN_ITEM_BACKGROUND_ACTIVE
+                  : MAIN_COLORS?.MAIN?.BUTTON_CUSTOMIZE_COLUMN_ITEM_BACKGROUND_INACTIVE
+              }
+              $width={"100%"}
+              onClick={() => handleSelectedColumnItem({ index: index })}
+            >
+              <Text
+                $fontFamily="Sen"
+                $textTransform="capitalize"
+                $color={
+                  isActive
+                    ? MAIN_COLORS?.MAIN?.BUTTON_CUSTOMIZE_COLUMN_ITEM_TEXT_ACTIVE
+                    : MAIN_COLORS?.MAIN?.BUTTON_CUSTOMIZE_COLUMN_ITEM_TEXT_INACTIVE
+                }
+                $fontSize={16}
+                $fontWeight={400}
+                $align="start"
+              >
+                {index + 1}
+              </Text>
+            </Button>
+          );
+        })}
+      </ContainerFooter>
     </Container>
   );
 };

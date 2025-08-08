@@ -168,7 +168,7 @@ export const CustomizeFreeformImage = () => {
       filterValue: _.get(selectItem, ["filterValue"]),
       backgroundColor: _.get(selectItem, ["backgroundColor"]),
     });
-  }, [selectedLayoutDesign, selectItem]);
+  }, [selectedLayoutDesign]);
 
   const attributeFilterValue = _.get(FILTER_OPTIONS_RANGE, [filterType]);
 
