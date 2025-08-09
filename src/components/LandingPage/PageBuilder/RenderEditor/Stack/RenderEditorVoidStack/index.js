@@ -99,8 +99,11 @@ export const RenderEditorVoidStack = ({ $item }) => {
                 height: _.isNil(aspectRatio) ? height : "auto",
                 aspectRatio: aspectRatio,
                 backgroundColor: isActive ? "red" : "black",
+                color: "white",
               }}
-            />
+            >
+              {item?.type}
+            </div>
           );
         })
         .value()}

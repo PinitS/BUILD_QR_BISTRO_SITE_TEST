@@ -3,7 +3,6 @@ import { Select } from "@components/LandingPage/Base/Select";
 import { Slide } from "@components/LandingPage/Base/Slide";
 import { Text } from "@components/LandingPage/Base/Text";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
-import { setSelectedStackBlockColumnItem } from "@redux/reducers/selectedStackBlockColumnItem.reducers";
 import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
 import _ from "lodash";
 import React, { useEffect } from "react";
@@ -24,10 +23,6 @@ export const CustomizeBlock = () => {
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
-  const selectedStackBlockColumnItem = useSelector(
-    (state) => state?.selectedStackBlockColumnItem?.data,
-    shallowEqual,
-  );
 
   const selectItem = _.chain(stackBlocks)
     .find((item) => {
@@ -45,7 +40,6 @@ export const CustomizeBlock = () => {
     control,
     watch,
     reset,
-    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -57,11 +51,6 @@ export const CustomizeBlock = () => {
       paddingVertical: String(_.get(attribute, ["paddingVertical"])),
     },
   });
-
-  const handleCloseCustomize = () => {
-    const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false };
-    dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
-  };
 
   const handleRemoveItem = () => {
     const updateStackBlocks = _.filter(stackBlocks, (item, index) => {

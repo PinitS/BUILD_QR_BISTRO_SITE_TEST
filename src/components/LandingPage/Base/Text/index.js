@@ -28,9 +28,9 @@ export const Text = styled.span.attrs(({ $ellipsis = true, $maxLines = 1 }) => (
   padding-left: ${({ $pl = 0 }) => `${$pl}px`};
   padding-right: ${({ $pr = 0 }) => `${$pr}px`};
 
-  white-space: nowrap;
+  white-space: normal;
   text-overflow: unset;
-  word-break: normal;
+  word-break: break-all;
   overflow-wrap: normal;
 
   ${({ $ellipsis, $maxLines }) =>
@@ -41,6 +41,7 @@ export const Text = styled.span.attrs(({ $ellipsis = true, $maxLines = 1 }) => (
     display: -webkit-box;
     -webkit-line-clamp: ${$maxLines};
     -webkit-box-orient: vertical;
+    white-space: nowrap;
     word-break: break-word;
     overflow-wrap: break-word;
   `

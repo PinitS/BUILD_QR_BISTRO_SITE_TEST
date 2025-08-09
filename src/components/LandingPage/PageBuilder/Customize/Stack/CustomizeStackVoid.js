@@ -9,6 +9,7 @@ import ICON_CUSTOMIZE_CLOSE from "@assets/svgs/PAGE_BUILDER/MENU/ICON_CUSTOMIZE_
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
 import { CustomizeBlock } from "./CustomizeBlock";
 import { setSelectedStackBlockColumnItem } from "@redux/reducers/selectedStackBlockColumnItem.reducers";
+import { CustomizeColumnItem } from "./CustomizeColumnItem";
 
 const Container = styled.div`
   display: flex;
@@ -38,6 +39,9 @@ const Line = styled.div`
 `;
 
 const ContainerInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   height: 310px;
   overflow-y: scroll;
 `;
@@ -115,9 +119,7 @@ export const CustomizeStackVoid = () => {
       </ContainerHeader>
       <ContainerInput>
         {_.isNil(selectedStackBlockColumnItem) && <CustomizeBlock />}
-        {!_.isNil(selectedStackBlockColumnItem) && (
-          <div style={{ flex: 1, width: "100%", height: "100%", background: "yellow" }}></div>
-        )}
+        {!_.isNil(selectedStackBlockColumnItem) && <CustomizeColumnItem />}
       </ContainerInput>
       <Line />
       <ContainerFooter $columns={Number(attribute?.columns)}>
