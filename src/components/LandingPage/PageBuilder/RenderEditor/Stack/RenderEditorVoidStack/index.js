@@ -1,5 +1,6 @@
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
 import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
+import { setSelectedStackBlockColumnItem } from "@redux/reducers/selectedStackBlockColumnItem.reducers";
 import _ from "lodash";
 import React from "react";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -44,7 +45,7 @@ export const RenderEditorVoidStack = ({ $item }) => {
   const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
   const columns = _.get(attribute, ["columns"]);
   const columnItems = _.get(attribute, ["columnItems"]);
-
+  const aspectRatio = _.get(attribute, ["aspectRatio"]);
   const height = _.get(attribute, ["height"]);
   const spacing = _.get(attribute, ["spacing"]);
   const paddingHorizontal = _.get(attribute, ["paddingHorizontal"]);
@@ -56,12 +57,24 @@ export const RenderEditorVoidStack = ({ $item }) => {
       ? { ...customizeBlockAttr, isVisible: false }
       : { isVisible: true, id, form: "CUSTOMIZE-STACK-VOID" };
     batch(() => {
+      dispatch(setSelectedStackBlockColumnItem(null));
       dispatch(setCustomizeBlockAttr(updateSelectedStackBlock));
       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
     });
   };
 
-  console.log("selectedStackBlockColumnItem :>> ", selectedStackBlockColumnItem);
+  const handleSelectedColumnItem = ({ columnItemId, event }) => {
+    // if (customizeBlockAttr?.isVisible) {
+    event.stopPropagation();
+    const updateSelectedStackBlockColumnItem =
+      selectedStackBlockColumnItem === columnItemId ? null : columnItemId;
+    batch(() => {
+      dispatch(setSelectedStackBlockColumnItem(updateSelectedStackBlockColumnItem));
+      dispatch(setCustomizeBlockAttr({ isVisible: true, id, form: "CUSTOMIZE-STACK-VOID" }));
+      dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
+    });
+    // }
+  };
 
   return (
     <Container
@@ -79,32 +92,18 @@ export const RenderEditorVoidStack = ({ $item }) => {
           const isActive = id === selectedStackBlockColumnItem;
           return (
             <div
+              onClick={(event) => handleSelectedColumnItem({ columnItemId: id, event })}
               key={index}
               style={{
                 width: "100%",
-                height,
+                height: _.isNil(aspectRatio) ? height : "auto",
+                aspectRatio: aspectRatio,
                 backgroundColor: isActive ? "red" : "black",
               }}
             />
           );
         })
         .value()}
-      {/* {_.map(new Array(columns), (colItem, colIndex) => {
-        // console.log("colIndex :>> ", colIndex);
-        // console.log("colItem :>> ", colItem);
-
-        const isActive = selectedStackBlockColumnItem === colIndex;
-        return (
-          <div
-            key={colIndex}
-            style={{
-              width: "100%",
-              height,
-              backgroundColor: isActive ? "red" : "black",
-            }}
-          />
-        );
-      })} */}
     </Container>
   );
 };

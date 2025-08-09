@@ -1,4 +1,5 @@
 import { Button } from "@components/LandingPage/Base/Button";
+import { Select } from "@components/LandingPage/Base/Select";
 import { Slide } from "@components/LandingPage/Base/Slide";
 import { Text } from "@components/LandingPage/Base/Text";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
@@ -9,7 +10,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
-import { COLUMN_HEIGHT_OPTIONS_RANGE } from "statics/PAGE_BUILDER_VOID";
+import { ASPECT_RATIO_LIST, COLUMN_HEIGHT_OPTIONS_RANGE } from "statics/PAGE_BUILDER_VOID";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -48,6 +49,7 @@ export const CustomizeBlock = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      aspectRatio: _.get(attribute, ["aspectRatio"]),
       height: String(_.get(attribute, ["height"])),
       spacing: String(_.get(attribute, ["spacing"])),
       columns: String(_.get(attribute, ["columns"])),
@@ -75,6 +77,7 @@ export const CustomizeBlock = () => {
   const height = watch("height");
   const spacing = watch("spacing");
   const columns = watch("columns");
+  const aspectRatio = watch("aspectRatio");
 
   const paddingHorizontal = watch("paddingHorizontal");
   const paddingVertical = watch("paddingVertical");
@@ -90,6 +93,7 @@ export const CustomizeBlock = () => {
         ...selectItem?.attribute,
         [selectedLayoutDesign]: {
           ...selectItem?.attribute[selectedLayoutDesign],
+          aspectRatio,
           height: Number(height),
           spacing: Number(spacing),
           columns: Number(columns),
@@ -111,11 +115,12 @@ export const CustomizeBlock = () => {
     batch(() => {
       dispatch(setStackBlocks(updatedBlocks));
     });
-  }, [height, columns, spacing, paddingHorizontal, paddingVertical]);
+  }, [height, aspectRatio, columns, spacing, paddingHorizontal, paddingVertical]);
 
   useEffect(() => {
     const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
     reset({
+      aspectRatio: _.get(attributeDevice, ["aspectRatio"]),
       height: _.get(attributeDevice, ["height"]),
       columns: _.get(attributeDevice, ["columns"]),
       spacing: _.get(attributeDevice, ["spacing"]),
@@ -153,7 +158,17 @@ export const CustomizeBlock = () => {
         $valueIndicator={columns}
         $control={control}
       />
+      <Select
+        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+        $fontFamily="Sen"
+        $options={ASPECT_RATIO_LIST}
+        $control={control}
+        $name="aspectRatio"
+        $label="aspect ratio"
+      />
       <Slide
+        $disabled={!_.isNil(aspectRatio)}
         $label="Height"
         $fontFamily="Sen"
         $name="height"

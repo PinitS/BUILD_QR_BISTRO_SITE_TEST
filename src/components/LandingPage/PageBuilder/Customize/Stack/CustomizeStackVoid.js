@@ -82,8 +82,6 @@ export const CustomizeStackVoid = () => {
   const handleSelectedColumnItem = ({ columnItemId }) => {
     const updateSelectedStackBlockColumnItem =
       selectedStackBlockColumnItem === columnItemId ? null : columnItemId;
-
-    console.log("updateSelectedStackBlockColumnItem :>> ", updateSelectedStackBlockColumnItem);
     dispatch(setSelectedStackBlockColumnItem(updateSelectedStackBlockColumnItem));
   };
 

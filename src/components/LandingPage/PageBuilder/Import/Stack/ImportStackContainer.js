@@ -46,6 +46,7 @@ export const ImportStackContainer = () => {
           paddingHorizontal: 8,
           paddingVertical: 8,
           columns: 2,
+          aspectRatio: null,
           columnItems: [
             { id: uuid(), type: null, isVisible: true, attribute: null },
             { id: uuid(), type: null, isVisible: true, attribute: null },
@@ -59,6 +60,7 @@ export const ImportStackContainer = () => {
           paddingHorizontal: 4,
           paddingVertical: 4,
           columns: 2,
+          aspectRatio: null,
           columnItems: [
             { id: uuid(), type: null, isVisible: true, attribute: null },
             { id: uuid(), type: null, isVisible: true, attribute: null },
