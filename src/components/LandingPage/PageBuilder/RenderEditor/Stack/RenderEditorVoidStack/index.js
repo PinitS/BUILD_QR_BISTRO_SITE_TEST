@@ -6,6 +6,8 @@ import React from "react";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
+import { ContainerEmpty } from "./ContainerEmpty";
+import { Text } from "@components/LandingPage/Base/Text";
 
 const Container = styled.div`
   display: grid;
@@ -28,6 +30,31 @@ const Container = styled.div`
   flex-shrink: 0;
   overflow: hidden;
   box-sizing: border-box;
+`;
+
+const ContainerItem = styled.div`
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: ${({ $height = "auto" }) => (typeof $height === "number" ? `${$height}px` : $height)};
+  aspect-ratio: ${({ $aspectRatio }) => $aspectRatio};
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: ${({ $radius }) => $radius}px;
+`;
+
+const ContainerActive = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background: ${MAIN_COLORS?.MAIN?.BLOCK_ACTIVE};
+  border-radius: 4px;
 `;
 
 export const RenderEditorVoidStack = ({ $item }) => {
@@ -90,20 +117,38 @@ export const RenderEditorVoidStack = ({ $item }) => {
         .map((item, index) => {
           const id = _.get(item, ["id"]);
           const isActive = id === selectedStackBlockColumnItem;
+          const type = _.get(item, ["type"]);
+          const attribute = _.get(item, ["attribute"]);
+
           return (
-            <div
+            <ContainerItem
               onClick={(event) => handleSelectedColumnItem({ columnItemId: id, event })}
               key={index}
-              style={{
-                width: "100%",
-                height: _.isNil(aspectRatio) ? height : "auto",
-                aspectRatio: aspectRatio,
-                backgroundColor: isActive ? "red" : "black",
-                color: "white",
-              }}
+              $isActive={isActive}
+              $height={_.isNil(aspectRatio) ? height : "auto"}
+              $aspectRatio={aspectRatio}
             >
-              {item?.type}
-            </div>
+              {isActive && (
+                <ContainerActive>
+                  <Text $fontSize={14} $textTransform="capitalize" $color={"white"} $fontWeight={500}>
+                    Active
+                  </Text>
+                </ContainerActive>
+              )}
+              {(() => {
+                switch (type) {
+                  case "IMAGE":
+                    return <div>{"image"}</div>;
+                  case "TEXT":
+                    return <div>{"text"}</div>;
+                  case "SLIDE":
+                    return <div>{"slide"}</div>;
+
+                  default:
+                    return <ContainerEmpty $attribute={attribute} />;
+                }
+              })()}
+            </ContainerItem>
           );
         })
         .value()}
