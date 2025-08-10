@@ -1,5 +1,4 @@
 import { Text } from "@components/LandingPage/Base/Text";
-import { isDarkHex } from "@utils/isDarkHex";
 import _ from "lodash";
 import React from "react";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
@@ -9,19 +8,32 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+
+  justify-content: ${({ $justifyContent = "flex-start" }) => $justifyContent};
+  align-items: ${({ $alignItems = "flex-start" }) => $alignItems};
   background-color: ${({ $backgroundColor = "transparent" }) => $backgroundColor};
   border-top-right-radius: ${({ $borderTopRightRadius = 0 }) => $borderTopRightRadius}px;
   border-top-left-radius: ${({ $borderTopLeftRadius = 0 }) => $borderTopLeftRadius}px;
   border-bottom-right-radius: ${({ $borderBottomRightRadius = 0 }) => $borderBottomRightRadius}px;
   border-bottom-left-radius: ${({ $borderBottomLeftRadius = 0 }) => $borderBottomLeftRadius}px;
-  overflow: hidden;
   border-width: ${({ $isActive = false }) => ($isActive ? 1 : 0)}px;
   border-style: dashed;
   border-color: ${({ $isActive = false }) => ($isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : "transparent")};
+  overflow: scroll;
 `;
-export const ContainerEmpty = ({ $attribute = null, $isActive = false }) => {
+export const ContainerText = ({ $attribute = null, $isActive = false }) => {
+  const value = _.get($attribute, ["value"]);
+  const color = _.get($attribute, ["color"]);
+  const fontSize = _.get($attribute, ["fontSize"]);
+
+  const fontWeight = _.get($attribute, ["fontWeight"]);
+  const fontFamily = _.get($attribute, ["fontFamily"]);
+  const textAlign = _.get($attribute, ["textAlign"]);
+
+  const justifyContent = _.get($attribute, ["justifyContent"]);
+  const alignItems = _.get($attribute, ["alignItems"]);
+
   const backgroundColor = _.get($attribute, ["backgroundColor"]);
 
   const borderTopLeftRadius = _.get($attribute, ["borderTopLeftRadius"]);
@@ -37,9 +49,26 @@ export const ContainerEmpty = ({ $attribute = null, $isActive = false }) => {
       $borderBottomLeftRadius={borderBottomLeftRadius}
       $borderBottomRightRadius={borderBottomRightRadius}
       $isActive={$isActive}
+      $justifyContent={justifyContent}
+      $alignItems={alignItems}
     >
-      <Text $fontWeight={400} $color={isDarkHex({ hexColor: backgroundColor }) ? "#FFFFFF" : "#17171B"}>
-        Empty
+      <Text
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          minHeight: 0,
+          justifyContent: justifyContent,
+          alignItems: alignItems,
+        }}
+        $ellipsis={false}
+        $fontFamily={fontFamily}
+        $fontWeight={fontWeight}
+        $color={color}
+        $fontSize={fontSize}
+        $align={textAlign}
+      >
+        {value}
       </Text>
     </Container>
   );

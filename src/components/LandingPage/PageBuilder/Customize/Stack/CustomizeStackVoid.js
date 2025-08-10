@@ -119,7 +119,7 @@ export const CustomizeStackVoid = () => {
       </ContainerHeader>
       <ContainerInput>
         {_.isNil(selectedStackBlockColumnItem) && <CustomizeBlock />}
-        {!_.isNil(selectedStackBlockColumnItem) && <CustomizeColumnItem />}
+        {!_.isNil(selectedStackBlockColumnItem) && <CustomizeColumnItem key={selectedStackBlockColumnItem} />}
       </ContainerInput>
       <Line />
       <ContainerFooter $columns={Number(attribute?.columns)}>

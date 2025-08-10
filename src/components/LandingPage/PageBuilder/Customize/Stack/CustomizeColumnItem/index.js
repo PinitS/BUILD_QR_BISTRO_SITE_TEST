@@ -9,6 +9,7 @@ import { COLUMN_ITEM_TYPE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 import { CustomizeEmptyBlock } from "./CustomizeEmptyBlock";
+import { CustomizeText } from "./CustomizeText";
 
 const Container = styled.div`
   display: flex;
@@ -44,10 +45,7 @@ export const CustomizeColumnItem = () => {
     return _.get(item, ["id"]) === selectedStackBlockColumnItem;
   });
 
-  const currentColumn = _.find(columnItems, (item) => {
-    return _.get(item, ["id"]) === selectedStackBlockColumnItem;
-  });
-
+  const currentColumn = _.get(columnItems, [indexColumnItem]);
   const {
     control,
     watch,
@@ -65,8 +63,8 @@ export const CustomizeColumnItem = () => {
     if (indexItem === -1 && indexColumnItem === -1) {
       return;
     }
-
     const updateCurrentColumn = { ...currentColumn, type };
+
     if (_.isEqual(updateCurrentColumn, currentColumn)) {
       return;
     }
@@ -91,18 +89,10 @@ export const CustomizeColumnItem = () => {
     updatedBlocks[indexItem] = {
       ...updateSelectItem,
     };
-
     batch(() => {
       dispatch(setStackBlocks(updatedBlocks));
     });
-  }, [type]);
-
-  useEffect(() => {
-    const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
-    reset({
-      type: _.get(attributeDevice, ["type"]),
-    });
-  }, [selectedLayoutDesign]);
+  }, [type, currentColumn]);
 
   return (
     <Container>
@@ -115,18 +105,20 @@ export const CustomizeColumnItem = () => {
         $name="type"
         $label="type"
       />
-      <CustomizeEmptyBlock />
-      {/* <Text
-        $ellipsis={false}
-        $fontFamily="Sen"
-        $textTransform="capitalize"
-        $color={MAIN_COLORS?.MAIN?.CONTAINER_CUSTOMIZE_TEXT}
-        $fontSize={16}
-        $fontWeight={500}
-        $align="start"
-      >
-        selectedStackBlockColumnItem: {type}
-      </Text> */}
+
+      {(() => {
+        switch (type) {
+          case "IMAGE":
+            return <div>{"image"}</div>;
+          case "TEXT":
+            return <CustomizeText />;
+          case "SLIDE":
+            return <div>{"slide"}</div>;
+
+          default:
+            return <CustomizeEmptyBlock />;
+        }
+      })()}
     </Container>
   );
 };

@@ -8,6 +8,7 @@ import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 import { ContainerEmpty } from "./ContainerEmpty";
 import { Text } from "@components/LandingPage/Base/Text";
+import { ContainerText } from "./ContainerText";
 
 const Container = styled.div`
   display: grid;
@@ -46,9 +47,11 @@ const ContainerItem = styled.div`
 
 const ContainerActive = styled.div`
   position: absolute;
-  top: 50%;
+  top: 2px;
+  left: 2px;
+  /* top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
   padding-left: 12px;
   padding-right: 12px;
   padding-top: 2px;
@@ -128,24 +131,17 @@ export const RenderEditorVoidStack = ({ $item }) => {
               $height={_.isNil(aspectRatio) ? height : "auto"}
               $aspectRatio={aspectRatio}
             >
-              {isActive && (
-                <ContainerActive>
-                  <Text $fontSize={14} $textTransform="capitalize" $color={"white"} $fontWeight={500}>
-                    Active
-                  </Text>
-                </ContainerActive>
-              )}
               {(() => {
                 switch (type) {
                   case "IMAGE":
                     return <div>{"image"}</div>;
                   case "TEXT":
-                    return <div>{"text"}</div>;
+                    return <ContainerText $isActive={isActive} $attribute={attribute} />;
                   case "SLIDE":
                     return <div>{"slide"}</div>;
 
                   default:
-                    return <ContainerEmpty $attribute={attribute} />;
+                    return <ContainerEmpty $isActive={isActive} $attribute={attribute} />;
                 }
               })()}
             </ContainerItem>

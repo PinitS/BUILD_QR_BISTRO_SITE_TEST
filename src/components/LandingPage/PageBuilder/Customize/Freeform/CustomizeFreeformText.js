@@ -17,6 +17,7 @@ import {
   FONT_WEIGHT_OPTIONS,
 } from "statics/PAGE_BUILDER_TEXT_CUSTOMIZE";
 import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
+import { TextArea } from "@components/LandingPage/Base/TextArea";
 
 const Container = styled.div`
   display: flex;
@@ -197,7 +198,16 @@ export const CustomizeFreeformText = () => {
             Delete
           </Text>
         </Button>
-        <Input
+        {/* <Input
+          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+          $fontFamily="Sen"
+          $control={control}
+          $name="value"
+          $label="value"
+        /> */}
+
+        <TextArea
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
           $fontFamily="Sen"

@@ -1,8 +1,12 @@
 import _ from "lodash";
 
 export const isDarkHex = ({ hexColor }) => {
-  if (!hexColor) return false;
-  if (hexColor.toLowerCase() === "transparent") return false;
+  if (!hexColor) {
+    return false;
+  }
+  if (hexColor.toLowerCase() === "transparent") {
+    return false;
+  }
   const hex = _.chain(hexColor)
     .replace("#", "")
     .thru((str) =>

@@ -12,3 +12,14 @@ export const ASPECT_RATIO_LIST = [
   { label: "3:4", value: 3 / 4 },
   { label: "9:16", value: 9 / 16 },
 ];
+
+export const COLUMN_ITEM_RADIUS_LIMIT = {
+  min: 0,
+  max: 150,
+};
+
+export const ALIGN_CONTENT_OPTIONS = [
+  { label: "start", value: "flex-start" },
+  { label: "center", value: "center" },
+  { label: "end", value: "flex-end" },
+];

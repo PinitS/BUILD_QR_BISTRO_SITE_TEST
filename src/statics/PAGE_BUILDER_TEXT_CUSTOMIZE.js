@@ -16,6 +16,12 @@ export const FONT_SIZE_OPTIONS = [
   { label: "96px", value: "96" },
 ];
 
+export const ALIGNMENT_OPTIONS = [
+  { label: "left", value: "left" },
+  { label: "center", value: "center" },
+  { label: "right", value: "right" },
+];
+
 export const FONT_FAMILY_OPTIONS = [
   { label: "Anuphan", value: "Anuphan" },
   { label: "Athiti", value: "Athiti" },

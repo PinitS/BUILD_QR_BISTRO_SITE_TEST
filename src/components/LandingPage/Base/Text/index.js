@@ -28,7 +28,7 @@ export const Text = styled.span.attrs(({ $ellipsis = true, $maxLines = 1 }) => (
   padding-left: ${({ $pl = 0 }) => `${$pl}px`};
   padding-right: ${({ $pr = 0 }) => `${$pr}px`};
 
-  white-space: normal;
+  white-space: pre-line;
   text-overflow: unset;
   word-break: break-all;
   overflow-wrap: normal;

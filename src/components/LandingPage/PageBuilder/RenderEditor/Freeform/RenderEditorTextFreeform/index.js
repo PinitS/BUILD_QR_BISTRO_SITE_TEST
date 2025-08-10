@@ -63,7 +63,7 @@ export const RenderEditorTextFreeform = ({ $item }) => {
       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
     });
   };
-
+  console.log("value :>> ", value);
   return (
     <ContainerDraggable
       id={id}
@@ -78,7 +78,13 @@ export const RenderEditorTextFreeform = ({ $item }) => {
       $y={y}
       $transform={transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined}
     >
-      <Text $fontFamily={fontFamily} $fontWeight={fontWeight} $color={color} $fontSize={fontSize}>
+      <Text
+        $ellipsis={false}
+        $fontFamily={fontFamily}
+        $fontWeight={fontWeight}
+        $color={color}
+        $fontSize={fontSize}
+      >
         {_.isEmpty(value) ? "Click Me To Edit" : value}
       </Text>
     </ContainerDraggable>
