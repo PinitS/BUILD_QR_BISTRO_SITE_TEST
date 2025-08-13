@@ -94,7 +94,7 @@ export default () => {
         $containerBackgroundOpacity={_.get(customizeBackground, ["containerBackgroundOpacity"])}
         $layoutDesign={selectedLayoutDesign}
       >
-        <DndContext
+        {/* <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
           onDragStart={handleFreeformDragStart}
@@ -104,7 +104,7 @@ export default () => {
           <ContainerRenderEditorFreeform />
         </DndContext>
 
-        <ContainerRenderEditorStack />
+        <ContainerRenderEditorStack /> */}
       </Container>
     </Layouts>
   );
