@@ -62,17 +62,15 @@ export const CustomizeFreeformImage = () => {
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
 
-  const selectItem = _.chain(freeformBlocks)
-    .find((item) => {
+  const activeIndex = _.chain(freeformBlocks)
+    .get([selectedLayoutDesign])
+    .findIndex((item) => {
       return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
     })
     .value();
 
-  const indexItem = _.findIndex(freeformBlocks, (item) => {
-    return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
-  });
+  const selectItem = _.chain(freeformBlocks).get([selectedLayoutDesign, activeIndex]).value();
 
-  const attribute = _.get(selectItem, ["attribute", selectedLayoutDesign]);
   const {
     control,
     watch,
@@ -87,7 +85,7 @@ export const CustomizeFreeformImage = () => {
       filterType: _.get(selectItem, ["filterType"]),
       filterValue: _.get(selectItem, ["filterValue"]),
       radius: _.get(selectItem, ["radius"]),
-      size: _.get(attribute, ["size"]),
+      size: _.get(selectItem, ["size"]),
       backgroundColor: _.get(selectItem, ["backgroundColor"]),
     },
   });
@@ -98,9 +96,18 @@ export const CustomizeFreeformImage = () => {
   };
 
   const handleRemoveItem = () => {
-    const updateFreeformBlocks = _.filter(freeformBlocks, (item, index) => {
-      return _.get(selectItem, ["id"]) !== _.get(item, ["id"]);
-    });
+    const updatedLayout = _.chain(freeformBlocks)
+      .get([selectedLayoutDesign])
+      .filter((item, index) => {
+        return _.get(selectItem, ["id"]) !== _.get(item, ["id"]);
+      })
+      .value();
+
+    const updateFreeformBlocks = {
+      ...freeformBlocks,
+      [selectedLayoutDesign]: updatedLayout,
+    };
+
     const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false, id: null };
     batch(() => {
       dispatch(setFreeformBlocks(updateFreeformBlocks));
@@ -119,15 +126,18 @@ export const CustomizeFreeformImage = () => {
   const backgroundColor = watch("backgroundColor");
 
   useEffect(() => {
-    if (indexItem === -1) {
+    if (activeIndex === -1) {
       return;
     }
-    const updateFilterValue =
-      filterType !== _.get(selectItem, ["filterType"])
-        ? _.get(FILTER_OPTIONS_RANGE, [filterType, "default"])
-        : filterValue;
+    let updateFilterValue = null;
+    if (filterType !== _.get(selectItem, ["filterType"])) {
+      updateFilterValue = _.get(FILTER_OPTIONS_RANGE, [filterType, "default"]);
+      setValue("filterValue", updateFilterValue);
+    } else {
+      updateFilterValue = filterValue;
+    }
 
-    const updateSelectItem = {
+    const updatedFreeformBlockItem = {
       ...selectItem,
       value,
       aspectRatio,
@@ -136,39 +146,33 @@ export const CustomizeFreeformImage = () => {
       filterType,
       filterValue: updateFilterValue,
       backgroundColor,
-      attribute: {
-        ...selectItem?.attribute,
-        [selectedLayoutDesign]: {
-          ...selectItem?.attribute[selectedLayoutDesign],
-          size: Number(size),
-        },
-      },
+      size: Number(size),
     };
 
-    if (_.isEqual(updateSelectItem, selectItem)) {
+    if (_.isEqual(updatedFreeformBlockItem, selectItem)) {
       return;
     }
 
-    const updatedBlocks = [...freeformBlocks];
-    updatedBlocks[indexItem] = {
-      ...updateSelectItem,
+    const updatedFreeformBlocks = {
+      ...freeformBlocks,
+      [selectedLayoutDesign]: [...freeformBlocks[selectedLayoutDesign]],
     };
-    dispatch(setFreeformBlocks(updatedBlocks));
+    updatedFreeformBlocks[selectedLayoutDesign][activeIndex] = updatedFreeformBlockItem;
+    dispatch(setFreeformBlocks(updatedFreeformBlocks));
   }, [value, aspectRatio, resize, radius, size, filterType, filterValue, backgroundColor]);
 
   useEffect(() => {
-    const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
     reset({
       value: _.get(selectItem, ["value"]),
       aspectRatio: _.get(selectItem, ["aspectRatio"]),
       resize: String(_.get(selectItem, ["resize"])),
       radius: _.get(selectItem, ["radius"]),
-      size: _.get(attributeDevice, ["size"]),
+      size: _.get(selectItem, ["size"]),
       filterType: _.get(selectItem, ["filterType"]),
       filterValue: _.get(selectItem, ["filterValue"]),
       backgroundColor: _.get(selectItem, ["backgroundColor"]),
     });
-  }, [selectedLayoutDesign]);
+  }, [_.get(customizeBlockAttr, ["id"])]);
 
   const attributeFilterValue = _.get(FILTER_OPTIONS_RANGE, [filterType]);
 

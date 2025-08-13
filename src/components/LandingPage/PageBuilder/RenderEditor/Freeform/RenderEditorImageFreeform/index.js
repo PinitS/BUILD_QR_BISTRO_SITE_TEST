@@ -58,10 +58,9 @@ export const RenderEditorImageFreeform = ({ $item }) => {
 
   const radius = _.get($item, ["radius"]);
 
-  const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
-  const x = _.get(attribute, ["x"]);
-  const y = _.get(attribute, ["y"]);
-  const size = _.get(attribute, ["size"]);
+  const x = _.get($item, ["x"]);
+  const y = _.get($item, ["y"]);
+  const size = _.get($item, ["size"]);
 
   const angle = getAngleFromAspectRatio(aspectRatio);
 
