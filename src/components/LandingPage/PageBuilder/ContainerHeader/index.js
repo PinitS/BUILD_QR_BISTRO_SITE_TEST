@@ -80,7 +80,10 @@ export const ContainerHeader = () => {
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
 
   const handleSelectSize = ({ value }) => {
-    dispatch(setSelectedLayoutDesign(value));
+    batch(() => {
+      dispatch(setCustomizeBlockAttr(null));
+      dispatch(setSelectedLayoutDesign(value));
+    });
   };
 
   const handleSelectMainImportSideMenu = ({ value }) => {

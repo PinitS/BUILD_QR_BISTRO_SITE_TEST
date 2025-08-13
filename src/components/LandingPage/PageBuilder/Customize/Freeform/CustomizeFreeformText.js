@@ -1,5 +1,4 @@
 import { Button } from "@components/LandingPage/Base/Button";
-import { Input } from "@components/LandingPage/Base/Input";
 import { Text } from "@components/LandingPage/Base/Text";
 import _ from "lodash";
 import React, { useEffect } from "react";
@@ -12,6 +11,7 @@ import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reduce
 import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
 import { Select } from "@components/LandingPage/Base/Select";
 import {
+  ALIGNMENT_OPTIONS,
   FONT_FAMILY_OPTIONS,
   FONT_SIZE_OPTIONS,
   FONT_WEIGHT_OPTIONS,
@@ -61,17 +61,15 @@ export const CustomizeFreeformText = () => {
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
 
-  const selectItem = _.chain(freeformBlocks)
-    .find((item) => {
+  const activeIndex = _.chain(freeformBlocks)
+    .get([selectedLayoutDesign])
+    .findIndex((item) => {
       return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
     })
     .value();
 
-  const indexItem = _.findIndex(freeformBlocks, (item) => {
-    return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
-  });
+  const selectItem = _.chain(freeformBlocks).get([selectedLayoutDesign, activeIndex]).value();
 
-  const attribute = _.get(selectItem, ["attribute", selectedLayoutDesign]);
   const {
     control,
     watch,
@@ -81,9 +79,10 @@ export const CustomizeFreeformText = () => {
     defaultValues: {
       value: _.get(selectItem, ["value"]),
       color: _.get(selectItem, ["color"]),
-      fontSize: String(_.get(attribute, ["fontSize"])),
+      fontSize: String(_.get(selectItem, ["fontSize"])),
       fontWeight: String(_.get(selectItem, ["fontWeight"])),
       fontFamily: _.get(selectItem, ["fontFamily"]),
+      textAlign: _.get(selectItem, ["textAlign"]),
     },
   });
 
@@ -93,9 +92,18 @@ export const CustomizeFreeformText = () => {
   };
 
   const handleRemoveItem = () => {
-    const updateFreeformBlocks = _.filter(freeformBlocks, (item, index) => {
-      return _.get(selectItem, ["id"]) !== _.get(item, ["id"]);
-    });
+    const updatedLayout = _.chain(freeformBlocks)
+      .get([selectedLayoutDesign])
+      .filter((item, index) => {
+        return _.get(selectItem, ["id"]) !== _.get(item, ["id"]);
+      })
+      .value();
+
+    const updateFreeformBlocks = {
+      ...freeformBlocks,
+      [selectedLayoutDesign]: updatedLayout,
+    };
+
     const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false, id: null };
     batch(() => {
       dispatch(setFreeformBlocks(updateFreeformBlocks));
@@ -108,51 +116,50 @@ export const CustomizeFreeformText = () => {
   const fontSize = watch("fontSize");
   const fontWeight = watch("fontWeight");
   const fontFamily = watch("fontFamily");
+  const textAlign = watch("textAlign");
 
   useEffect(() => {
-    if (indexItem === -1) {
+    if (activeIndex === -1) {
       return;
     }
     const currentFontFamily = _.get(selectItem, ["fontFamily"]);
     let updateFontWeight = _.isEqual(fontFamily, currentFontFamily) ? fontWeight : 400;
 
-    const updateSelectItem = {
+    const updatedFreeformBlockItem = {
       ...selectItem,
       value,
       color,
       fontFamily,
+      textAlign,
       fontWeight: Number(updateFontWeight),
-      attribute: {
-        ...selectItem?.attribute,
-        [selectedLayoutDesign]: {
-          ...selectItem?.attribute[selectedLayoutDesign],
-          fontSize: Number(fontSize),
-          // isVisible: false,
-        },
-      },
+      fontSize: Number(fontSize),
     };
 
-    if (_.isEqual(updateSelectItem, selectItem)) {
+    if (_.isEqual(updatedFreeformBlockItem, selectItem)) {
       return;
     }
 
-    const updatedBlocks = [...freeformBlocks];
-    updatedBlocks[indexItem] = {
-      ...updateSelectItem,
+    const updatedFreeformBlocks = {
+      ...freeformBlocks,
+      [selectedLayoutDesign]: [...freeformBlocks[selectedLayoutDesign]],
     };
-    dispatch(setFreeformBlocks(updatedBlocks));
-  }, [value, color, fontSize, fontWeight, fontFamily]);
+    updatedFreeformBlocks[selectedLayoutDesign][activeIndex] = updatedFreeformBlockItem;
+
+    dispatch(setFreeformBlocks(updatedFreeformBlocks));
+  }, [value, color, fontSize, fontWeight, fontFamily, textAlign]);
+
+  // // ============
 
   useEffect(() => {
-    const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
     reset({
-      value: _.get(selectItem, ["value"], ""),
-      color: _.get(selectItem, ["color"], "#000000"),
-      fontSize: String(_.get(attributeDevice, ["fontSize"], "16")),
-      fontWeight: String(_.get(selectItem, ["fontWeight"], "400")),
-      fontFamily: _.get(selectItem, ["fontFamily"], "IBMPlexSansThai"),
+      value: _.get(selectItem, ["value"]),
+      color: _.get(selectItem, ["color"]),
+      fontSize: String(_.get(selectItem, ["fontSize"])),
+      fontWeight: String(_.get(selectItem, ["fontWeight"])),
+      fontFamily: _.get(selectItem, ["fontFamily"]),
+      textAlign: _.get(selectItem, ["textAlign"]),
     });
-  }, [selectedLayoutDesign]);
+  }, [_.get(customizeBlockAttr, ["id"])]);
 
   return (
     <Container>
@@ -198,14 +205,6 @@ export const CustomizeFreeformText = () => {
             Delete
           </Text>
         </Button>
-        {/* <Input
-          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-          $fontFamily="Sen"
-          $control={control}
-          $name="value"
-          $label="value"
-        /> */}
 
         <TextArea
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
@@ -215,6 +214,17 @@ export const CustomizeFreeformText = () => {
           $name="value"
           $label="value"
         />
+
+        <Select
+          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+          $fontFamily="Sen"
+          $options={FONT_FAMILY_OPTIONS}
+          $control={control}
+          $name="fontFamily"
+          $label="font family"
+        />
+
         <Select
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
@@ -223,15 +233,6 @@ export const CustomizeFreeformText = () => {
           $control={control}
           $name="fontSize"
           $label={`font Size (${selectedLayoutDesign})`}
-        />
-        <Select
-          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-          $fontFamily="Sen"
-          $options={FONT_FAMILY_OPTIONS}
-          $control={control}
-          $name="fontFamily"
-          $label="family"
         />
 
         <Select
@@ -243,6 +244,17 @@ export const CustomizeFreeformText = () => {
           $name="fontWeight"
           $label="font Weight"
         />
+
+        <Select
+          $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+          $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+          $fontFamily="Sen"
+          $options={ALIGNMENT_OPTIONS}
+          $control={control}
+          $name="textAlign"
+          $label="font align"
+        />
+
         <ColorPicker
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}

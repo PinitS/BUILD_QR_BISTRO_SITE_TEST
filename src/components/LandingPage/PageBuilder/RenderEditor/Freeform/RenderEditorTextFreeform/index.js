@@ -35,7 +35,6 @@ const ContainerDraggable = styled.div`
 
 export const RenderEditorTextFreeform = ({ $item }) => {
   const dispatch = useDispatch();
-  const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
 
@@ -44,11 +43,11 @@ export const RenderEditorTextFreeform = ({ $item }) => {
   const color = _.get($item, ["color"]);
   const fontWeight = _.get($item, ["fontWeight"]);
   const fontFamily = _.get($item, ["fontFamily"]);
+  const textAlign = _.get($item, ["textAlign"]);
 
-  const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
-  const x = _.get(attribute, ["x"]);
-  const y = _.get(attribute, ["y"]);
-  const fontSize = _.get(attribute, ["fontSize"]);
+  const x = _.get($item, ["x"]);
+  const y = _.get($item, ["y"]);
+  const fontSize = _.get($item, ["fontSize"]);
 
   const isActive = _.get(customizeBlockAttr, ["id"]) === id && _.get(customizeBlockAttr, ["isVisible"]);
 
@@ -63,7 +62,7 @@ export const RenderEditorTextFreeform = ({ $item }) => {
       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
     });
   };
-  console.log("value :>> ", value);
+
   return (
     <ContainerDraggable
       id={id}
@@ -79,11 +78,13 @@ export const RenderEditorTextFreeform = ({ $item }) => {
       $transform={transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined}
     >
       <Text
+        style={{ whiteSpace: "pre" }}
         $ellipsis={false}
         $fontFamily={fontFamily}
         $fontWeight={fontWeight}
         $color={color}
         $fontSize={fontSize}
+        $align={textAlign}
       >
         {_.isEmpty(value) ? "Click Me To Edit" : value}
       </Text>

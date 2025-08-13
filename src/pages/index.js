@@ -16,9 +16,9 @@ import { ContainerRenderEditorStack } from "@components/LandingPage/PageBuilder/
 export default () => {
   const dispatch = useDispatch();
   const { ref: containerRef, containerWidth } = useContainerDimensionContext();
-  const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const customizeBackground = useSelector((state) => state?.customizeBackground?.data, shallowEqual);
+  const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -30,34 +30,41 @@ export default () => {
     const { active, delta } = event;
     const activeId = _.get(active, ["id"]);
     const { elWidth } = getBoundingRectById({ id: activeId });
-    const findIndex = _.findIndex(freeformBlocks, (item) => {
-      return _.get(item, ["id"]) === activeId;
-    });
+    // const findIndex = _.findIndex(freeformBlocks, (item) => {
+    //   return _.get(item, ["id"]) === activeId;
+    // });
 
-    if (findIndex === -1) {
+    const activeIndex = _.chain(freeformBlocks)
+      .get([selectedLayoutDesign])
+      .findIndex((item) => {
+        return _.get(item, ["id"]) === activeId;
+      })
+      .value();
+
+    if (activeIndex === -1) {
       return;
     }
 
-    const updatedBlocks = [...freeformBlocks];
-    const updateBlockItem = _.get(freeformBlocks, [findIndex]);
-    const currentAttr = _.get(updateBlockItem, ["attribute", selectedLayoutDesign]);
-
-    const updatedAttr = {
-      ...currentAttr,
-      x: Math.max(0, Math.min(currentAttr.x + delta.x, containerWidth - elWidth)),
-      y: Math.max(0, currentAttr.y + delta.y),
+    // UPDATE STATE
+    const updatedFreeformBlocks = {
+      ...freeformBlocks,
+      [selectedLayoutDesign]: [...freeformBlocks[selectedLayoutDesign]],
     };
 
-    const newAttribute = {
-      ...updateBlockItem.attribute,
-      [selectedLayoutDesign]: updatedAttr,
-    };
-    updatedBlocks[findIndex] = {
-      ...updateBlockItem,
-      attribute: newAttribute,
-    };
+    const currentFreeformBlockItem = _.get(freeformBlocks, [selectedLayoutDesign, activeIndex]);
 
-    dispatch(setFreeformBlocks(updatedBlocks));
+    const newX = Math.max(0, Math.min(currentFreeformBlockItem.x + delta.x, containerWidth - elWidth));
+    const newY = Math.max(0, currentFreeformBlockItem.y + delta.y);
+
+    const updatedFreeformBlockItem = {
+      ...currentFreeformBlockItem,
+      x: newX,
+      y: newY,
+    };
+    updatedFreeformBlocks[selectedLayoutDesign][activeIndex] = updatedFreeformBlockItem;
+    dispatch(setFreeformBlocks(updatedFreeformBlocks));
+    // UPDATE STATE
+
     if (containerRef?.current) {
       containerRef.current.style.overflowY = "scroll";
       containerRef.current.style.overflowX = "hidden";
@@ -94,7 +101,7 @@ export default () => {
         $containerBackgroundOpacity={_.get(customizeBackground, ["containerBackgroundOpacity"])}
         $layoutDesign={selectedLayoutDesign}
       >
-        {/* <DndContext
+        <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
           onDragStart={handleFreeformDragStart}
@@ -104,7 +111,7 @@ export default () => {
           <ContainerRenderEditorFreeform />
         </DndContext>
 
-        <ContainerRenderEditorStack /> */}
+        {/* <ContainerRenderEditorStack /> */}
       </Container>
     </Layouts>
   );

@@ -32,6 +32,7 @@ export const ImportFreeformContainer = () => {
   const dispatch = useDispatch();
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
+  const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
 
   const handleImportFreeformText = () => {
     const initial = {
@@ -41,19 +42,19 @@ export const ImportFreeformContainer = () => {
       color: "#17171B",
       fontFamily: "IBMPlexSansThai",
       fontWeight: 400,
-      attribute: {
-        DESKTOP: {
-          isVisible: true,
-          x: 0,
-          y: 0,
-          fontSize: 16,
-        },
-        MOBILE: { isVisible: true, x: 0, y: 0, fontSize: 12 },
-      },
+      x: 0,
+      y: 0,
+      textAlign: "left",
+      fontSize: selectedLayoutDesign === "DESKTOP" ? 16 : 12,
+    };
+
+    const updateFreeformBlocks = {
+      ...freeformBlocks,
+      [selectedLayoutDesign]: [...freeformBlocks[selectedLayoutDesign], initial],
     };
 
     batch(() => {
-      dispatch(setFreeformBlocks([...freeformBlocks, initial]));
+      dispatch(setFreeformBlocks(updateFreeformBlocks));
       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
     });
   };
@@ -69,19 +70,18 @@ export const ImportFreeformContainer = () => {
       radius: 0,
       filterType: "NONE",
       filterValue: null,
-      attribute: {
-        DESKTOP: {
-          isVisible: true,
-          x: 0,
-          y: 0,
-          size: 200,
-        },
-        MOBILE: { isVisible: true, x: 0, y: 0, size: 100 },
-      },
+      x: 0,
+      y: 0,
+      size: selectedLayoutDesign === "DESKTOP" ? 200 : 100,
+    };
+
+    const updateFreeformBlocks = {
+      ...freeformBlocks,
+      [selectedLayoutDesign]: [...freeformBlocks[selectedLayoutDesign], initial],
     };
 
     batch(() => {
-      dispatch(setFreeformBlocks([...freeformBlocks, initial]));
+      dispatch(setFreeformBlocks(updateFreeformBlocks));
       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
     });
   };
