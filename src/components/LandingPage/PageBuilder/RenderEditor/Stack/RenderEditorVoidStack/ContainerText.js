@@ -53,14 +53,6 @@ export const ContainerText = ({ $attribute = null, $isActive = false }) => {
       $alignItems={alignItems}
     >
       <Text
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          minHeight: 0,
-          justifyContent: justifyContent,
-          alignItems: alignItems,
-        }}
         $ellipsis={false}
         $fontFamily={fontFamily}
         $fontWeight={fontWeight}

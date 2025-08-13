@@ -48,10 +48,10 @@ export const ImportStackContainer = () => {
           columns: 2,
           aspectRatio: null,
           columnItems: [
-            { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#5C5C5C" } },
             { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#707070" } },
             { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#999999" } },
             { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#ADADAD" } },
+            { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#D6D6D6" } },
           ],
         },
         MOBILE: {
@@ -62,10 +62,10 @@ export const ImportStackContainer = () => {
           columns: 2,
           aspectRatio: null,
           columnItems: [
-            { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#5C5C5C" } },
             { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#707070" } },
             { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#999999" } },
             { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#ADADAD" } },
+            { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#D6D6D6" } },
           ],
         },
       },
