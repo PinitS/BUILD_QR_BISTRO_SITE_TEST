@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import _ from "lodash";
 
 const initialState = {
-  data: [],
+  data: { DESKTOP: [], MOBILE: [] },
 };
 export const slice = createSlice({
   name: "stackBlocks",

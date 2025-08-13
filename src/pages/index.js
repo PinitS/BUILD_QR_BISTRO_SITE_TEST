@@ -30,9 +30,6 @@ export default () => {
     const { active, delta } = event;
     const activeId = _.get(active, ["id"]);
     const { elWidth } = getBoundingRectById({ id: activeId });
-    // const findIndex = _.findIndex(freeformBlocks, (item) => {
-    //   return _.get(item, ["id"]) === activeId;
-    // });
 
     const activeIndex = _.chain(freeformBlocks)
       .get([selectedLayoutDesign])
@@ -111,7 +108,7 @@ export default () => {
           <ContainerRenderEditorFreeform />
         </DndContext>
 
-        {/* <ContainerRenderEditorStack /> */}
+        <ContainerRenderEditorStack />
       </Container>
     </Layouts>
   );

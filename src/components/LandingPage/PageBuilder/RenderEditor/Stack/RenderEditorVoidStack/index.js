@@ -61,8 +61,8 @@ const ContainerActive = styled.div`
 `;
 
 export const RenderEditorVoidStack = ({ $item }) => {
+  console.log("$item :>> ", $item);
   const dispatch = useDispatch();
-  const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
   const selectedStackBlockColumnItem = useSelector(
@@ -72,14 +72,13 @@ export const RenderEditorVoidStack = ({ $item }) => {
 
   const id = _.get($item, ["id"]);
 
-  const attribute = _.get($item, ["attribute", selectedLayoutDesign]);
-  const columns = _.get(attribute, ["columns"]);
-  const columnItems = _.get(attribute, ["columnItems"]);
-  const aspectRatio = _.get(attribute, ["aspectRatio"]);
-  const height = _.get(attribute, ["height"]);
-  const spacing = _.get(attribute, ["spacing"]);
-  const paddingHorizontal = _.get(attribute, ["paddingHorizontal"]);
-  const paddingVertical = _.get(attribute, ["paddingVertical"]);
+  const columns = _.get($item, ["columns"]);
+  const columnItems = _.get($item, ["columnItems"]);
+  const aspectRatio = _.get($item, ["aspectRatio"]);
+  const height = _.get($item, ["height"]);
+  const spacing = _.get($item, ["spacing"]);
+  const paddingHorizontal = _.get($item, ["paddingHorizontal"]);
+  const paddingVertical = _.get($item, ["paddingVertical"]);
 
   const isActive = _.get(customizeBlockAttr, ["id"]) === id && _.get(customizeBlockAttr, ["isVisible"]);
   const handleSelectMainVoidBlock = () => {
@@ -121,8 +120,6 @@ export const RenderEditorVoidStack = ({ $item }) => {
           const id = _.get(item, ["id"]);
           const isActive = id === selectedStackBlockColumnItem;
           const type = _.get(item, ["type"]);
-          const attribute = _.get(item, ["attribute"]);
-
           return (
             <ContainerItem
               onClick={(event) => handleSelectedColumnItem({ columnItemId: id, event })}
@@ -136,12 +133,12 @@ export const RenderEditorVoidStack = ({ $item }) => {
                   case "IMAGE":
                     return <div>{"image"}</div>;
                   case "TEXT":
-                    return <ContainerText $isActive={isActive} $attribute={attribute} />;
+                    return <ContainerText $isActive={isActive} $item={$item} />;
                   case "SLIDE":
                     return <div>{"slide"}</div>;
 
                   default:
-                    return <ContainerEmpty $isActive={isActive} $attribute={attribute} />;
+                    return <ContainerEmpty $isActive={isActive} $item={item} />;
                 }
               })()}
             </ContainerItem>

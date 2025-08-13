@@ -34,45 +34,34 @@ export const ImportStackContainer = () => {
   const dispatch = useDispatch();
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
+  const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
 
   const handleImportStackVoidContainer = () => {
     const initial = {
       id: uuid(),
       type: "VOID",
-      attribute: {
-        DESKTOP: {
-          height: _.get(COLUMN_HEIGHT_OPTIONS_RANGE, ["DESKTOP", "default"]),
-          spacing: 8,
-          paddingHorizontal: 8,
-          paddingVertical: 8,
-          columns: 2,
-          aspectRatio: null,
-          columnItems: [
-            { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#707070" } },
-            { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#999999" } },
-            { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#ADADAD" } },
-            { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#D6D6D6" } },
-          ],
-        },
-        MOBILE: {
-          height: _.get(COLUMN_HEIGHT_OPTIONS_RANGE, ["MOBILE", "default"]),
-          spacing: 4,
-          paddingHorizontal: 4,
-          paddingVertical: 4,
-          columns: 2,
-          aspectRatio: null,
-          columnItems: [
-            { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#707070" } },
-            { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#999999" } },
-            { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#ADADAD" } },
-            { id: uuid(), type: "EMPTY", attribute: { backgroundColor: "#D6D6D6" } },
-          ],
-        },
-      },
+      height: _.get(COLUMN_HEIGHT_OPTIONS_RANGE, [selectedLayoutDesign, "default"]),
+      spacing: 8,
+      paddingHorizontal: 8,
+      paddingVertical: 8,
+      columns: 2,
+      aspectRatio: null,
+      columnItems: [
+        { id: uuid(), type: "EMPTY", backgroundColor: "#707070" },
+        { id: uuid(), type: "EMPTY", backgroundColor: "#999999" },
+        { id: uuid(), type: "EMPTY", backgroundColor: "#ADADAD" },
+        { id: uuid(), type: "EMPTY", backgroundColor: "#D6D6D6" },
+      ],
     };
 
+    const updateStackBlocks = {
+      ...stackBlocks,
+      [selectedLayoutDesign]: [...stackBlocks[selectedLayoutDesign], initial],
+    };
+
+    console.log("updateStackBlocks :>> ", updateStackBlocks);
     batch(() => {
-      dispatch(setStackBlocks([...stackBlocks, initial]));
+      dispatch(setStackBlocks(updateStackBlocks));
       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
     });
   };

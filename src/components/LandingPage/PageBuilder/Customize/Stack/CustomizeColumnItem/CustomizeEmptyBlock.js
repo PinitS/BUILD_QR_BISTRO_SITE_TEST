@@ -33,24 +33,25 @@ export const CustomizeEmptyBlock = () => {
     shallowEqual,
   );
 
-  const selectItem = _.chain(stackBlocks)
-    .find((item) => {
+  const activeStackBlockIndex = _.chain(stackBlocks)
+    .get([selectedLayoutDesign])
+    .findIndex((item) => {
       return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
     })
     .value();
 
-  const indexItem = _.findIndex(stackBlocks, (item) => {
-    return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
-  });
+  const selectStackBlock = _.chain(stackBlocks).get([selectedLayoutDesign, activeStackBlockIndex]).value();
 
-  const attribute = _.get(selectItem, ["attribute", selectedLayoutDesign]);
-  const columnItems = _.get(attribute, ["columnItems"]);
+  const activeColumnIndex = _.chain(selectStackBlock)
+    .get(["columnItems"])
+    .findIndex((item) => {
+      return _.get(item, ["id"]) === selectedStackBlockColumnItem;
+    })
+    .value();
 
-  const indexColumnItem = _.findIndex(columnItems, (item) => {
-    return _.get(item, ["id"]) === selectedStackBlockColumnItem;
-  });
-
-  const currentColumn = _.get(columnItems, [indexColumnItem]);
+  const selectItem = _.chain(stackBlocks)
+    .get([selectedLayoutDesign, activeStackBlockIndex, "columnItems", activeColumnIndex])
+    .value();
 
   const {
     control,
@@ -60,11 +61,11 @@ export const CustomizeEmptyBlock = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      backgroundColor: _.get(currentColumn, ["attribute", "backgroundColor"]),
-      borderTopLeftRadius: _.get(currentColumn, ["attribute", "borderTopLeftRadius"], 0),
-      borderTopRightRadius: _.get(currentColumn, ["attribute", "borderTopRightRadius"], 0),
-      borderBottomLeftRadius: _.get(currentColumn, ["attribute", "borderBottomLeftRadius"], 0),
-      borderBottomRightRadius: _.get(currentColumn, ["attribute", "borderBottomRightRadius"], 0),
+      backgroundColor: _.get(selectItem, ["backgroundColor"]),
+      borderTopLeftRadius: _.get(selectItem, ["borderTopLeftRadius"], 0),
+      borderTopRightRadius: _.get(selectItem, ["borderTopRightRadius"], 0),
+      borderBottomLeftRadius: _.get(selectItem, ["borderBottomLeftRadius"], 0),
+      borderBottomRightRadius: _.get(selectItem, ["borderBottomRightRadius"], 0),
     },
   });
 
@@ -75,47 +76,32 @@ export const CustomizeEmptyBlock = () => {
   const borderBottomRightRadius = watch("borderBottomRightRadius");
 
   useEffect(() => {
-    if (indexItem === -1 && indexColumnItem === -1) {
+    if (activeStackBlockIndex === -1 && activeColumnIndex === -1) {
       return;
     }
 
-    const updateCurrentColumn = {
-      ...currentColumn,
-      attribute: {
-        backgroundColor,
-        borderTopLeftRadius,
-        borderTopRightRadius,
-        borderBottomLeftRadius,
-        borderBottomRightRadius,
-      },
-    };
-    if (_.isEqual(updateCurrentColumn, currentColumn)) {
-      return;
-    }
-
-    const updateColumnItem = [...columnItems];
-    updateColumnItem[indexColumnItem] = {
-      ...updateCurrentColumn,
-    };
-
-    const updateSelectItem = {
+    const updateStackColumnItem = {
       ...selectItem,
-      attribute: {
-        ...selectItem?.attribute,
-        [selectedLayoutDesign]: {
-          ...selectItem?.attribute[selectedLayoutDesign],
-          columnItems: updateColumnItem,
-        },
-      },
+      backgroundColor,
+      borderTopLeftRadius,
+      borderTopRightRadius,
+      borderBottomLeftRadius,
+      borderBottomRightRadius,
     };
+    if (_.isEqual(updateStackColumnItem, selectItem)) {
+      return;
+    }
 
-    const updatedBlocks = [...stackBlocks];
-    updatedBlocks[indexItem] = {
-      ...updateSelectItem,
-    };
+    const updateStackBlocks = _.chain(stackBlocks)
+      .cloneDeep()
+      .set(
+        [selectedLayoutDesign, activeStackBlockIndex, "columnItems", activeColumnIndex],
+        updateStackColumnItem,
+      )
+      .value();
 
     batch(() => {
-      dispatch(setStackBlocks(updatedBlocks));
+      dispatch(setStackBlocks(updateStackBlocks));
     });
   }, [
     backgroundColor,
@@ -126,16 +112,14 @@ export const CustomizeEmptyBlock = () => {
   ]);
 
   useEffect(() => {
-    const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
-    const attributeCurrentColumnItem = _.get(attributeDevice, ["columnItems", indexColumnItem, "attribute"]);
     reset({
-      backgroundColor: _.get(attributeCurrentColumnItem, ["backgroundColor"]),
-      borderTopLeftRadius: _.get(attributeCurrentColumnItem, ["borderTopLeftRadius"], 0),
-      borderTopRightRadius: _.get(attributeCurrentColumnItem, ["borderTopRightRadius"], 0),
-      borderBottomLeftRadius: _.get(attributeCurrentColumnItem, ["borderBottomLeftRadius"], 0),
-      borderBottomRightRadius: _.get(attributeCurrentColumnItem, ["borderBottomRightRadius"], 0),
+      backgroundColor: _.get(selectItem, ["backgroundColor"]),
+      borderTopLeftRadius: _.get(selectItem, ["borderTopLeftRadius"], 0),
+      borderTopRightRadius: _.get(selectItem, ["borderTopRightRadius"], 0),
+      borderBottomLeftRadius: _.get(selectItem, ["borderBottomLeftRadius"], 0),
+      borderBottomRightRadius: _.get(selectItem, ["borderBottomRightRadius"], 0),
     });
-  }, [selectedLayoutDesign, currentColumn]);
+  }, [selectedStackBlockColumnItem]);
 
   return (
     <Container>

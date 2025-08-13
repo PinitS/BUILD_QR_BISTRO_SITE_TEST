@@ -65,8 +65,8 @@ export const ContainerImportBlock = () => {
                 case "IMPORT-FREEFORM-CONTAINER":
                   return <ImportFreeformContainer />;
 
-                // case "IMPORT-STACK-CONTAINER":
-                //   return <ImportStackContainer />;
+                case "IMPORT-STACK-CONTAINER":
+                  return <ImportStackContainer />;
 
                 default:
                   return null;

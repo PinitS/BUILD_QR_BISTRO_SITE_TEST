@@ -21,13 +21,13 @@ const Container = styled.div`
   border-style: dashed;
   border-color: ${({ $isActive = false }) => ($isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : "transparent")};
 `;
-export const ContainerEmpty = ({ $attribute = null, $isActive = false }) => {
-  const backgroundColor = _.get($attribute, ["backgroundColor"]);
+export const ContainerEmpty = ({ $item = null, $isActive = false }) => {
+  const backgroundColor = _.get($item, ["backgroundColor"]);
 
-  const borderTopLeftRadius = _.get($attribute, ["borderTopLeftRadius"]);
-  const borderTopRightRadius = _.get($attribute, ["borderTopRightRadius"]);
-  const borderBottomLeftRadius = _.get($attribute, ["borderBottomLeftRadius"]);
-  const borderBottomRightRadius = _.get($attribute, ["borderBottomRightRadius"]);
+  const borderTopLeftRadius = _.get($item, ["borderTopLeftRadius"]);
+  const borderTopRightRadius = _.get($item, ["borderTopRightRadius"]);
+  const borderBottomLeftRadius = _.get($item, ["borderBottomLeftRadius"]);
+  const borderBottomRightRadius = _.get($item, ["borderBottomRightRadius"]);
 
   return (
     <Container

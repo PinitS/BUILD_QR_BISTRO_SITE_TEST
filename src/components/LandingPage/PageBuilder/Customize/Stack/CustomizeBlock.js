@@ -24,17 +24,14 @@ export const CustomizeBlock = () => {
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
 
-  const selectItem = _.chain(stackBlocks)
-    .find((item) => {
+  const activeIndex = _.chain(stackBlocks)
+    .get([selectedLayoutDesign])
+    .findIndex((item) => {
       return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
     })
     .value();
 
-  const indexItem = _.findIndex(stackBlocks, (item) => {
-    return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
-  });
-
-  const attribute = _.get(selectItem, ["attribute", selectedLayoutDesign]);
+  const selectItem = _.chain(stackBlocks).get([selectedLayoutDesign, activeIndex]).value();
 
   const {
     control,
@@ -43,19 +40,28 @@ export const CustomizeBlock = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      aspectRatio: _.get(attribute, ["aspectRatio"]),
-      height: String(_.get(attribute, ["height"])),
-      spacing: String(_.get(attribute, ["spacing"])),
-      columns: String(_.get(attribute, ["columns"])),
-      paddingHorizontal: String(_.get(attribute, ["paddingHorizontal"])),
-      paddingVertical: String(_.get(attribute, ["paddingVertical"])),
+      aspectRatio: _.get(selectItem, ["aspectRatio"]),
+      height: String(_.get(selectItem, ["height"])),
+      spacing: String(_.get(selectItem, ["spacing"])),
+      columns: String(_.get(selectItem, ["columns"])),
+      paddingHorizontal: String(_.get(selectItem, ["paddingHorizontal"])),
+      paddingVertical: String(_.get(selectItem, ["paddingVertical"])),
     },
   });
 
   const handleRemoveItem = () => {
-    const updateStackBlocks = _.filter(stackBlocks, (item, index) => {
-      return _.get(selectItem, ["id"]) !== _.get(item, ["id"]);
-    });
+    const updatedLayout = _.chain(stackBlocks)
+      .get([selectedLayoutDesign])
+      .filter((item, index) => {
+        return _.get(selectItem, ["id"]) !== _.get(item, ["id"]);
+      })
+      .value();
+
+    const updateStackBlocks = {
+      ...stackBlocks,
+      [selectedLayoutDesign]: updatedLayout,
+    };
+
     const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false, id: null };
     batch(() => {
       dispatch(setStackBlocks(updateStackBlocks));
@@ -72,51 +78,45 @@ export const CustomizeBlock = () => {
   const paddingVertical = watch("paddingVertical");
 
   useEffect(() => {
-    if (indexItem === -1) {
+    if (activeIndex === -1) {
       return;
     }
 
-    const updateSelectItem = {
+    const updateStackBlockItem = {
       ...selectItem,
-      attribute: {
-        ...selectItem?.attribute,
-        [selectedLayoutDesign]: {
-          ...selectItem?.attribute[selectedLayoutDesign],
-          aspectRatio,
-          height: Number(height),
-          spacing: Number(spacing),
-          columns: Number(columns),
-          paddingHorizontal: Number(paddingHorizontal),
-          paddingVertical: Number(paddingVertical),
-        },
-      },
+      aspectRatio,
+      height: Number(height),
+      spacing: Number(spacing),
+      columns: Number(columns),
+      paddingHorizontal: Number(paddingHorizontal),
+      paddingVertical: Number(paddingVertical),
     };
 
-    if (_.isEqual(updateSelectItem, selectItem)) {
+    if (_.isEqual(updateStackBlockItem, selectItem)) {
       return;
     }
 
-    const updatedBlocks = [...stackBlocks];
-    updatedBlocks[indexItem] = {
-      ...updateSelectItem,
+    const updatedStackBlocks = {
+      ...stackBlocks,
+      [selectedLayoutDesign]: [...stackBlocks[selectedLayoutDesign]],
     };
+    updatedStackBlocks[selectedLayoutDesign][activeIndex] = updateStackBlockItem;
 
     batch(() => {
-      dispatch(setStackBlocks(updatedBlocks));
+      dispatch(setStackBlocks(updatedStackBlocks));
     });
   }, [height, aspectRatio, columns, spacing, paddingHorizontal, paddingVertical]);
 
   useEffect(() => {
-    const attributeDevice = _.get(selectItem, ["attribute", selectedLayoutDesign]);
     reset({
-      aspectRatio: _.get(attributeDevice, ["aspectRatio"]),
-      height: _.get(attributeDevice, ["height"]),
-      columns: _.get(attributeDevice, ["columns"]),
-      spacing: _.get(attributeDevice, ["spacing"]),
-      paddingHorizontal: _.get(attributeDevice, ["paddingHorizontal"]),
-      paddingVertical: _.get(attributeDevice, ["paddingVertical"]),
+      aspectRatio: _.get(selectItem, ["aspectRatio"]),
+      height: _.get(selectItem, ["height"]),
+      columns: _.get(selectItem, ["columns"]),
+      spacing: _.get(selectItem, ["spacing"]),
+      paddingHorizontal: _.get(selectItem, ["paddingHorizontal"]),
+      paddingVertical: _.get(selectItem, ["paddingVertical"]),
     });
-  }, [selectedLayoutDesign]);
+  }, [_.get(customizeBlockAttr, ["id"])]);
 
   return (
     <Container>
