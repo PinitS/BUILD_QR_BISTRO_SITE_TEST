@@ -4,7 +4,6 @@ import styled from "styled-components";
 import ReactSlider from "react-slider";
 import { Text } from "@components/LandingPage/Base/Text";
 import { Controller } from "react-hook-form";
-import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
 
 const Container = styled.div`
   display: flex;

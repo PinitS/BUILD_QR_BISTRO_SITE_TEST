@@ -1,5 +1,6 @@
 import { BlankImagePlaceHolder } from "@components/LandingPage/Base/Image/BlankImagePlaceHolder";
 import { ImageWrapper } from "@components/LandingPage/Base/Image/ImageWrapper";
+import { Text } from "@components/LandingPage/Base/Text";
 import { getAngleFromAspectRatio } from "@utils/getAngleFromAspectRatio";
 import { getBoundingRectById } from "@utils/getBoundingRectById";
 import { resolveImageFilter } from "@utils/resolve/resolveImageFilter";
@@ -28,10 +29,11 @@ const Container = styled.div`
   border-color: ${({ $isActive = false }) => ($isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : "transparent")};
   overflow: hidden;
 `;
-export const ContainerImage = ({ $item = null, $isActive = false, $aspectRatio = null }) => {
+
+export const ContainerImage = ({ $item = null, $isActive = false }) => {
   // image only
 
-  const id = _.get($item, ["id"]);
+  // const id = _.get($item, ["id"]);
   const value = _.get($item, ["value"]);
   const resize = _.get($item, ["resize"], "contain");
 
@@ -51,12 +53,8 @@ export const ContainerImage = ({ $item = null, $isActive = false, $aspectRatio =
   const borderBottomLeftRadius = _.get($item, ["borderBottomLeftRadius"]);
   const borderBottomRightRadius = _.get($item, ["borderBottomRightRadius"]);
 
-  const { elHeight, elWidth } = getBoundingRectById({ id });
-  const angle = getAngleFromAspectRatio($aspectRatio);
-
   return (
     <Container
-      id={id}
       $backgroundColor={backgroundColor}
       $borderTopLeftRadius={borderTopLeftRadius}
       $borderTopRightRadius={borderTopRightRadius}
@@ -66,18 +64,18 @@ export const ContainerImage = ({ $item = null, $isActive = false, $aspectRatio =
       $justifyContent={justifyContent}
       $alignItems={alignItems}
     >
-      <ImageWrapper $w={elWidth} $aspectRatio={$aspectRatio}>
-        {_.isNil(value) ? (
-          <BlankImagePlaceHolder $angle={angle} $size={elWidth} />
-        ) : (
-          <Image
-            alt={MAIN_ATTR?.IMAGE_ALT}
-            fill
-            style={{ objectFit: resize, filter: filterImage }}
-            src={value}
-          />
-        )}
-      </ImageWrapper>
+      {!_.isNil(value) && (
+        <Image
+          alt={MAIN_ATTR?.IMAGE_ALT}
+          fill
+          style={{
+            objectFit: resize,
+            filter: filterImage,
+            borderRadius: "inherit",
+          }}
+          src={value}
+        />
+      )}
     </Container>
   );
 };

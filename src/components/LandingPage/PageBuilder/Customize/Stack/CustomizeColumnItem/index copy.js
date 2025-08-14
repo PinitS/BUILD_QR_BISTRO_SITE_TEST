@@ -10,6 +10,7 @@ import styled from "styled-components";
 import { CustomizeEmpty } from "./CustomizeEmpty";
 import { CustomizeText } from "./CustomizeText";
 import { CustomizeImage } from "./CustomizeImage";
+import { INITIAL_BLOCK_VALUE } from "statics/PAGE_BUILDER_VOID";
 
 const Container = styled.div`
   display: flex;
@@ -61,16 +62,22 @@ export const CustomizeColumnItem = () => {
   const type = watch("type");
 
   useEffect(() => {
+    console.log("CustomizeColumnItem :>> ");
     if (activeStackBlockIndex === -1 && activeColumnIndex === -1) {
       return;
     }
+    if (type === _.get(selectItem, ["type"])) return;
 
     const updateStackColumnItem = {
       ...selectItem,
       type,
+      ...INITIAL_BLOCK_VALUE[type],
     };
 
     console.log("updateStackColumnItem :>> ", updateStackColumnItem);
+    console.log("CustomizeColumnItem :>> ");
+    console.log("========================== :>> ");
+
     if (_.isEqual(updateStackColumnItem, selectItem)) {
       return;
     }
@@ -86,20 +93,10 @@ export const CustomizeColumnItem = () => {
     batch(() => {
       dispatch(setStackBlocks(updateStackBlocks));
     });
-  }, [type, selectItem]);
+  }, [type]);
 
   return (
     <Container>
-      <Select
-        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-        $fontFamily="Sen"
-        $options={COLUMN_ITEM_TYPE}
-        $control={control}
-        $name="type"
-        $label="type"
-      />
-
       {(() => {
         switch (type) {
           case "IMAGE":

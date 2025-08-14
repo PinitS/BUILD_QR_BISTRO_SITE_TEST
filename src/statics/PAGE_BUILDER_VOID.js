@@ -23,3 +23,38 @@ export const ALIGN_CONTENT_OPTIONS = [
   { label: "center", value: "center" },
   { label: "end", value: "flex-end" },
 ];
+
+export const INITIAL_BLOCK_VALUE = {
+  EMPTY: {
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+  },
+  IMAGE: {
+    value: null,
+    resize: "contain",
+    filterType: "NONE",
+    filterValue: null,
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+  },
+  TEXT: {
+    value: null,
+    color: "#000000",
+    fontSize: 16,
+    fontWeight: 400,
+    fontFamily: "IBMPlexSansThai",
+    textAlign: "left",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+  },
+};
