@@ -1,5 +1,4 @@
 import { Select } from "@components/LandingPage/Base/Select";
-import { Text } from "@components/LandingPage/Base/Text";
 import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
 import _ from "lodash";
 import React, { useEffect } from "react";
@@ -8,8 +7,9 @@ import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { COLUMN_ITEM_TYPE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
-import { CustomizeEmptyBlock } from "./CustomizeEmptyBlock";
+import { CustomizeEmpty } from "./CustomizeEmpty";
 import { CustomizeText } from "./CustomizeText";
+import { CustomizeImage } from "./CustomizeImage";
 
 const Container = styled.div`
   display: flex;
@@ -28,71 +28,64 @@ export const CustomizeColumnItem = () => {
     shallowEqual,
   );
 
-  const selectItem = _.chain(stackBlocks)
-    .find((item) => {
+  const activeStackBlockIndex = _.chain(stackBlocks)
+    .get([selectedLayoutDesign])
+    .findIndex((item) => {
       return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
     })
     .value();
 
-  const indexItem = _.findIndex(stackBlocks, (item) => {
-    return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
-  });
+  const selectStackBlock = _.chain(stackBlocks).get([selectedLayoutDesign, activeStackBlockIndex]).value();
 
-  const attribute = _.get(selectItem, ["attribute", selectedLayoutDesign]);
-  const columnItems = _.get(attribute, ["columnItems"]);
+  const activeColumnIndex = _.chain(selectStackBlock)
+    .get(["columnItems"])
+    .findIndex((item) => {
+      return _.get(item, ["id"]) === selectedStackBlockColumnItem;
+    })
+    .value();
 
-  const indexColumnItem = _.findIndex(columnItems, (item) => {
-    return _.get(item, ["id"]) === selectedStackBlockColumnItem;
-  });
+  const selectItem = _.chain(stackBlocks)
+    .get([selectedLayoutDesign, activeStackBlockIndex, "columnItems", activeColumnIndex])
+    .value();
 
-  const currentColumn = _.get(columnItems, [indexColumnItem]);
   const {
     control,
     watch,
-    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      type: _.get(currentColumn, ["type"]),
+      type: _.get(selectItem, ["type"]),
     },
   });
 
   const type = watch("type");
 
   useEffect(() => {
-    if (indexItem === -1 && indexColumnItem === -1) {
-      return;
-    }
-    const updateCurrentColumn = { ...currentColumn, type };
-
-    if (_.isEqual(updateCurrentColumn, currentColumn)) {
+    if (activeStackBlockIndex === -1 && activeColumnIndex === -1) {
       return;
     }
 
-    const updateColumnItem = [...columnItems];
-    updateColumnItem[indexColumnItem] = {
-      ...updateCurrentColumn,
-    };
-
-    const updateSelectItem = {
+    const updateStackColumnItem = {
       ...selectItem,
-      attribute: {
-        ...selectItem?.attribute,
-        [selectedLayoutDesign]: {
-          ...selectItem?.attribute[selectedLayoutDesign],
-          columnItems: updateColumnItem,
-        },
-      },
+      type,
     };
 
-    const updatedBlocks = [...stackBlocks];
-    updatedBlocks[indexItem] = {
-      ...updateSelectItem,
-    };
+    if (_.isEqual(updateStackColumnItem, selectItem)) {
+      return;
+    }
+
+    const updateStackBlocks = _.chain(stackBlocks)
+      .cloneDeep()
+      .set(
+        [selectedLayoutDesign, activeStackBlockIndex, "columnItems", activeColumnIndex],
+        updateStackColumnItem,
+      )
+      .value();
+
     batch(() => {
-      dispatch(setStackBlocks(updatedBlocks));
+      dispatch(setStackBlocks(updateStackBlocks));
     });
-  }, [type, currentColumn]);
+  }, [type, selectItem]);
 
   return (
     <Container>
@@ -109,14 +102,14 @@ export const CustomizeColumnItem = () => {
       {(() => {
         switch (type) {
           case "IMAGE":
-            return <div>{"image"}</div>;
+            return <CustomizeImage />;
           case "TEXT":
             return <CustomizeText />;
           case "SLIDE":
             return <div>{"slide"}</div>;
 
           default:
-            return <CustomizeEmptyBlock />;
+            return <CustomizeEmpty />;
         }
       })()}
     </Container>

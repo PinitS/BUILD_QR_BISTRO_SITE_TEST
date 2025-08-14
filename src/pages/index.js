@@ -43,23 +43,24 @@ export default () => {
     }
 
     // UPDATE STATE
-    const updatedFreeformBlocks = {
-      ...freeformBlocks,
-      [selectedLayoutDesign]: [...freeformBlocks[selectedLayoutDesign]],
-    };
 
     const currentFreeformBlockItem = _.get(freeformBlocks, [selectedLayoutDesign, activeIndex]);
 
     const newX = Math.max(0, Math.min(currentFreeformBlockItem.x + delta.x, containerWidth - elWidth));
     const newY = Math.max(0, currentFreeformBlockItem.y + delta.y);
 
-    const updatedFreeformBlockItem = {
+    const updateBlockItem = {
       ...currentFreeformBlockItem,
       x: newX,
       y: newY,
     };
-    updatedFreeformBlocks[selectedLayoutDesign][activeIndex] = updatedFreeformBlockItem;
-    dispatch(setFreeformBlocks(updatedFreeformBlocks));
+
+    const updateBlocks = _.chain(freeformBlocks)
+      .cloneDeep()
+      .set([selectedLayoutDesign, activeIndex], updateBlockItem)
+      .value();
+
+    dispatch(setFreeformBlocks(updateBlocks));
     // UPDATE STATE
 
     if (containerRef?.current) {

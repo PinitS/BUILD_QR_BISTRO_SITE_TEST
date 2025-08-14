@@ -22,24 +22,24 @@ const Container = styled.div`
   border-color: ${({ $isActive = false }) => ($isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : "transparent")};
   overflow: scroll;
 `;
-export const ContainerText = ({ $attribute = null, $isActive = false }) => {
-  const value = _.get($attribute, ["value"]);
-  const color = _.get($attribute, ["color"]);
-  const fontSize = _.get($attribute, ["fontSize"]);
+export const ContainerText = ({ $item = null, $isActive = false }) => {
+  const value = _.get($item, ["value"]);
+  const color = _.get($item, ["color"]);
+  const fontSize = _.get($item, ["fontSize"]);
 
-  const fontWeight = _.get($attribute, ["fontWeight"]);
-  const fontFamily = _.get($attribute, ["fontFamily"]);
-  const textAlign = _.get($attribute, ["textAlign"]);
+  const fontWeight = _.get($item, ["fontWeight"]);
+  const fontFamily = _.get($item, ["fontFamily"]);
+  const textAlign = _.get($item, ["textAlign"]);
 
-  const justifyContent = _.get($attribute, ["justifyContent"]);
-  const alignItems = _.get($attribute, ["alignItems"]);
+  const justifyContent = _.get($item, ["justifyContent"]);
+  const alignItems = _.get($item, ["alignItems"]);
 
-  const backgroundColor = _.get($attribute, ["backgroundColor"]);
+  const backgroundColor = _.get($item, ["backgroundColor"]);
 
-  const borderTopLeftRadius = _.get($attribute, ["borderTopLeftRadius"]);
-  const borderTopRightRadius = _.get($attribute, ["borderTopRightRadius"]);
-  const borderBottomLeftRadius = _.get($attribute, ["borderBottomLeftRadius"]);
-  const borderBottomRightRadius = _.get($attribute, ["borderBottomRightRadius"]);
+  const borderTopLeftRadius = _.get($item, ["borderTopLeftRadius"]);
+  const borderTopRightRadius = _.get($item, ["borderTopRightRadius"]);
+  const borderBottomLeftRadius = _.get($item, ["borderBottomLeftRadius"]);
+  const borderBottomRightRadius = _.get($item, ["borderBottomRightRadius"]);
 
   return (
     <Container

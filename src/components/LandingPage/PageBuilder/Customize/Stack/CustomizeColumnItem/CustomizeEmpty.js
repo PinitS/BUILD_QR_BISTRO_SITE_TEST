@@ -23,7 +23,7 @@ const Line = styled.div`
   background: ${MAIN_COLORS?.MAIN?.LINE};
 `;
 
-export const CustomizeEmptyBlock = () => {
+export const CustomizeEmpty = () => {
   const dispatch = useDispatch();
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
@@ -57,7 +57,6 @@ export const CustomizeEmptyBlock = () => {
     control,
     watch,
     reset,
-    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -88,6 +87,7 @@ export const CustomizeEmptyBlock = () => {
       borderBottomLeftRadius,
       borderBottomRightRadius,
     };
+
     if (_.isEqual(updateStackColumnItem, selectItem)) {
       return;
     }

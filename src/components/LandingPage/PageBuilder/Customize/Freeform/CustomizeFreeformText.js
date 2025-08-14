@@ -99,14 +99,14 @@ export const CustomizeFreeformText = () => {
       })
       .value();
 
-    const updateFreeformBlocks = {
-      ...freeformBlocks,
-      [selectedLayoutDesign]: updatedLayout,
-    };
+    const updateBlocks = _.chain(freeformBlocks)
+      .cloneDeep()
+      .set([selectedLayoutDesign], updatedLayout)
+      .value();
 
     const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false, id: null };
     batch(() => {
-      dispatch(setFreeformBlocks(updateFreeformBlocks));
+      dispatch(setFreeformBlocks(updateBlocks));
       dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
     });
   };
@@ -125,7 +125,7 @@ export const CustomizeFreeformText = () => {
     const currentFontFamily = _.get(selectItem, ["fontFamily"]);
     let updateFontWeight = _.isEqual(fontFamily, currentFontFamily) ? fontWeight : 400;
 
-    const updatedFreeformBlockItem = {
+    const updateBlockItem = {
       ...selectItem,
       value,
       color,
@@ -135,17 +135,16 @@ export const CustomizeFreeformText = () => {
       fontSize: Number(fontSize),
     };
 
-    if (_.isEqual(updatedFreeformBlockItem, selectItem)) {
+    if (_.isEqual(updateBlockItem, selectItem)) {
       return;
     }
 
-    const updatedFreeformBlocks = {
-      ...freeformBlocks,
-      [selectedLayoutDesign]: [...freeformBlocks[selectedLayoutDesign]],
-    };
-    updatedFreeformBlocks[selectedLayoutDesign][activeIndex] = updatedFreeformBlockItem;
+    const updateBlocks = _.chain(freeformBlocks)
+      .cloneDeep()
+      .set([selectedLayoutDesign, activeIndex], updateBlockItem)
+      .value();
 
-    dispatch(setFreeformBlocks(updatedFreeformBlocks));
+    dispatch(setFreeformBlocks(updateBlocks));
   }, [value, color, fontSize, fontWeight, fontFamily, textAlign]);
 
   // // ============
@@ -212,7 +211,7 @@ export const CustomizeFreeformText = () => {
           $fontFamily="Sen"
           $control={control}
           $name="value"
-          $label="value"
+          $label="text"
         />
 
         <Select

@@ -10,6 +10,7 @@ export const DESIGN_SIZE = {
 export const ContainerDimensionProvider = ({ children }) => {
   const ref = useRef(null);
   const [containerWidth, setContainerWidth] = useState(DESIGN_SIZE.DESKTOP);
+  const [containerHeight, setContainerHeight] = useState(null);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -18,6 +19,7 @@ export const ContainerDimensionProvider = ({ children }) => {
       for (let entry of entries) {
         if (entry.contentRect) {
           setContainerWidth(entry.contentRect.width);
+          setContainerHeight(entry.contentRect.height);
         }
       }
     });
@@ -41,6 +43,7 @@ export const ContainerDimensionProvider = ({ children }) => {
     <ContainerDimensionContext.Provider
       value={{
         containerWidth,
+        containerHeight,
         ref,
         device,
         scale,

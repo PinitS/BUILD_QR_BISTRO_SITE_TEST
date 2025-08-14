@@ -2,11 +2,13 @@ import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
 import { Select } from "@components/LandingPage/Base/Select";
 import { Slide } from "@components/LandingPage/Base/Slide";
 import { TextArea } from "@components/LandingPage/Base/TextArea";
+import { UploadFile } from "@components/LandingPage/Base/UploadFile";
 import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
 import _ from "lodash";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
+import { FILTER_OPTIONS, FILTER_OPTIONS_RANGE, RESIZE_OPTIONS } from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import {
   ALIGNMENT_OPTIONS,
@@ -30,7 +32,7 @@ const Line = styled.div`
   background: ${MAIN_COLORS?.MAIN?.LINE};
 `;
 
-export const CustomizeText = () => {
+export const CustomizeImage = () => {
   const dispatch = useDispatch();
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data);
@@ -68,12 +70,10 @@ export const CustomizeText = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      value: _.get(selectItem, ["value"], ""),
-      color: _.get(selectItem, ["color"], "#000000"),
-      fontSize: String(_.get(selectItem, ["fontSize"], 16)),
-      fontWeight: String(_.get(selectItem, ["fontWeight"], 400)),
-      fontFamily: _.get(selectItem, ["fontFamily"], "IBMPlexSansThai"),
-      textAlign: _.get(selectItem, ["textAlign"], "left"),
+      value: _.get(selectItem, ["value"]),
+      resize: String(_.get(selectItem, ["resize"], "contain")),
+      filterType: _.get(selectItem, ["filterType"], "NONE"),
+      filterValue: _.get(selectItem, ["filterValue"], null),
 
       justifyContent: _.get(selectItem, ["justifyContent"], "flex-start"),
       alignItems: _.get(selectItem, ["alignItems"], "flex-start"),
@@ -87,11 +87,9 @@ export const CustomizeText = () => {
   });
   // for text
   const value = watch("value");
-  const color = watch("color");
-  const fontSize = watch("fontSize");
-  const fontWeight = watch("fontWeight");
-  const fontFamily = watch("fontFamily");
-  const textAlign = watch("textAlign");
+  const resize = watch("resize");
+  const filterType = watch("filterType");
+  const filterValue = watch("filterValue");
   // for text
 
   // align
@@ -105,20 +103,23 @@ export const CustomizeText = () => {
   const borderBottomRightRadius = watch("borderBottomRightRadius");
 
   useEffect(() => {
-    console.log("stackBlocks :>> ", stackBlocks);
-    console.log("selectItem :>> ", selectItem);
     if (activeStackBlockIndex === -1 && activeColumnIndex === -1) {
       return;
+    }
+
+    let updateFilterValue = null;
+    if (filterType !== _.get(selectItem, ["filterType"])) {
+      updateFilterValue = _.get(FILTER_OPTIONS_RANGE, [filterType, "default"]);
+      setValue("filterValue", updateFilterValue);
+    } else {
+      updateFilterValue = filterValue;
     }
     const updateStackColumnItem = {
       ...selectItem,
       value,
-      color,
-      fontSize: Number(fontSize),
-      fontWeight: Number(fontWeight),
-      fontFamily,
-      fontWeight,
-      textAlign,
+      resize,
+      filterType,
+      filterValue: Number(filterValue),
       justifyContent,
       alignItems,
       backgroundColor,
@@ -142,11 +143,9 @@ export const CustomizeText = () => {
     dispatch(setStackBlocks(updateStackBlocks));
   }, [
     value,
-    color,
-    fontSize,
-    fontFamily,
-    fontWeight,
-    textAlign,
+    resize,
+    filterType,
+    filterValue,
     justifyContent,
     alignItems,
     backgroundColor,
@@ -156,62 +155,50 @@ export const CustomizeText = () => {
     borderBottomRightRadius,
   ]);
 
+  const attributeFilterValue = _.get(FILTER_OPTIONS_RANGE, [filterType]);
+
   return (
     <Container>
-      <TextArea
-        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-        $fontFamily="Sen"
-        $control={control}
-        $name="value"
-        $label="text"
-      />
-      <Select
-        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-        $fontFamily="Sen"
-        $options={FONT_SIZE_OPTIONS}
-        $control={control}
-        $name="fontSize"
-        $label={`font Size (${selectedLayoutDesign})`}
-      />
-      <Select
-        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-        $fontFamily="Sen"
-        $options={FONT_FAMILY_OPTIONS}
-        $control={control}
-        $name="fontFamily"
-        $label="font family"
+      <UploadFile
+        $setValue={setValue}
+        $value={value}
+        // $aspectRatio={aspectRatio}
+        $backgroundColor={backgroundColor}
       />
 
       <Select
         $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
         $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
         $fontFamily="Sen"
-        $options={_.get(FONT_WEIGHT_OPTIONS, [fontFamily])}
+        $options={RESIZE_OPTIONS}
         $control={control}
-        $name="fontWeight"
-        $label="font Weight"
+        $name="resize"
+        $label="resize"
       />
 
       <Select
+        $disabled={_.isNil(value)}
         $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
         $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
         $fontFamily="Sen"
-        $options={ALIGNMENT_OPTIONS}
+        $options={FILTER_OPTIONS}
         $control={control}
-        $name="textAlign"
-        $label="font align"
+        $name="filterType"
+        $label="filter"
       />
-      <ColorPicker
-        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-        $control={control}
+
+      <Slide
+        $disabled={filterType === "NONE"}
+        $label="Filter value"
         $fontFamily="Sen"
-        $name="color"
-        $label={`Font Color`}
+        $name="filterValue"
+        $min={attributeFilterValue?.min}
+        $max={attributeFilterValue?.max}
+        $isShowValue={filterType !== "NONE"}
+        $valueIndicator={((filterValue / attributeFilterValue?.max) * 100).toFixed(0)}
+        $control={control}
       />
+
       <Line />
 
       <Select

@@ -103,14 +103,14 @@ export const CustomizeFreeformImage = () => {
       })
       .value();
 
-    const updateFreeformBlocks = {
-      ...freeformBlocks,
-      [selectedLayoutDesign]: updatedLayout,
-    };
+    const updateBlocks = _.chain(freeformBlocks)
+      .cloneDeep()
+      .set([selectedLayoutDesign], updatedLayout)
+      .value();
 
     const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false, id: null };
     batch(() => {
-      dispatch(setFreeformBlocks(updateFreeformBlocks));
+      dispatch(setFreeformBlocks(updateBlocks));
       dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
     });
   };
@@ -137,7 +137,7 @@ export const CustomizeFreeformImage = () => {
       updateFilterValue = filterValue;
     }
 
-    const updatedFreeformBlockItem = {
+    const updateBlockItem = {
       ...selectItem,
       value,
       aspectRatio,
@@ -149,16 +149,16 @@ export const CustomizeFreeformImage = () => {
       size: Number(size),
     };
 
-    if (_.isEqual(updatedFreeformBlockItem, selectItem)) {
+    if (_.isEqual(updateBlockItem, selectItem)) {
       return;
     }
 
-    const updatedFreeformBlocks = {
-      ...freeformBlocks,
-      [selectedLayoutDesign]: [...freeformBlocks[selectedLayoutDesign]],
-    };
-    updatedFreeformBlocks[selectedLayoutDesign][activeIndex] = updatedFreeformBlockItem;
-    dispatch(setFreeformBlocks(updatedFreeformBlocks));
+    const updateBlocks = _.chain(freeformBlocks)
+      .cloneDeep()
+      .set([selectedLayoutDesign, activeIndex], updateBlockItem)
+      .value();
+
+    dispatch(setFreeformBlocks(updateBlocks));
   }, [value, aspectRatio, resize, radius, size, filterType, filterValue, backgroundColor]);
 
   useEffect(() => {

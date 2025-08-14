@@ -47,10 +47,10 @@ export const ImportStackContainer = () => {
       columns: 2,
       aspectRatio: null,
       columnItems: [
-        { id: uuid(), type: "EMPTY", backgroundColor: "#707070" },
-        { id: uuid(), type: "EMPTY", backgroundColor: "#999999" },
-        { id: uuid(), type: "EMPTY", backgroundColor: "#ADADAD" },
         { id: uuid(), type: "EMPTY", backgroundColor: "#D6D6D6" },
+        { id: uuid(), type: "EMPTY", backgroundColor: "#ADADAD" },
+        { id: uuid(), type: "EMPTY", backgroundColor: "#999999" },
+        { id: uuid(), type: "EMPTY", backgroundColor: "#707070" },
       ],
     };
 

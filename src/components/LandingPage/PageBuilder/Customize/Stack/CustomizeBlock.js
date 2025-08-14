@@ -96,14 +96,13 @@ export const CustomizeBlock = () => {
       return;
     }
 
-    const updatedStackBlocks = {
-      ...stackBlocks,
-      [selectedLayoutDesign]: [...stackBlocks[selectedLayoutDesign]],
-    };
-    updatedStackBlocks[selectedLayoutDesign][activeIndex] = updateStackBlockItem;
+    const updateBlocks = _.chain(stackBlocks)
+      .cloneDeep()
+      .set([selectedLayoutDesign, activeIndex], updateStackBlockItem)
+      .value();
 
     batch(() => {
-      dispatch(setStackBlocks(updatedStackBlocks));
+      dispatch(setStackBlocks(updateBlocks));
     });
   }, [height, aspectRatio, columns, spacing, paddingHorizontal, paddingVertical]);
 

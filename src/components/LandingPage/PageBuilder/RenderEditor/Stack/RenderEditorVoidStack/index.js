@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { ContainerEmpty } from "./ContainerEmpty";
 import { Text } from "@components/LandingPage/Base/Text";
 import { ContainerText } from "./ContainerText";
+import { ContainerImage } from "./ContainerImage";
 
 const Container = styled.div`
   display: grid;
@@ -61,7 +62,6 @@ const ContainerActive = styled.div`
 `;
 
 export const RenderEditorVoidStack = ({ $item }) => {
-  console.log("$item :>> ", $item);
   const dispatch = useDispatch();
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
@@ -131,14 +131,16 @@ export const RenderEditorVoidStack = ({ $item }) => {
               {(() => {
                 switch (type) {
                   case "IMAGE":
-                    return <div>{"image"}</div>;
+                    return (
+                      <ContainerImage key={id} $isActive={isActive} $item={item} $aspectRatio={aspectRatio} />
+                    );
                   case "TEXT":
-                    return <ContainerText $isActive={isActive} $item={$item} />;
+                    return <ContainerText key={id} $isActive={isActive} $item={item} />;
                   case "SLIDE":
                     return <div>{"slide"}</div>;
 
                   default:
-                    return <ContainerEmpty $isActive={isActive} $item={item} />;
+                    return <ContainerEmpty key={id} $isActive={isActive} $item={item} />;
                 }
               })()}
             </ContainerItem>

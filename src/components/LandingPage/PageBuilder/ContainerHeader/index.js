@@ -78,6 +78,7 @@ export const ContainerHeader = () => {
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
+  const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
 
   const handleSelectSize = ({ value }) => {
     batch(() => {
@@ -122,6 +123,7 @@ export const ContainerHeader = () => {
 
   const handleSave = () => {
     console.log("freeformBlocks :>> ", freeformBlocks);
+    console.log("stackBlocks :>> ", stackBlocks);
   };
 
   return (
