@@ -65,15 +65,19 @@ export const CustomizeStackVoid = () => {
     shallowEqual,
   );
 
-  const selectItem = _.chain(stackBlocks)
-    .find((item) => {
+  const activeIndex = _.chain(stackBlocks)
+    .get([selectedLayoutDesign])
+    .findIndex((item) => {
       return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
     })
     .value();
 
-  const attribute = _.get(selectItem, ["attribute", selectedLayoutDesign]);
-  const columns = _.get(attribute, ["columns"]);
-  const columnItems = _.get(attribute, ["columnItems"]);
+  const selectItem = _.chain(stackBlocks).get([selectedLayoutDesign, activeIndex]).value();
+
+  console.log("selectItem :>> ", selectItem);
+
+  const columns = _.get(selectItem, ["columns"]);
+  const columnItems = _.get(selectItem, ["columnItems"]);
 
   const handleCloseCustomize = () => {
     const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false };
@@ -92,6 +96,8 @@ export const CustomizeStackVoid = () => {
   useEffect(() => {
     dispatch(setSelectedStackBlockColumnItem(null));
   }, [selectedLayoutDesign]);
+
+  console.log("columns :>> ", columns);
 
   return (
     <Container>
@@ -122,7 +128,7 @@ export const CustomizeStackVoid = () => {
         {!_.isNil(selectedStackBlockColumnItem) && <CustomizeColumnItem key={selectedStackBlockColumnItem} />}
       </ContainerInput>
       <Line />
-      <ContainerFooter $columns={Number(attribute?.columns)}>
+      <ContainerFooter $columns={Number(columns)}>
         {_.chain(columnItems)
           .take(columns)
           .map((item, index) => {
