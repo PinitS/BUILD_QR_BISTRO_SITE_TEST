@@ -71,6 +71,7 @@ export const Slide = ({
   $isShowLabel = true,
   $isShowValue = true,
   $fontFamily = "Sen",
+  $overrideOnChange = null,
 }) => {
   return (
     <Container>
@@ -98,8 +99,14 @@ export const Slide = ({
                     disabled={$disabled}
                     $disabled={$disabled}
                     value={value}
-                    onChange={onChange}
-                    // onAfterChange={onChange}
+                    // onChange={onChange}
+                    onChange={(val) => {
+                      if ($overrideOnChange) {
+                        $overrideOnChange(val);
+                      } else {
+                        onChange(val);
+                      }
+                    }}
                     renderThumb={(props, state) => {
                       const { key, ...rest } = props;
                       return <Thumb $disabled={$disabled} key={key} {...rest} />;

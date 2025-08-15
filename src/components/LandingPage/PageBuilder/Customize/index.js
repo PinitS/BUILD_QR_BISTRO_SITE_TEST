@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
@@ -7,10 +7,9 @@ import { CUSTOMIZE_VARIANTS } from "statics/VARIANTS";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import { CustomizeFreeformText } from "@components/LandingPage/PageBuilder/Customize/Freeform/CustomizeFreeformText";
 import { CustomizeFreeformImage } from "@components/LandingPage/PageBuilder/Customize/Freeform/CustomizeFreeformImage";
-import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
-import { useClickOutside } from "@hooks/useClickOutside";
 import { CustomizeBackground } from "@components/LandingPage/PageBuilder/Customize/Background/CustomizeBackground";
-import { CustomizeContainerMulti } from "@components/LandingPage/PageBuilder/Customize/Stack/CustomizeContainerMulti";
+import { CustomizeContainerMulti } from "@components/LandingPage/PageBuilder/Customize/Stack/ContainerMulti/CustomizeContainerMulti";
+import { CustomizeContainerTwin } from "@components/LandingPage/PageBuilder/Customize/Stack/ContainerTwin/CustomizeContainerTwin";
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -58,6 +57,8 @@ export const ContainerCustomizeBlock = () => {
                 return <CustomizeBackground />;
               case "CUSTOMIZE-STACK-CONTAINER-MULTI":
                 return <CustomizeContainerMulti />;
+              case "CUSTOMIZE-STACK-CONTAINER-TWIN":
+                return <CustomizeContainerTwin />;
 
               default:
                 return null;

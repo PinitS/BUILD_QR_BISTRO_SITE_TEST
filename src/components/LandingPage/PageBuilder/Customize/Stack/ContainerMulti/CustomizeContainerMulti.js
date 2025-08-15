@@ -7,9 +7,9 @@ import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 import ICON_CUSTOMIZE_CLOSE from "@assets/svgs/PAGE_BUILDER/MENU/ICON_CUSTOMIZE_CLOSE.svg";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
-import { CustomizeBlock } from "./CustomizeBlock";
+import { CustomizeBlock } from "@components/LandingPage/PageBuilder/Customize/Stack/ContainerMulti/CustomizeBlock";
 import { setSelectedStackBlockColumnItem } from "@redux/reducers/selectedStackBlockColumnItem.reducers";
-import { CustomizeColumnItem } from "./CustomizeColumnItem";
+import { CustomizeColumnItem } from "@components/LandingPage/PageBuilder/Customize/Stack/CustomizeColumnItem";
 
 const Container = styled.div`
   display: flex;

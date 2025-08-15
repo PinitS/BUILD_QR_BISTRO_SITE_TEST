@@ -64,6 +64,32 @@ export const ImportStackContainer = () => {
     });
   };
 
+  const handleImportStackContainerTwin = () => {
+    const initial = {
+      id: uuid(),
+      type: "TWIN",
+      height: _.get(COLUMN_HEIGHT_OPTIONS_RANGE, [selectedLayoutDesign, "default"]),
+      spacing: 8,
+      columnRatio: [50, 50],
+      paddingHorizontal: 8,
+      paddingVertical: 8,
+      aspectRatio: null,
+      columnItems: [
+        { id: uuid(), type: "EMPTY", backgroundColor: "#D6D6D6" },
+        { id: uuid(), type: "EMPTY", backgroundColor: "#ADADAD" },
+      ],
+    };
+
+    const updateStackBlocks = {
+      ...stackBlocks,
+      [selectedLayoutDesign]: [...stackBlocks[selectedLayoutDesign], initial],
+    };
+    batch(() => {
+      dispatch(setStackBlocks(updateStackBlocks));
+      dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
+    });
+  };
+
   return (
     <Container>
       <ContainerHeader>
@@ -103,7 +129,7 @@ export const ImportStackContainer = () => {
         $borderColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
         $height={42}
         $borderStyle="dashed"
-        // onClick={() => handleImportStackContainerMulti()}
+        onClick={() => handleImportStackContainerTwin()}
       >
         <Text
           $fontFamily="Sen"
