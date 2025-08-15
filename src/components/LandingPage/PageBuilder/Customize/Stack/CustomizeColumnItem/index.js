@@ -10,6 +10,7 @@ import styled from "styled-components";
 import { CustomizeEmpty } from "./CustomizeEmpty";
 import { CustomizeText } from "./CustomizeText";
 import { CustomizeImage } from "./CustomizeImage";
+import { CustomizeSlide } from "./CustomizeSlide";
 
 const Container = styled.div`
   display: flex;
@@ -48,69 +49,43 @@ export const CustomizeColumnItem = () => {
     .get([selectedLayoutDesign, activeStackBlockIndex, "columnItems", activeColumnIndex])
     .value();
 
-  const {
-    control,
-    watch,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      type: _.get(selectItem, ["type"]),
-    },
-  });
-
-  const type = watch("type");
-
-  useEffect(() => {
-    if (activeStackBlockIndex === -1 && activeColumnIndex === -1) {
-      return;
-    }
-
-    const updateStackColumnItem = {
-      ...selectItem,
-      type,
-    };
-
-    console.log("updateStackColumnItem :>> ", updateStackColumnItem);
-    if (_.isEqual(updateStackColumnItem, selectItem)) {
-      return;
-    }
-
-    const updateStackBlocks = _.chain(stackBlocks)
-      .cloneDeep()
-      .set(
-        [selectedLayoutDesign, activeStackBlockIndex, "columnItems", activeColumnIndex],
-        updateStackColumnItem,
-      )
-      .value();
-
-    batch(() => {
-      dispatch(setStackBlocks(updateStackBlocks));
-    });
-  }, [type, selectItem]);
-
   return (
     <Container>
-      <Select
-        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-        $fontFamily="Sen"
-        $options={COLUMN_ITEM_TYPE}
-        $control={control}
-        $name="type"
-        $label="type"
-      />
-
       {(() => {
-        switch (type) {
+        switch (selectItem?.type) {
           case "IMAGE":
-            return <CustomizeImage />;
+            return (
+              <CustomizeImage
+                $selectItem={selectItem}
+                $activeColumnIndex={activeColumnIndex}
+                $activeStackBlockIndex={activeStackBlockIndex}
+              />
+            );
           case "TEXT":
-            return <CustomizeText />;
+            return (
+              <CustomizeText
+                $selectItem={selectItem}
+                $activeColumnIndex={activeColumnIndex}
+                $activeStackBlockIndex={activeStackBlockIndex}
+              />
+            );
           case "SLIDE":
-            return <div>{"slide"}</div>;
+            return (
+              <CustomizeSlide
+                $selectItem={selectItem}
+                $activeColumnIndex={activeColumnIndex}
+                $activeStackBlockIndex={activeStackBlockIndex}
+              />
+            );
 
           default:
-            return <CustomizeEmpty />;
+            return (
+              <CustomizeEmpty
+                $selectItem={selectItem}
+                $activeColumnIndex={activeColumnIndex}
+                $activeStackBlockIndex={activeStackBlockIndex}
+              />
+            );
         }
       })()}
     </Container>

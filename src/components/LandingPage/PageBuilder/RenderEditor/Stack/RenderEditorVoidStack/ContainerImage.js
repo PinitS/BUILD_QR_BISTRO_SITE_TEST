@@ -1,8 +1,4 @@
-import { BlankImagePlaceHolder } from "@components/LandingPage/Base/Image/BlankImagePlaceHolder";
-import { ImageWrapper } from "@components/LandingPage/Base/Image/ImageWrapper";
-import { Text } from "@components/LandingPage/Base/Text";
-import { getAngleFromAspectRatio } from "@utils/getAngleFromAspectRatio";
-import { getBoundingRectById } from "@utils/getBoundingRectById";
+import { PlaceHolderImage } from "@components/LandingPage/Base/Image/PlaceHolderImage";
 import { resolveImageFilter } from "@utils/resolve/resolveImageFilter";
 import _ from "lodash";
 import Image from "next/image";
@@ -16,9 +12,6 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-
-  justify-content: ${({ $justifyContent = "flex-start" }) => $justifyContent};
-  align-items: ${({ $alignItems = "flex-start" }) => $alignItems};
   background-color: ${({ $backgroundColor = "transparent" }) => $backgroundColor};
   border-top-right-radius: ${({ $borderTopRightRadius = 0 }) => $borderTopRightRadius}px;
   border-top-left-radius: ${({ $borderTopLeftRadius = 0 }) => $borderTopLeftRadius}px;
@@ -30,21 +23,24 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
+const ContainerBlankImage = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const ContainerImage = ({ $item = null, $isActive = false }) => {
   // image only
 
   // const id = _.get($item, ["id"]);
-  const value = _.get($item, ["value"]);
+  const imageValue = _.get($item, ["imageValue"]);
   const resize = _.get($item, ["resize"], "contain");
 
   const filterType = _.get($item, ["filterType"]);
   const filterValue = _.get($item, ["filterValue"]);
 
   const filterImage = resolveImageFilter({ filterType, filterValue });
-
-  // image only
-  const justifyContent = _.get($item, ["justifyContent"]);
-  const alignItems = _.get($item, ["alignItems"]);
 
   const backgroundColor = _.get($item, ["backgroundColor"]);
 
@@ -61,10 +57,10 @@ export const ContainerImage = ({ $item = null, $isActive = false }) => {
       $borderBottomLeftRadius={borderBottomLeftRadius}
       $borderBottomRightRadius={borderBottomRightRadius}
       $isActive={$isActive}
-      $justifyContent={justifyContent}
-      $alignItems={alignItems}
     >
-      {!_.isNil(value) && (
+      {_.isNil(imageValue) ? (
+        <PlaceHolderImage />
+      ) : (
         <Image
           alt={MAIN_ATTR?.IMAGE_ALT}
           fill
@@ -73,7 +69,7 @@ export const ContainerImage = ({ $item = null, $isActive = false }) => {
             filter: filterImage,
             borderRadius: "inherit",
           }}
-          src={value}
+          src={imageValue}
         />
       )}
     </Container>

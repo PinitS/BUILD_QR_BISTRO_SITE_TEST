@@ -139,6 +139,26 @@ export const ImportStackContainer = () => {
           Zone
         </Text>
       </Button>
+
+      <Button
+        $borderRadius={6}
+        $borderColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
+        $height={42}
+        $borderStyle="dashed"
+
+        // onClick={() => handleImportFreeformImage()}
+      >
+        <Text
+          $fontFamily="Sen"
+          $textTransform="capitalize"
+          $color={MAIN_COLORS?.MAIN?.CONTAINER_IMPORT_TEXT}
+          $fontSize={14}
+          $fontWeight={500}
+          $align="center"
+        >
+          Map
+        </Text>
+      </Button>
     </Container>
   );
 };

@@ -7,6 +7,7 @@ import _ from "lodash";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
+import { COLUMN_ITEM_TYPE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import {
   ALIGNMENT_OPTIONS,
@@ -30,35 +31,10 @@ const Line = styled.div`
   background: ${MAIN_COLORS?.MAIN?.LINE};
 `;
 
-export const CustomizeText = () => {
+export const CustomizeText = ({ $selectItem, $activeColumnIndex, $activeStackBlockIndex }) => {
   const dispatch = useDispatch();
-  const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
-  const selectedStackBlockColumnItem = useSelector(
-    (state) => state?.selectedStackBlockColumnItem?.data,
-    shallowEqual,
-  );
-
-  const activeStackBlockIndex = _.chain(stackBlocks)
-    .get([selectedLayoutDesign])
-    .findIndex((item) => {
-      return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
-    })
-    .value();
-
-  const selectStackBlock = _.chain(stackBlocks).get([selectedLayoutDesign, activeStackBlockIndex]).value();
-
-  const activeColumnIndex = _.chain(selectStackBlock)
-    .get(["columnItems"])
-    .findIndex((item) => {
-      return _.get(item, ["id"]) === selectedStackBlockColumnItem;
-    })
-    .value();
-
-  const selectItem = _.chain(stackBlocks)
-    .get([selectedLayoutDesign, activeStackBlockIndex, "columnItems", activeColumnIndex])
-    .value();
 
   const {
     control,
@@ -68,25 +44,28 @@ export const CustomizeText = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      value: _.get(selectItem, ["value"], ""),
-      color: _.get(selectItem, ["color"], "#000000"),
-      fontSize: String(_.get(selectItem, ["fontSize"], 16)),
-      fontWeight: String(_.get(selectItem, ["fontWeight"], 400)),
-      fontFamily: _.get(selectItem, ["fontFamily"], "IBMPlexSansThai"),
-      textAlign: _.get(selectItem, ["textAlign"], "left"),
+      type: _.get($selectItem, ["type"]),
+      textValue: _.get($selectItem, ["textValue"], ""),
+      color: _.get($selectItem, ["color"], "#000000"),
+      fontSize: String(_.get($selectItem, ["fontSize"], 16)),
+      fontWeight: String(_.get($selectItem, ["fontWeight"], 400)),
+      fontFamily: _.get($selectItem, ["fontFamily"], "IBMPlexSansThai"),
+      textAlign: _.get($selectItem, ["textAlign"], "left"),
 
-      justifyContent: _.get(selectItem, ["justifyContent"], "flex-start"),
-      alignItems: _.get(selectItem, ["alignItems"], "flex-start"),
+      justifyContent: _.get($selectItem, ["justifyContent"], "flex-start"),
+      alignItems: _.get($selectItem, ["alignItems"], "flex-start"),
 
-      backgroundColor: _.get(selectItem, ["backgroundColor"]),
-      borderTopLeftRadius: _.get(selectItem, ["borderTopLeftRadius"], 0),
-      borderTopRightRadius: _.get(selectItem, ["borderTopRightRadius"], 0),
-      borderBottomLeftRadius: _.get(selectItem, ["borderBottomLeftRadius"], 0),
-      borderBottomRightRadius: _.get(selectItem, ["borderBottomRightRadius"], 0),
+      backgroundColor: _.get($selectItem, ["backgroundColor"]),
+      borderTopLeftRadius: _.get($selectItem, ["borderTopLeftRadius"], 0),
+      borderTopRightRadius: _.get($selectItem, ["borderTopRightRadius"], 0),
+      borderBottomLeftRadius: _.get($selectItem, ["borderBottomLeftRadius"], 0),
+      borderBottomRightRadius: _.get($selectItem, ["borderBottomRightRadius"], 0),
     },
   });
+  const type = watch("type");
+
   // for text
-  const value = watch("value");
+  const textValue = watch("textValue");
   const color = watch("color");
   const fontSize = watch("fontSize");
   const fontWeight = watch("fontWeight");
@@ -105,14 +84,15 @@ export const CustomizeText = () => {
   const borderBottomRightRadius = watch("borderBottomRightRadius");
 
   useEffect(() => {
-    console.log("stackBlocks :>> ", stackBlocks);
-    console.log("selectItem :>> ", selectItem);
-    if (activeStackBlockIndex === -1 && activeColumnIndex === -1) {
+    if ($activeStackBlockIndex === -1 && $activeColumnIndex === -1) {
       return;
     }
+
     const updateStackColumnItem = {
-      ...selectItem,
-      value,
+      ...$selectItem,
+      id: $selectItem?.id,
+      type,
+      textValue,
       color,
       fontSize: Number(fontSize),
       fontWeight: Number(fontWeight),
@@ -128,20 +108,21 @@ export const CustomizeText = () => {
       borderBottomRightRadius,
     };
 
-    if (_.isEqual(updateStackColumnItem, selectItem)) {
+    if (_.isEqual(updateStackColumnItem, $selectItem)) {
       return;
     }
 
     const updateStackBlocks = _.chain(stackBlocks)
       .cloneDeep()
       .set(
-        [selectedLayoutDesign, activeStackBlockIndex, "columnItems", activeColumnIndex],
+        [selectedLayoutDesign, $activeStackBlockIndex, "columnItems", $activeColumnIndex],
         updateStackColumnItem,
       )
       .value();
     dispatch(setStackBlocks(updateStackBlocks));
   }, [
-    value,
+    type,
+    textValue,
     color,
     fontSize,
     fontFamily,
@@ -158,12 +139,21 @@ export const CustomizeText = () => {
 
   return (
     <Container>
+      <Select
+        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+        $fontFamily="Sen"
+        $options={COLUMN_ITEM_TYPE}
+        $control={control}
+        $name="type"
+        $label="type"
+      />
       <TextArea
         $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
         $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
         $fontFamily="Sen"
         $control={control}
-        $name="value"
+        $name="textValue"
         $label="text"
       />
       <Select

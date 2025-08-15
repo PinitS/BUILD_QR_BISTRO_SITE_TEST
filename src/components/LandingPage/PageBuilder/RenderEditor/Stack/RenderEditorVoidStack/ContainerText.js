@@ -23,7 +23,7 @@ const Container = styled.div`
   overflow: scroll;
 `;
 export const ContainerText = ({ $item = null, $isActive = false }) => {
-  const value = _.get($item, ["value"]);
+  const textValue = _.get($item, ["textValue"]);
   const color = _.get($item, ["color"]);
   const fontSize = _.get($item, ["fontSize"]);
 
@@ -60,7 +60,7 @@ export const ContainerText = ({ $item = null, $isActive = false }) => {
         $fontSize={fontSize}
         $align={textAlign}
       >
-        {value}
+        {textValue}
       </Text>
     </Container>
   );

@@ -1,12 +1,13 @@
 import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
 import { Select } from "@components/LandingPage/Base/Select";
 import { Slide } from "@components/LandingPage/Base/Slide";
+import { TextArea } from "@components/LandingPage/Base/TextArea";
 import { UploadFile } from "@components/LandingPage/Base/UploadFile";
 import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
 import _ from "lodash";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { COLUMN_ITEM_TYPE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
 import { FILTER_OPTIONS, FILTER_OPTIONS_RANGE, RESIZE_OPTIONS } from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
@@ -27,7 +28,7 @@ const Line = styled.div`
   background: ${MAIN_COLORS?.MAIN?.LINE};
 `;
 
-export const CustomizeImage = ({ $selectItem, $activeColumnIndex, $activeStackBlockIndex }) => {
+export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBlockIndex }) => {
   const dispatch = useDispatch();
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
@@ -140,39 +141,6 @@ export const CustomizeImage = ({ $selectItem, $activeColumnIndex, $activeStackBl
         $nameValue={"imageValue"}
         // $aspectRatio={aspectRatio}
         $backgroundColor={backgroundColor}
-      />
-
-      <Select
-        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-        $fontFamily="Sen"
-        $options={RESIZE_OPTIONS}
-        $control={control}
-        $name="resize"
-        $label="resize"
-      />
-
-      <Select
-        $disabled={_.isNil(imageValue)}
-        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
-        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-        $fontFamily="Sen"
-        $options={FILTER_OPTIONS}
-        $control={control}
-        $name="filterType"
-        $label="filter"
-      />
-
-      <Slide
-        $disabled={filterType === "NONE"}
-        $label="Filter value"
-        $fontFamily="Sen"
-        $name="filterValue"
-        $min={attributeFilterValue?.min}
-        $max={attributeFilterValue?.max}
-        $isShowValue={filterType !== "NONE"}
-        $valueIndicator={((filterValue / attributeFilterValue?.max) * 100).toFixed(0)}
-        $control={control}
       />
 
       <Line />

@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
+import { Select } from "@components/LandingPage/Base/Select";
 import { Slide } from "@components/LandingPage/Base/Slide";
 import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
 import _ from "lodash";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
+import { COLUMN_ITEM_TYPE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import { COLUMN_ITEM_RADIUS_LIMIT } from "statics/PAGE_BUILDER_VOID";
 import styled from "styled-components";
@@ -23,7 +25,7 @@ const Line = styled.div`
   background: ${MAIN_COLORS?.MAIN?.LINE};
 `;
 
-export const CustomizeEmpty = () => {
+export const CustomizeEmpty = ({ $selectItem, $activeColumnIndex, $activeStackBlockIndex }) => {
   const dispatch = useDispatch();
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
@@ -33,26 +35,6 @@ export const CustomizeEmpty = () => {
     shallowEqual,
   );
 
-  const activeStackBlockIndex = _.chain(stackBlocks)
-    .get([selectedLayoutDesign])
-    .findIndex((item) => {
-      return _.get(item, ["id"]) === _.get(customizeBlockAttr, ["id"]);
-    })
-    .value();
-
-  const selectStackBlock = _.chain(stackBlocks).get([selectedLayoutDesign, activeStackBlockIndex]).value();
-
-  const activeColumnIndex = _.chain(selectStackBlock)
-    .get(["columnItems"])
-    .findIndex((item) => {
-      return _.get(item, ["id"]) === selectedStackBlockColumnItem;
-    })
-    .value();
-
-  const selectItem = _.chain(stackBlocks)
-    .get([selectedLayoutDesign, activeStackBlockIndex, "columnItems", activeColumnIndex])
-    .value();
-
   const {
     control,
     watch,
@@ -60,14 +42,16 @@ export const CustomizeEmpty = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      backgroundColor: _.get(selectItem, ["backgroundColor"]),
-      borderTopLeftRadius: _.get(selectItem, ["borderTopLeftRadius"], 0),
-      borderTopRightRadius: _.get(selectItem, ["borderTopRightRadius"], 0),
-      borderBottomLeftRadius: _.get(selectItem, ["borderBottomLeftRadius"], 0),
-      borderBottomRightRadius: _.get(selectItem, ["borderBottomRightRadius"], 0),
+      type: _.get($selectItem, ["type"]),
+      backgroundColor: _.get($selectItem, ["backgroundColor"]),
+      borderTopLeftRadius: _.get($selectItem, ["borderTopLeftRadius"], 0),
+      borderTopRightRadius: _.get($selectItem, ["borderTopRightRadius"], 0),
+      borderBottomLeftRadius: _.get($selectItem, ["borderBottomLeftRadius"], 0),
+      borderBottomRightRadius: _.get($selectItem, ["borderBottomRightRadius"], 0),
     },
   });
 
+  const type = watch("type");
   const backgroundColor = watch("backgroundColor");
   const borderTopLeftRadius = watch("borderTopLeftRadius");
   const borderTopRightRadius = watch("borderTopRightRadius");
@@ -75,12 +59,14 @@ export const CustomizeEmpty = () => {
   const borderBottomRightRadius = watch("borderBottomRightRadius");
 
   useEffect(() => {
-    if (activeStackBlockIndex === -1 && activeColumnIndex === -1) {
+    if ($activeStackBlockIndex === -1 && $activeColumnIndex === -1) {
       return;
     }
 
     const updateStackColumnItem = {
-      ...selectItem,
+      ...$selectItem,
+      id: $selectItem?.id,
+      type,
       backgroundColor,
       borderTopLeftRadius,
       borderTopRightRadius,
@@ -88,14 +74,14 @@ export const CustomizeEmpty = () => {
       borderBottomRightRadius,
     };
 
-    if (_.isEqual(updateStackColumnItem, selectItem)) {
+    if (_.isEqual(updateStackColumnItem, $selectItem)) {
       return;
     }
 
     const updateStackBlocks = _.chain(stackBlocks)
       .cloneDeep()
       .set(
-        [selectedLayoutDesign, activeStackBlockIndex, "columnItems", activeColumnIndex],
+        [selectedLayoutDesign, $activeStackBlockIndex, "columnItems", $activeColumnIndex],
         updateStackColumnItem,
       )
       .value();
@@ -104,6 +90,7 @@ export const CustomizeEmpty = () => {
       dispatch(setStackBlocks(updateStackBlocks));
     });
   }, [
+    type,
     backgroundColor,
     borderTopLeftRadius,
     borderTopRightRadius,
@@ -111,18 +98,17 @@ export const CustomizeEmpty = () => {
     borderBottomRightRadius,
   ]);
 
-  useEffect(() => {
-    reset({
-      backgroundColor: _.get(selectItem, ["backgroundColor"]),
-      borderTopLeftRadius: _.get(selectItem, ["borderTopLeftRadius"], 0),
-      borderTopRightRadius: _.get(selectItem, ["borderTopRightRadius"], 0),
-      borderBottomLeftRadius: _.get(selectItem, ["borderBottomLeftRadius"], 0),
-      borderBottomRightRadius: _.get(selectItem, ["borderBottomRightRadius"], 0),
-    });
-  }, [selectedStackBlockColumnItem]);
-
   return (
     <Container>
+      <Select
+        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+        $fontFamily="Sen"
+        $options={COLUMN_ITEM_TYPE}
+        $control={control}
+        $name="type"
+        $label="type"
+      />
       <ColorPicker
         $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
         $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}

@@ -6,12 +6,11 @@ import { useDraggable } from "@dnd-kit/core";
 import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
-import { getAngleFromAspectRatio } from "@utils/getAngleFromAspectRatio";
-import { BlankImagePlaceHolder } from "@components/LandingPage/Base/Image/BlankImagePlaceHolder";
-import { ImageWrapper } from "@components/LandingPage/Base/Image/ImageWrapper";
 import Image from "next/image";
 import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
 import { resolveImageFilter } from "@utils/resolve/resolveImageFilter";
+import { setSelectedStackBlockColumnItem } from "@redux/reducers/selectedStackBlockColumnItem.reducers";
+import { PlaceHolderImage } from "@components/LandingPage/Base/Image/PlaceHolderImage";
 
 const ContainerDraggable = styled.div`
   position: absolute;
@@ -25,6 +24,8 @@ const ContainerDraggable = styled.div`
 
   left: ${({ $x }) => `${$x}px`};
   top: ${({ $y }) => `${$y}px`};
+  width: ${({ $w }) => `${$w}px`};
+  aspect-ratio: ${({ $aspectRatio }) => $aspectRatio};
 
   background-color: ${({ $backgroundColor }) => $backgroundColor};
   transform: ${({ $transform }) => $transform || "none"};
@@ -38,6 +39,15 @@ const ContainerDraggable = styled.div`
   overflow: hidden;
   z-index: 2;
   box-sizing: border-box;
+`;
+
+const ContainerBlankImage = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #ededed;
 `;
 
 export const RenderEditorImageFreeform = ({ $item }) => {
@@ -62,8 +72,6 @@ export const RenderEditorImageFreeform = ({ $item }) => {
   const y = _.get($item, ["y"]);
   const size = _.get($item, ["size"]);
 
-  const angle = getAngleFromAspectRatio(aspectRatio);
-
   const isActive = _.get(customizeBlockAttr, ["id"]) === id && _.get(customizeBlockAttr, ["isVisible"]);
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
@@ -73,6 +81,7 @@ export const RenderEditorImageFreeform = ({ $item }) => {
       ? { ...customizeBlockAttr, isVisible: false }
       : { isVisible: true, id, form: "CUSTOMIZE-FREEFORM-IMAGE" };
     batch(() => {
+      dispatch(setSelectedStackBlockColumnItem(null));
       dispatch(setCustomizeBlockAttr(updateSelectedFreeformBlock));
       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
     });
@@ -80,7 +89,6 @@ export const RenderEditorImageFreeform = ({ $item }) => {
 
   return (
     <ContainerDraggable
-      id={id}
       onClick={() => handleSelectBlock()}
       ref={(el) => {
         setNodeRef(el);
@@ -91,22 +99,21 @@ export const RenderEditorImageFreeform = ({ $item }) => {
       $x={x}
       $y={y}
       $w={size}
+      $aspectRatio={aspectRatio}
       $backgroundColor={backgroundColor}
       $radius={(radius / 100) * size}
       $transform={transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined}
     >
-      <ImageWrapper $w={size} $aspectRatio={aspectRatio}>
-        {_.isNil(value) ? (
-          <BlankImagePlaceHolder $angle={angle} $size={size} />
-        ) : (
-          <Image
-            alt={MAIN_ATTR?.IMAGE_ALT}
-            fill
-            style={{ objectFit: resize, filter: filterImage }}
-            src={value}
-          />
-        )}
-      </ImageWrapper>
+      {_.isNil(value) && <PlaceHolderImage />}
+
+      {!_.isNil(value) && (
+        <Image
+          alt={MAIN_ATTR?.IMAGE_ALT}
+          fill
+          style={{ objectFit: resize, filter: filterImage, borderRadius: "inherit" }}
+          src={value}
+        />
+      )}
     </ContainerDraggable>
   );
 };

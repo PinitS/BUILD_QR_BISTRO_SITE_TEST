@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { Button } from "@components/LandingPage/Base/Button";
-import { BlankImagePlaceHolder } from "../Image/BlankImagePlaceHolder";
 import { getAngleFromAspectRatio } from "@utils/getAngleFromAspectRatio";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import { Text } from "../Text";
@@ -9,6 +8,7 @@ import _ from "lodash";
 import { hold } from "@utils/hold";
 import Image from "next/image";
 import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
+import { PlaceHolderImage } from "../Image/PlaceHolderImage";
 
 const Container = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ const PreviewImage = styled.div`
   border-radius: 5px;
   border-width: 1px;
   border-style: solid;
-  border-color: #a6a6a6;
+  border-color: #dedede;
   overflow: hidden;
 `;
 
@@ -89,7 +89,7 @@ export const UploadFile = ({
     <Container>
       <PreviewImage $aspectRatio={$aspectRatio}>
         {_.isNil($value) ? (
-          <BlankImagePlaceHolder $angle={angle} $fontSize={8} />
+          <PlaceHolderImage />
         ) : (
           <Image alt={MAIN_ATTR?.IMAGE_ALT} fill style={{ objectFit: "cover" }} src={$value} />
         )}
