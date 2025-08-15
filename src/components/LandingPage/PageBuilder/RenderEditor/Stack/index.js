@@ -1,7 +1,7 @@
 import _ from "lodash";
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { RenderEditorVoidStack } from "./RenderEditorVoidStack";
+import { RenderEditorContainerMulti } from "./RenderEditorContainerMulti";
 
 export const ContainerRenderEditorStack = () => {
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
@@ -15,8 +15,8 @@ export const ContainerRenderEditorStack = () => {
           const id = _.get(item, ["id"]);
           const type = _.get(item, ["type"]);
           switch (type) {
-            case "VOID":
-              return <RenderEditorVoidStack key={id} $item={item} />;
+            case "MULTI":
+              return <RenderEditorContainerMulti key={id} $item={item} />;
             default:
               return null;
           }

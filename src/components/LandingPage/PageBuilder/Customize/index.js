@@ -10,7 +10,7 @@ import { CustomizeFreeformImage } from "@components/LandingPage/PageBuilder/Cust
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
 import { useClickOutside } from "@hooks/useClickOutside";
 import { CustomizeBackground } from "@components/LandingPage/PageBuilder/Customize/Background/CustomizeBackground";
-import { CustomizeStackVoid } from "@components/LandingPage/PageBuilder/Customize/Stack/CustomizeStackVoid";
+import { CustomizeContainerMulti } from "@components/LandingPage/PageBuilder/Customize/Stack/CustomizeContainerMulti";
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -56,8 +56,8 @@ export const ContainerCustomizeBlock = () => {
                 return <CustomizeFreeformImage />;
               case "CUSTOMIZE-BACKGROUND":
                 return <CustomizeBackground />;
-              case "CUSTOMIZE-STACK-VOID":
-                return <CustomizeStackVoid />;
+              case "CUSTOMIZE-STACK-CONTAINER-MULTI":
+                return <CustomizeContainerMulti />;
 
               default:
                 return null;

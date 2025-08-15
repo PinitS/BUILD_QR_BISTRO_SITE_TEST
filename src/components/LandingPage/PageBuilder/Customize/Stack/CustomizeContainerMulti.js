@@ -55,7 +55,7 @@ const ContainerFooter = styled.div`
   width: 100%;
 `;
 
-export const CustomizeStackVoid = () => {
+export const CustomizeContainerMulti = () => {
   const dispatch = useDispatch();
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
@@ -111,7 +111,7 @@ export const CustomizeStackVoid = () => {
             $fontWeight={500}
             $align="start"
           >
-            Customize Stack (Void)
+            Customize Container (Multi)
           </Text>
           <Button $height={24} $isSquare $mt={4} onClick={() => handleCloseCustomize()}>
             <ICON_CUSTOMIZE_CLOSE

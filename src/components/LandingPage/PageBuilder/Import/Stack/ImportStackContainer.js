@@ -36,15 +36,15 @@ export const ImportStackContainer = () => {
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
 
-  const handleImportStackVoidContainer = () => {
+  const handleImportStackContainerMulti = () => {
     const initial = {
       id: uuid(),
-      type: "VOID",
+      type: "MULTI",
       height: _.get(COLUMN_HEIGHT_OPTIONS_RANGE, [selectedLayoutDesign, "default"]),
       spacing: 8,
       paddingHorizontal: 8,
       paddingVertical: 8,
-      columns: 2,
+      columns: 4,
       aspectRatio: null,
       columnItems: [
         { id: uuid(), type: "EMPTY", backgroundColor: "#D6D6D6" },
@@ -58,8 +58,6 @@ export const ImportStackContainer = () => {
       ...stackBlocks,
       [selectedLayoutDesign]: [...stackBlocks[selectedLayoutDesign], initial],
     };
-
-    console.log("updateStackBlocks :>> ", updateStackBlocks);
     batch(() => {
       dispatch(setStackBlocks(updateStackBlocks));
       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
@@ -86,7 +84,7 @@ export const ImportStackContainer = () => {
         $borderColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
         $height={42}
         $borderStyle="dashed"
-        onClick={() => handleImportStackVoidContainer()}
+        onClick={() => handleImportStackContainerMulti()}
       >
         <Text
           $fontFamily="Sen"
@@ -96,7 +94,45 @@ export const ImportStackContainer = () => {
           $fontWeight={500}
           $align="center"
         >
-          Container
+          Container (Multi)
+        </Text>
+      </Button>
+
+      <Button
+        $borderRadius={6}
+        $borderColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
+        $height={42}
+        $borderStyle="dashed"
+        // onClick={() => handleImportStackContainerMulti()}
+      >
+        <Text
+          $fontFamily="Sen"
+          $textTransform="capitalize"
+          $color={MAIN_COLORS?.MAIN?.CONTAINER_IMPORT_TEXT}
+          $fontSize={14}
+          $fontWeight={500}
+          $align="center"
+        >
+          Container (Twin)
+        </Text>
+      </Button>
+
+      <Button
+        $borderRadius={6}
+        $borderColor={MAIN_COLORS?.BUTTON?.BACKGROUND}
+        $height={42}
+        $borderStyle="dashed"
+        // onClick={() => handleImportStackContainerMulti()}
+      >
+        <Text
+          $fontFamily="Sen"
+          $textTransform="capitalize"
+          $color={MAIN_COLORS?.MAIN?.CONTAINER_IMPORT_TEXT}
+          $fontSize={14}
+          $fontWeight={500}
+          $align="center"
+        >
+          Divider
         </Text>
       </Button>
 

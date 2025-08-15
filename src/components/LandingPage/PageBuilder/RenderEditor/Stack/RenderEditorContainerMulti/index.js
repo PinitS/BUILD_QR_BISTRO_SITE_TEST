@@ -61,7 +61,7 @@ const ContainerActive = styled.div`
   border-radius: 4px;
 `;
 
-export const RenderEditorVoidStack = ({ $item }) => {
+export const RenderEditorContainerMulti = ({ $item }) => {
   const dispatch = useDispatch();
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
@@ -84,7 +84,7 @@ export const RenderEditorVoidStack = ({ $item }) => {
   const handleSelectMainVoidBlock = () => {
     const updateSelectedStackBlock = isActive
       ? { ...customizeBlockAttr, isVisible: false }
-      : { isVisible: true, id, form: "CUSTOMIZE-STACK-VOID" };
+      : { isVisible: true, id, form: "CUSTOMIZE-STACK-CONTAINER-MULTI" };
     batch(() => {
       dispatch(setSelectedStackBlockColumnItem(null));
       dispatch(setCustomizeBlockAttr(updateSelectedStackBlock));
@@ -99,7 +99,7 @@ export const RenderEditorVoidStack = ({ $item }) => {
       selectedStackBlockColumnItem === columnItemId ? null : columnItemId;
     batch(() => {
       dispatch(setSelectedStackBlockColumnItem(updateSelectedStackBlockColumnItem));
-      dispatch(setCustomizeBlockAttr({ isVisible: true, id, form: "CUSTOMIZE-STACK-VOID" }));
+      dispatch(setCustomizeBlockAttr({ isVisible: true, id, form: "CUSTOMIZE-STACK-CONTAINER-MULTI" }));
       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
     });
     // }
