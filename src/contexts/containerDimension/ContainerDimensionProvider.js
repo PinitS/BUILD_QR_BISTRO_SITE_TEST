@@ -9,19 +9,20 @@ export const DESIGN_SIZE = {
 
 export const ContainerDimensionProvider = ({ children }) => {
   const ref = useRef(null);
-  const [containerWidth, setContainerWidth] = useState(DESIGN_SIZE.DESKTOP);
-  const [containerHeight, setContainerHeight] = useState(null);
+  const [containerAttribute, setContainerAttribute] = useState({
+    width: DESIGN_SIZE.DESKTOP,
+    height: null,
+  });
 
   useEffect(() => {
     if (!ref.current) return;
 
     const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        if (entry.contentRect) {
-          setContainerWidth(entry.contentRect.width);
-          setContainerHeight(entry.contentRect.height);
-        }
-      }
+      const { width, height } = entries[0].contentRect || {};
+      setContainerAttribute({
+        width: width,
+        height: height,
+      });
     });
 
     observer.observe(ref.current);
@@ -32,19 +33,19 @@ export const ContainerDimensionProvider = ({ children }) => {
   }, []);
 
   let device = "DESKTOP";
-  if (containerWidth < DESIGN_SIZE.TABLET) {
+  if (containerAttribute?.width < DESIGN_SIZE.TABLET) {
     device = "MOBILE";
-  } else if (containerWidth < DESIGN_SIZE.DESKTOP) {
+  } else if (containerAttribute?.width < DESIGN_SIZE.DESKTOP) {
     device = "TABLET";
   }
-  const scale = containerWidth / _.get(DESIGN_SIZE, [device], DESIGN_SIZE?.MOBILE);
+  const scale = containerAttribute?.width / _.get(DESIGN_SIZE, [device], DESIGN_SIZE?.MOBILE);
 
   return (
     <ContainerDimensionContext.Provider
       value={{
-        containerWidth,
-        containerHeight,
         ref,
+        containerWidth: containerAttribute?.width,
+        containerHeight: containerAttribute?.height,
         device,
         scale,
       }}

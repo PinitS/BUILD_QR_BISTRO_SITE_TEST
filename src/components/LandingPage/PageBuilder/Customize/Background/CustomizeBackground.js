@@ -3,16 +3,13 @@ import { Text } from "@components/LandingPage/Base/Text";
 import _ from "lodash";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 import ICON_CUSTOMIZE_CLOSE from "@assets/svgs/PAGE_BUILDER/MENU/ICON_CUSTOMIZE_CLOSE.svg";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
-import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
 import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
-import { FILTER_OPTIONS_RANGE } from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
 import { UploadFile } from "@components/LandingPage/Base/UploadFile";
-import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
 import { setCustomizeBackground } from "@redux/reducers/customizeBackground.reducers";
 import { Slide } from "@components/LandingPage/Base/Slide";
 
@@ -53,8 +50,6 @@ const ContainerInput = styled.div`
 
 export const CustomizeBackground = () => {
   const dispatch = useDispatch();
-  const { containerWidth } = useContainerDimensionContext();
-
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const customizeBackground = useSelector((state) => state?.customizeBackground?.data, shallowEqual);
 
