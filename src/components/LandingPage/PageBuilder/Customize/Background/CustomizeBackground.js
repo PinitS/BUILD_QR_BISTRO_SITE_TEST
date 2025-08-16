@@ -38,6 +38,7 @@ const Line = styled.div`
   width: 100%;
   height: 1px;
   background: ${MAIN_COLORS?.MAIN?.LINE};
+  flex-shrink: 0;
 `;
 
 const ContainerInput = styled.div`
@@ -115,7 +116,6 @@ export const CustomizeBackground = () => {
             />
           </Button>
         </ContainerTitle>
-
         <Line />
       </ContainerHeader>
       <ContainerInput>
@@ -134,6 +134,8 @@ export const CustomizeBackground = () => {
           $name="bodyBackgroundColor"
           $label={`background color (Body)`}
         />
+        <Line />
+
         <ColorPicker
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
