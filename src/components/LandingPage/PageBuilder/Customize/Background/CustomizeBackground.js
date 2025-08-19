@@ -12,6 +12,8 @@ import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
 import { UploadFile } from "@components/LandingPage/Base/UploadFile";
 import { setCustomizeBackground } from "@redux/reducers/customizeBackground.reducers";
 import { Slide } from "@components/LandingPage/Base/Slide";
+import { Select } from "@components/LandingPage/Base/Select";
+import { ANIMATION_TYPE_LIST, TYPE_OPTIONS } from "statics/PAGE_BUILDER_BACKGROUND";
 
 const Container = styled.div`
   display: flex;
@@ -49,6 +51,27 @@ const ContainerInput = styled.div`
   overflow-y: scroll;
 `;
 
+const ContainerSelectAnimationType = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-height: 162px;
+  overflow: scroll;
+  flex-shrink: 0;
+`;
+
+const ContainerSelectAnimationItem = styled(Button)`
+  width: 100%;
+  background: ${({ $isActive = false }) => ($isActive ? "#ffffff" : "transparent")};
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ffffff;
+`;
 export const CustomizeBackground = () => {
   const dispatch = useDispatch();
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
@@ -62,8 +85,13 @@ export const CustomizeBackground = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      bodyBackgroundImage: _.get(customizeBackground, ["bodyBackgroundImage"]),
-      bodyBackgroundColor: _.get(customizeBackground, ["bodyBackgroundColor"]),
+      bodyType: _.get(customizeBackground, ["bodyType"]),
+      bodyBackgroundImage: _.get(customizeBackground, ["bodyBackgroundImage"], null),
+      bodyBackgroundColor: _.get(customizeBackground, ["bodyBackgroundColor"], "transparent"),
+      bodyAnimationType: _.get(customizeBackground, ["bodyAnimationType"], "STAR_FIELD"),
+      bodyAnimationGradientFlowPrimary: _.get(customizeBackground, ["bodyAnimationGradientFlowPrimary"]),
+      bodyAnimationGradientFlowSecondary: _.get(customizeBackground, ["bodyAnimationGradientFlowSecondary"]),
+
       containerBackgroundColor: _.get(customizeBackground, ["containerBackgroundColor"]),
       containerBackgroundOpacity: _.get(customizeBackground, ["containerBackgroundOpacity"]),
     },
@@ -74,16 +102,24 @@ export const CustomizeBackground = () => {
     dispatch(setCustomizeBlockAttr(updateCustomizeBlockAttr));
   };
 
+  const bodyType = watch("bodyType");
   const bodyBackgroundImage = watch("bodyBackgroundImage");
   const bodyBackgroundColor = watch("bodyBackgroundColor");
+  const bodyAnimationType = watch("bodyAnimationType");
+  const bodyAnimationGradientFlowPrimary = watch("bodyAnimationGradientFlowPrimary");
+  const bodyAnimationGradientFlowSecondary = watch("bodyAnimationGradientFlowSecondary");
   const containerBackgroundColor = watch("containerBackgroundColor");
   const containerBackgroundOpacity = watch("containerBackgroundOpacity");
 
   useEffect(() => {
     const updateCustomizeBackground = {
       ...customizeBackground,
+      bodyType,
       bodyBackgroundImage,
       bodyBackgroundColor,
+      bodyAnimationType,
+      bodyAnimationGradientFlowPrimary,
+      bodyAnimationGradientFlowSecondary,
       containerBackgroundColor,
       containerBackgroundOpacity,
     };
@@ -92,7 +128,16 @@ export const CustomizeBackground = () => {
       return;
     }
     dispatch(setCustomizeBackground(updateCustomizeBackground));
-  }, [bodyBackgroundImage, bodyBackgroundColor, containerBackgroundColor, containerBackgroundOpacity]);
+  }, [
+    bodyType,
+    bodyBackgroundImage,
+    bodyBackgroundColor,
+    bodyAnimationType,
+    bodyAnimationGradientFlowPrimary,
+    bodyAnimationGradientFlowSecondary,
+    containerBackgroundColor,
+    containerBackgroundOpacity,
+  ]);
 
   return (
     <Container>
@@ -119,21 +164,92 @@ export const CustomizeBackground = () => {
         <Line />
       </ContainerHeader>
       <ContainerInput>
-        <UploadFile
-          $useClearImage={true}
-          $setValue={setValue}
-          $nameValue="bodyBackgroundImage"
-          $value={bodyBackgroundImage}
-          $aspectRatio={1}
-        />
-        <ColorPicker
+        <Select
           $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
           $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
-          $control={control}
           $fontFamily="Sen"
-          $name="bodyBackgroundColor"
-          $label={`background color (Body)`}
+          $options={TYPE_OPTIONS}
+          $control={control}
+          $name="bodyType"
+          $label="type (Body)"
         />
+
+        {bodyType === "COLOR" && (
+          <ColorPicker
+            $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+            $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+            $control={control}
+            $fontFamily="Sen"
+            $name="bodyBackgroundColor"
+            $label={`background color (Body)`}
+          />
+        )}
+
+        {bodyType === "IMAGE" && (
+          <UploadFile
+            $useClearImage={true}
+            $setValue={setValue}
+            $nameValue="bodyBackgroundImage"
+            $value={bodyBackgroundImage}
+            $aspectRatio={1}
+          />
+        )}
+
+        {bodyType === "ANIMATION" && (
+          <ContainerSelectAnimationType>
+            {_.map(ANIMATION_TYPE_LIST, (item, index) => {
+              const isActive = _.get(item, ["value"]) === bodyAnimationType;
+              const value = _.get(item, ["value"]);
+
+              return (
+                <ContainerSelectAnimationItem
+                  key={index}
+                  $isActive={isActive}
+                  onClick={() => {
+                    setValue("bodyAnimationType", value);
+                  }}
+                >
+                  <Text
+                    $fontFamily="Sen"
+                    $textTransform="capitalize"
+                    $color={
+                      isActive
+                        ? MAIN_COLORS?.MAIN?.CONTAINER_IMPORT_TEXT
+                        : MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR
+                    }
+                    $fontSize={16}
+                    $fontWeight={500}
+                    $align="start"
+                  >
+                    {item?.label}
+                  </Text>
+                </ContainerSelectAnimationItem>
+              );
+            })}
+          </ContainerSelectAnimationType>
+        )}
+
+        {bodyAnimationType === "GRADIENT_FLOW" && (
+          <React.Fragment>
+            <ColorPicker
+              $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+              $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+              $control={control}
+              $fontFamily="Sen"
+              $name="bodyAnimationGradientFlowPrimary"
+              $label={`Gradient flow (Primary)`}
+            />
+            <ColorPicker
+              $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+              $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+              $control={control}
+              $fontFamily="Sen"
+              $name="bodyAnimationGradientFlowSecondary"
+              $label={`Gradient flow (Secondary)`}
+            />
+          </React.Fragment>
+        )}
+
         <Line />
 
         <ColorPicker

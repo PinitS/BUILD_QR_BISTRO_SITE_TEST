@@ -12,6 +12,7 @@ import { ContainerCustomizeBlock } from "@components/LandingPage/PageBuilder/Cus
 import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
 import { getBoundingRectById } from "@utils/getBoundingRectById";
 import { ContainerRenderEditorStack } from "@components/LandingPage/PageBuilder/RenderEditor/Stack";
+import { AnimationBackground } from "@components/LandingPage/PageBuilder/RenderEditor/AnimationBackground";
 
 export default () => {
   const dispatch = useDispatch();
@@ -84,11 +85,14 @@ export default () => {
     }
   };
 
+  console.log("customizeBackground :>> ", customizeBackground);
+
   return (
     <Layouts
       $backgroundColor={_.get(customizeBackground, ["bodyBackgroundColor"])}
       $backgroundImage={_.get(customizeBackground, ["bodyBackgroundImage"])}
     >
+      <AnimationBackground $customizeBackground={customizeBackground} />
       <ContainerHeader />
       <ContainerImportBlock />
       <ContainerCustomizeBlock />
