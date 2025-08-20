@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["d191sdiqrxs6vs.cloudfront.net"],
+    domains: ["d191sdiqrxs6vs.cloudfront.net", "images.unsplash.com"],
   },
   compiler: {
     styledComponents: {

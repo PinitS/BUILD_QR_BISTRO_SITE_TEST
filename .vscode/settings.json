@@ -1,5 +1,18 @@
 {
-  "cSpell.words": ["Barcodes", "customisable", "ellipsize", "gradlew", "Noto", "persistor", "Pressable", "ROSÉ", "Swipeable", "udid", "uuidv"],
+  "cSpell.words": [
+    "Barcodes",
+    "customisable",
+    "ellipsize",
+    "embla",
+    "gradlew",
+    "Noto",
+    "persistor",
+    "Pressable",
+    "ROSÉ",
+    "Swipeable",
+    "udid",
+    "uuidv"
+  ],
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
