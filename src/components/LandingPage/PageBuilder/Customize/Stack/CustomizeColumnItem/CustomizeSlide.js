@@ -3,13 +3,15 @@ import { Select } from "@components/LandingPage/Base/Select";
 import { Slide } from "@components/LandingPage/Base/Slide";
 import { TextArea } from "@components/LandingPage/Base/TextArea";
 import { UploadFile } from "@components/LandingPage/Base/UploadFile";
+import { UploadSlide } from "@components/LandingPage/Base/UploadSlide";
 import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
 import _ from "lodash";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
-import { COLUMN_ITEM_TYPE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
+import { COLUMN_ITEM_TYPE, PADDING_RANGE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
 import { FILTER_OPTIONS, FILTER_OPTIONS_RANGE, RESIZE_OPTIONS } from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
+import { SLIDE_RANGE_LIST, SLIDE_STYLE_LIST } from "statics/PAGE_BUILDER_SLIDE_CUSTOMIZE";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 
 import { COLUMN_ITEM_RADIUS_LIMIT } from "statics/PAGE_BUILDER_VOID";
@@ -28,6 +30,14 @@ const Line = styled.div`
   background: ${MAIN_COLORS?.MAIN?.LINE};
 `;
 
+// const ContainerUploadSlide = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: ${MAIN_SIZE?.SPACING}px;
+//   height: 212px;
+//   overflow-y: scroll;
+// `;
+
 export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBlockIndex }) => {
   const dispatch = useDispatch();
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data);
@@ -42,7 +52,9 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
   } = useForm({
     defaultValues: {
       type: _.get($selectItem, ["type"]),
-      imageValue: _.get($selectItem, ["imageValue"]),
+      totalSlides: _.get($selectItem, ["totalSlides"], 2),
+      slideValues: _.get($selectItem, ["slideValues"], [null, null, null, null, null, null]),
+      slideStyle: _.get($selectItem, ["slideStyle"], "DEFAULT"),
       resize: String(_.get($selectItem, ["resize"], "contain")),
       filterType: _.get($selectItem, ["filterType"], "NONE"),
       filterValue: _.get($selectItem, ["filterValue"], null),
@@ -52,16 +64,18 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
       borderTopRightRadius: _.get($selectItem, ["borderTopRightRadius"], 0),
       borderBottomLeftRadius: _.get($selectItem, ["borderBottomLeftRadius"], 0),
       borderBottomRightRadius: _.get($selectItem, ["borderBottomRightRadius"], 0),
+
+      paddingHorizontal: _.get($selectItem, ["paddingHorizontal"], 0),
+      paddingVertical: _.get($selectItem, ["paddingVertical"], 0),
     },
   });
 
   const type = watch("type");
 
   // for text
-  const imageValue = watch("imageValue");
-  const resize = watch("resize");
-  const filterType = watch("filterType");
-  const filterValue = watch("filterValue");
+  const totalSlides = watch("totalSlides");
+  const slideValues = watch("slideValues");
+  const slideStyle = watch("slideStyle");
   // for text
 
   const backgroundColor = watch("backgroundColor");
@@ -69,32 +83,27 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
   const borderTopRightRadius = watch("borderTopRightRadius");
   const borderBottomLeftRadius = watch("borderBottomLeftRadius");
   const borderBottomRightRadius = watch("borderBottomRightRadius");
+  const paddingHorizontal = watch("paddingHorizontal");
+  const paddingVertical = watch("paddingVertical");
 
   useEffect(() => {
     if ($activeStackBlockIndex === -1 && $activeColumnIndex === -1) {
       return;
     }
 
-    let updateFilterValue = null;
-    if (filterType !== _.get($selectItem, ["filterType"])) {
-      updateFilterValue = _.get(FILTER_OPTIONS_RANGE, [filterType, "default"]);
-      setValue("filterValue", updateFilterValue);
-    } else {
-      updateFilterValue = filterValue;
-    }
     const updateStackColumnItem = {
       ...$selectItem,
       id: $selectItem?.id,
       type,
-      imageValue,
-      resize,
-      filterType,
-      filterValue: Number(filterValue),
+      slideValues,
+      slideStyle,
       backgroundColor,
       borderTopLeftRadius,
       borderTopRightRadius,
       borderBottomLeftRadius,
       borderBottomRightRadius,
+      paddingHorizontal,
+      paddingVertical,
     };
     console.log("updateStackColumnItem :>> ", updateStackColumnItem);
     if (_.isEqual(updateStackColumnItem, $selectItem)) {
@@ -111,18 +120,18 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
     dispatch(setStackBlocks(updateStackBlocks));
   }, [
     type,
-    imageValue,
-    resize,
-    filterType,
-    filterValue,
+    totalSlides,
+    slideValues,
     backgroundColor,
     borderTopLeftRadius,
     borderTopRightRadius,
     borderBottomLeftRadius,
     borderBottomRightRadius,
+    paddingHorizontal,
+    paddingVertical,
   ]);
 
-  const attributeFilterValue = _.get(FILTER_OPTIONS_RANGE, [filterType]);
+  console.log("slideValues :>> ", slideValues);
 
   return (
     <Container>
@@ -135,12 +144,47 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
         $name="type"
         $label="type"
       />
-      <UploadFile
-        $setValue={setValue}
-        $value={imageValue}
-        $nameValue={"imageValue"}
-        // $aspectRatio={aspectRatio}
-        $backgroundColor={backgroundColor}
+      <Line />
+
+      <Select
+        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+        $fontFamily="Sen"
+        $options={SLIDE_RANGE_LIST}
+        $control={control}
+        $name="totalSlides"
+        $label="Total Slides"
+      />
+      <Line />
+
+      {/* <ContainerUploadSlide> */}
+      {_.chain(slideValues)
+        .take(totalSlides)
+        .map((item, index) => {
+          return (
+            <UploadSlide
+              key={index}
+              $setValue={setValue}
+              $value={slideValues[index]}
+              $values={slideValues}
+              $nameValue={"slideValues"}
+              $index={index}
+              $backgroundColor={backgroundColor}
+            />
+          );
+        })
+        .value()}
+
+      {/* </ContainerUploadSlide> */}
+      <Line />
+      <Select
+        $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
+        $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
+        $fontFamily="Sen"
+        $options={SLIDE_STYLE_LIST}
+        $control={control}
+        $name="slideStyle"
+        $label="Slide Style"
       />
 
       <Line />
@@ -154,6 +198,25 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
         $label={`background color`}
       />
 
+      <Line />
+      <Slide
+        $label="Padding (Horizontal)"
+        $fontFamily="Sen"
+        $name="paddingHorizontal"
+        $min={PADDING_RANGE.MIN}
+        $max={PADDING_RANGE.MAX}
+        $valueIndicator={paddingHorizontal}
+        $control={control}
+      />
+      <Slide
+        $label="Padding (Vertical)"
+        $fontFamily="Sen"
+        $name="paddingVertical"
+        $min={PADDING_RANGE.MIN}
+        $max={PADDING_RANGE.MAX}
+        $valueIndicator={paddingVertical}
+        $control={control}
+      />
       <Line />
 
       <Slide

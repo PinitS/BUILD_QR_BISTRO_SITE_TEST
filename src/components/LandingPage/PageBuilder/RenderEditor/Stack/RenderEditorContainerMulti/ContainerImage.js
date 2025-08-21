@@ -21,13 +21,12 @@ const Container = styled.div`
   border-style: dashed;
   border-color: ${({ $isActive = false }) => ($isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : "transparent")};
   overflow: hidden;
-`;
 
-const ContainerBlankImage = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding-top: ${({ $paddingVertical = 0 }) => $paddingVertical}px;
+  padding-bottom: ${({ $paddingVertical = 0 }) => $paddingVertical}px;
+
+  padding-left: ${({ $paddingHorizontal = 0 }) => $paddingHorizontal}px;
+  padding-right: ${({ $paddingHorizontal = 0 }) => $paddingHorizontal}px;
 `;
 
 export const ContainerImage = ({ $item = null, $isActive = false }) => {
@@ -48,6 +47,8 @@ export const ContainerImage = ({ $item = null, $isActive = false }) => {
   const borderTopRightRadius = _.get($item, ["borderTopRightRadius"]);
   const borderBottomLeftRadius = _.get($item, ["borderBottomLeftRadius"]);
   const borderBottomRightRadius = _.get($item, ["borderBottomRightRadius"]);
+  const paddingHorizontal = _.get($item, ["paddingHorizontal"]);
+  const paddingVertical = _.get($item, ["paddingVertical"]);
 
   return (
     <Container
@@ -57,6 +58,8 @@ export const ContainerImage = ({ $item = null, $isActive = false }) => {
       $borderBottomLeftRadius={borderBottomLeftRadius}
       $borderBottomRightRadius={borderBottomRightRadius}
       $isActive={$isActive}
+      $paddingHorizontal={paddingHorizontal}
+      $paddingVertical={paddingVertical}
     >
       {_.isNil(imageValue) ? (
         <PlaceHolderImage />

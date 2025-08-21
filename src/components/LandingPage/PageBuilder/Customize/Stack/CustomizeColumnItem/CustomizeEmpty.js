@@ -109,6 +109,8 @@ export const CustomizeEmpty = ({ $selectItem, $activeColumnIndex, $activeStackBl
         $name="type"
         $label="type"
       />
+      <Line />
+
       <ColorPicker
         $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
         $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}

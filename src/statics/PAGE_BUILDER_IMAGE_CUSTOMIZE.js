@@ -15,14 +15,6 @@ export const ASPECT_RATIO_LIST = [
   { label: "9:16", value: 9 / 16 },
 ];
 
-export const FILTER_LIST = [
-  { label: "NONE", value: "none" },
-  { label: "NONE", value: "none" },
-  { label: "NONE", value: "none" },
-  { label: "NONE", value: "none" },
-  { label: "NONE", value: "none" },
-];
-
 export const FILTER_OPTIONS = [
   { label: "None", value: "NONE" },
   { label: "Grayscale", value: "GRAYSCALE" },

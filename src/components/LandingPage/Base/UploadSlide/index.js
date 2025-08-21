@@ -8,6 +8,7 @@ import { hold } from "@utils/hold";
 import Image from "next/image";
 import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
 import { PlaceHolderImage } from "../Image/PlaceHolderImage";
+import SWAP_ARROW from "@assets/svgs/PAGE_BUILDER/SLIDE/SWAP_ARROW.svg";
 
 const Container = styled.div`
   display: flex;
@@ -45,18 +46,32 @@ const ContainerButton = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 `;
 
-export const UploadFile = ({
-  $useClearImage = false,
-  $label = "",
+const ContainerSwapIndex = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 100%;
+`;
+
+export const UploadSlide = ({
   $setValue = () => undefined,
   $nameValue = "value",
   $value = null,
+  $values = [],
   $aspectRatio = 1,
+  $index = 0,
   $allowType = [".png", ".jpg", ".jpeg"],
 }) => {
+  const uploadDisabled = $index === 0 || !_.isNil($values[$index - 1]);
+  const hasPrevious = !_.isNil($values[$index - 1]);
+  const hasNext = !_.isNil($values[$index + 1]);
+
   const acceptExtension = _.join($allowType, ",");
+
   const fileInputRef = useRef(null);
 
   const handleUploadFile = () => {
@@ -70,13 +85,28 @@ export const UploadFile = ({
     const file = event.target.files?.[0];
     if (file) {
       await hold({ sec: 0.3 });
+      // $setValue($nameValue, URL.createObjectURL(file));
+
       const url = URL.createObjectURL(file);
-      $setValue($nameValue, url);
+
+      const updateSlideValues = [...$values];
+      updateSlideValues[$index] = url;
+      $setValue($nameValue, updateSlideValues);
+      // API HERE (file)
     }
   };
 
-  const handleClearImage = () => {
-    $setValue($nameValue, null);
+  const handleSwapSlide = ({ target }) => {
+    console.log("target :>> ", target);
+    if (target < 0 || target >= $values.length || _.isNil($values[$index]) || _.isNil($values[target])) {
+      return;
+    }
+    const updateSlideValues = [...$values];
+    const temp = updateSlideValues[$index];
+    updateSlideValues[$index] = updateSlideValues[target];
+    updateSlideValues[target] = temp;
+    console.log("updateSlideValues :>> ", updateSlideValues);
+    $setValue($nameValue, updateSlideValues);
   };
 
   return (
@@ -90,6 +120,7 @@ export const UploadFile = ({
       </PreviewImage>
       <ContainerButton>
         <Button
+          disabled={!uploadDisabled}
           onClick={() => handleUploadFile()}
           $width={100}
           $height={32}
@@ -100,20 +131,31 @@ export const UploadFile = ({
             Upload
           </Text>
         </Button>
-
-        {$useClearImage && (
+        <ContainerSwapIndex>
           <Button
-            onClick={() => handleClearImage()}
-            $width={100}
-            $height={32}
-            $backgroundColor={MAIN_COLORS?.MAIN?.ERROR_COLOR}
+            $isSquare
+            $height={24}
             $borderRadius={6}
+            disabled={_.isNil($value) || !hasNext}
+            onClick={() => handleSwapSlide({ target: $index + 1 })}
           >
-            <Text $fontSize={12} $fontFamily="Sen" $color={MAIN_COLORS?.BUTTON?.TEXT}>
-              Clear
-            </Text>
+            <SWAP_ARROW
+              width={24}
+              height={24}
+              fill={MAIN_COLORS?.BUTTON?.BACKGROUND}
+              style={{ transform: "rotate(180deg)" }}
+            />
           </Button>
-        )}
+          <Button
+            $isSquare
+            $height={24}
+            $borderRadius={6}
+            disabled={_.isNil($value) || !hasPrevious}
+            onClick={() => handleSwapSlide({ target: $index - 1 })}
+          >
+            <SWAP_ARROW width={24} height={24} fill={MAIN_COLORS?.BUTTON?.BACKGROUND} />
+          </Button>
+        </ContainerSwapIndex>
       </ContainerButton>
 
       <HiddenInput ref={fileInputRef} type="file" onChange={handleFileChange} accept={acceptExtension} />

@@ -7,7 +7,7 @@ import _ from "lodash";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { COLUMN_ITEM_TYPE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
+import { COLUMN_ITEM_TYPE, PADDING_RANGE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
 import { FILTER_OPTIONS, FILTER_OPTIONS_RANGE, RESIZE_OPTIONS } from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 
@@ -51,23 +51,26 @@ export const CustomizeImage = ({ $selectItem, $activeColumnIndex, $activeStackBl
       borderTopRightRadius: _.get($selectItem, ["borderTopRightRadius"], 0),
       borderBottomLeftRadius: _.get($selectItem, ["borderBottomLeftRadius"], 0),
       borderBottomRightRadius: _.get($selectItem, ["borderBottomRightRadius"], 0),
+
+      paddingHorizontal: _.get($selectItem, ["paddingHorizontal"], 0),
+      paddingVertical: _.get($selectItem, ["paddingVertical"], 0),
     },
   });
 
   const type = watch("type");
 
-  // for text
   const imageValue = watch("imageValue");
   const resize = watch("resize");
   const filterType = watch("filterType");
   const filterValue = watch("filterValue");
-  // for text
 
   const backgroundColor = watch("backgroundColor");
   const borderTopLeftRadius = watch("borderTopLeftRadius");
   const borderTopRightRadius = watch("borderTopRightRadius");
   const borderBottomLeftRadius = watch("borderBottomLeftRadius");
   const borderBottomRightRadius = watch("borderBottomRightRadius");
+  const paddingHorizontal = watch("paddingHorizontal");
+  const paddingVertical = watch("paddingVertical");
 
   useEffect(() => {
     if ($activeStackBlockIndex === -1 && $activeColumnIndex === -1) {
@@ -94,6 +97,8 @@ export const CustomizeImage = ({ $selectItem, $activeColumnIndex, $activeStackBl
       borderTopRightRadius,
       borderBottomLeftRadius,
       borderBottomRightRadius,
+      paddingHorizontal,
+      paddingVertical,
     };
     console.log("updateStackColumnItem :>> ", updateStackColumnItem);
     if (_.isEqual(updateStackColumnItem, $selectItem)) {
@@ -119,6 +124,8 @@ export const CustomizeImage = ({ $selectItem, $activeColumnIndex, $activeStackBl
     borderTopRightRadius,
     borderBottomLeftRadius,
     borderBottomRightRadius,
+    paddingHorizontal,
+    paddingVertical,
   ]);
 
   const attributeFilterValue = _.get(FILTER_OPTIONS_RANGE, [filterType]);
@@ -134,6 +141,8 @@ export const CustomizeImage = ({ $selectItem, $activeColumnIndex, $activeStackBl
         $name="type"
         $label="type"
       />
+
+      <Line />
       <UploadFile
         $setValue={setValue}
         $value={imageValue}
@@ -184,6 +193,27 @@ export const CustomizeImage = ({ $selectItem, $activeColumnIndex, $activeStackBl
         $fontFamily="Sen"
         $name="backgroundColor"
         $label={`background color`}
+      />
+
+      <Line />
+
+      <Slide
+        $label="Padding (Horizontal)"
+        $fontFamily="Sen"
+        $name="paddingHorizontal"
+        $min={PADDING_RANGE.MIN}
+        $max={PADDING_RANGE.MAX}
+        $valueIndicator={paddingHorizontal}
+        $control={control}
+      />
+      <Slide
+        $label="Padding (Vertical)"
+        $fontFamily="Sen"
+        $name="paddingVertical"
+        $min={PADDING_RANGE.MIN}
+        $max={PADDING_RANGE.MAX}
+        $valueIndicator={paddingVertical}
+        $control={control}
       />
 
       <Line />

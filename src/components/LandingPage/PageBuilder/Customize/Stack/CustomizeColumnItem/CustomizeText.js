@@ -7,7 +7,7 @@ import _ from "lodash";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
-import { COLUMN_ITEM_TYPE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
+import { COLUMN_ITEM_TYPE, PADDING_RANGE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 import {
   ALIGNMENT_OPTIONS,
@@ -60,6 +60,9 @@ export const CustomizeText = ({ $selectItem, $activeColumnIndex, $activeStackBlo
       borderTopRightRadius: _.get($selectItem, ["borderTopRightRadius"], 0),
       borderBottomLeftRadius: _.get($selectItem, ["borderBottomLeftRadius"], 0),
       borderBottomRightRadius: _.get($selectItem, ["borderBottomRightRadius"], 0),
+
+      paddingHorizontal: _.get($selectItem, ["paddingHorizontal"], 0),
+      paddingTop: _.get($selectItem, ["paddingTop"], 0),
     },
   });
   const type = watch("type");
@@ -82,6 +85,8 @@ export const CustomizeText = ({ $selectItem, $activeColumnIndex, $activeStackBlo
   const borderTopRightRadius = watch("borderTopRightRadius");
   const borderBottomLeftRadius = watch("borderBottomLeftRadius");
   const borderBottomRightRadius = watch("borderBottomRightRadius");
+  const paddingHorizontal = watch("paddingHorizontal");
+  const paddingTop = watch("paddingTop");
 
   useEffect(() => {
     if ($activeStackBlockIndex === -1 && $activeColumnIndex === -1) {
@@ -106,6 +111,8 @@ export const CustomizeText = ({ $selectItem, $activeColumnIndex, $activeStackBlo
       borderTopRightRadius,
       borderBottomLeftRadius,
       borderBottomRightRadius,
+      paddingHorizontal,
+      paddingTop,
     };
 
     if (_.isEqual(updateStackColumnItem, $selectItem)) {
@@ -135,6 +142,8 @@ export const CustomizeText = ({ $selectItem, $activeColumnIndex, $activeStackBlo
     borderTopRightRadius,
     borderBottomLeftRadius,
     borderBottomRightRadius,
+    paddingHorizontal,
+    paddingTop,
   ]);
 
   return (
@@ -148,6 +157,8 @@ export const CustomizeText = ({ $selectItem, $activeColumnIndex, $activeStackBlo
         $name="type"
         $label="type"
       />
+      <Line />
+
       <TextArea
         $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
         $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
@@ -233,6 +244,28 @@ export const CustomizeText = ({ $selectItem, $activeColumnIndex, $activeStackBlo
         $fontFamily="Sen"
         $name="backgroundColor"
         $label={`background color`}
+      />
+
+      <Line />
+
+      <Slide
+        $label="Padding (Horizontal)"
+        $fontFamily="Sen"
+        $name="paddingHorizontal"
+        $min={PADDING_RANGE.MIN}
+        $max={PADDING_RANGE.MAX}
+        $valueIndicator={paddingHorizontal}
+        $control={control}
+      />
+
+      <Slide
+        $label="Padding (Top)"
+        $fontFamily="Sen"
+        $name="paddingTop"
+        $min={PADDING_RANGE.MIN}
+        $max={PADDING_RANGE.MAX}
+        $valueIndicator={paddingTop}
+        $control={control}
       />
 
       <Line />

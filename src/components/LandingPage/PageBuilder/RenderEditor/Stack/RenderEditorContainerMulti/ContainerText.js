@@ -21,6 +21,11 @@ const Container = styled.div`
   border-style: dashed;
   border-color: ${({ $isActive = false }) => ($isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : "transparent")};
   overflow: scroll;
+
+  padding-top: ${({ $paddingTop = 0 }) => $paddingTop}px;
+
+  padding-left: ${({ $paddingHorizontal = 0 }) => $paddingHorizontal}px;
+  padding-right: ${({ $paddingHorizontal = 0 }) => $paddingHorizontal}px;
 `;
 export const ContainerText = ({ $item = null, $isActive = false }) => {
   const textValue = _.get($item, ["textValue"]);
@@ -40,6 +45,8 @@ export const ContainerText = ({ $item = null, $isActive = false }) => {
   const borderTopRightRadius = _.get($item, ["borderTopRightRadius"]);
   const borderBottomLeftRadius = _.get($item, ["borderBottomLeftRadius"]);
   const borderBottomRightRadius = _.get($item, ["borderBottomRightRadius"]);
+  const paddingHorizontal = _.get($item, ["paddingHorizontal"]);
+  const paddingTop = _.get($item, ["paddingTop"]);
 
   return (
     <Container
@@ -51,6 +58,8 @@ export const ContainerText = ({ $item = null, $isActive = false }) => {
       $isActive={$isActive}
       $justifyContent={justifyContent}
       $alignItems={alignItems}
+      $paddingHorizontal={paddingHorizontal}
+      $paddingTop={paddingTop}
     >
       <Text
         $ellipsis={false}
