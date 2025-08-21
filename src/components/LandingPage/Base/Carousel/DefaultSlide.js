@@ -1,4 +1,3 @@
-// DefaultSlide.js (หรือ .tsx ถ้าใช้ TypeScript)
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";

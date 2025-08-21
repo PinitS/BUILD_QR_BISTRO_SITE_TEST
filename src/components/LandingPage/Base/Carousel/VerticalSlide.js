@@ -6,16 +6,17 @@ import "swiper/css";
 import Image from "next/image";
 import styled from "styled-components";
 import _ from "lodash";
-import { PlaceHolderSlide } from "@components/LandingPage/Base/Carousel/PlaceHolderSlide";
+import { PlaceHolderSlide } from "./PlaceHolderSlide";
 
 const Container = styled(Swiper)`
   width: 100%;
   height: 100%;
 `;
 
-export const DefaultSlide = ({ $images = [], $delay = 1 }) => {
+export const VerticalSlide = ({ $images = [], $delay = 1 }) => {
   return (
     <Container
+      direction="vertical"
       modules={[Autoplay]}
       spaceBetween={10}
       slidesPerView={1}

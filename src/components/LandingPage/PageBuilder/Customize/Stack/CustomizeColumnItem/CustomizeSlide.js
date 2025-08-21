@@ -1,16 +1,13 @@
 import { ColorPicker } from "@components/LandingPage/Base/ColorPicker";
 import { Select } from "@components/LandingPage/Base/Select";
 import { Slide } from "@components/LandingPage/Base/Slide";
-import { TextArea } from "@components/LandingPage/Base/TextArea";
-import { UploadFile } from "@components/LandingPage/Base/UploadFile";
 import { UploadSlide } from "@components/LandingPage/Base/UploadSlide";
 import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
 import _ from "lodash";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { COLUMN_ITEM_TYPE, PADDING_RANGE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
-import { FILTER_OPTIONS, FILTER_OPTIONS_RANGE, RESIZE_OPTIONS } from "statics/PAGE_BUILDER_IMAGE_CUSTOMIZE";
 import { SLIDE_RANGE_LIST, SLIDE_STYLE_LIST } from "statics/PAGE_BUILDER_SLIDE_CUSTOMIZE";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 
@@ -52,12 +49,11 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
   } = useForm({
     defaultValues: {
       type: _.get($selectItem, ["type"]),
+
       totalSlides: _.get($selectItem, ["totalSlides"], 2),
       slideValues: _.get($selectItem, ["slideValues"], [null, null, null, null, null, null]),
       slideStyle: _.get($selectItem, ["slideStyle"], "DEFAULT"),
-      resize: String(_.get($selectItem, ["resize"], "contain")),
-      filterType: _.get($selectItem, ["filterType"], "NONE"),
-      filterValue: _.get($selectItem, ["filterValue"], null),
+      delay: _.get($selectItem, ["delay"], 1),
 
       backgroundColor: _.get($selectItem, ["backgroundColor"]),
       borderTopLeftRadius: _.get($selectItem, ["borderTopLeftRadius"], 0),
@@ -72,17 +68,19 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
 
   const type = watch("type");
 
-  // for text
+  // for slide
   const totalSlides = watch("totalSlides");
   const slideValues = watch("slideValues");
   const slideStyle = watch("slideStyle");
-  // for text
+  const delay = watch("delay");
+  // for slide
 
   const backgroundColor = watch("backgroundColor");
   const borderTopLeftRadius = watch("borderTopLeftRadius");
   const borderTopRightRadius = watch("borderTopRightRadius");
   const borderBottomLeftRadius = watch("borderBottomLeftRadius");
   const borderBottomRightRadius = watch("borderBottomRightRadius");
+
   const paddingHorizontal = watch("paddingHorizontal");
   const paddingVertical = watch("paddingVertical");
 
@@ -95,8 +93,10 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
       ...$selectItem,
       id: $selectItem?.id,
       type,
+      totalSlides,
       slideValues,
       slideStyle,
+      delay,
       backgroundColor,
       borderTopLeftRadius,
       borderTopRightRadius,
@@ -122,6 +122,8 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
     type,
     totalSlides,
     slideValues,
+    slideStyle,
+    delay,
     backgroundColor,
     borderTopLeftRadius,
     borderTopRightRadius,
@@ -145,7 +147,6 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
         $label="type"
       />
       <Line />
-
       <Select
         $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
         $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
@@ -156,7 +157,6 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
         $label="Total Slides"
       />
       <Line />
-
       {/* <ContainerUploadSlide> */}
       {_.chain(slideValues)
         .take(totalSlides)
@@ -174,7 +174,6 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
           );
         })
         .value()}
-
       {/* </ContainerUploadSlide> */}
       <Line />
       <Select
@@ -186,9 +185,17 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
         $name="slideStyle"
         $label="Slide Style"
       />
+      <Slide
+        $label="Delay (Auto Slide)"
+        $fontFamily="Sen"
+        $name="delay"
+        $min={1}
+        $max={10}
+        $valueIndicator={delay}
+        $control={control}
+      />
 
       <Line />
-
       <ColorPicker
         $labelColor={MAIN_COLORS?.MAIN?.LABEL_CUSTOMIZE_COLOR}
         $color={MAIN_COLORS?.MAIN?.INPUT_CUSTOMIZE_COLOR}
@@ -197,7 +204,6 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
         $name="backgroundColor"
         $label={`background color`}
       />
-
       <Line />
       <Slide
         $label="Padding (Horizontal)"
@@ -218,7 +224,6 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
         $control={control}
       />
       <Line />
-
       <Slide
         $label="Radius (Top Left)"
         $fontFamily="Sen"

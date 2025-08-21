@@ -10,6 +10,7 @@ import { ContainerEmpty } from "./ContainerEmpty";
 import { Text } from "@components/LandingPage/Base/Text";
 import { ContainerText } from "./ContainerText";
 import { ContainerImage } from "./ContainerImage";
+import { ContainerSlide } from "./ContainerSlide";
 
 const Container = styled.div`
   display: grid;
@@ -137,7 +138,7 @@ export const RenderEditorContainerMulti = ({ $item }) => {
                   case "TEXT":
                     return <ContainerText key={id} $isActive={isActive} $item={item} />;
                   case "SLIDE":
-                    return <div>{"slide"}</div>;
+                    return <ContainerSlide key={id} $isActive={isActive} $item={item} />;
 
                   default:
                     return <ContainerEmpty key={id} $isActive={isActive} $item={item} />;

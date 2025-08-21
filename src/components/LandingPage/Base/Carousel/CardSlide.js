@@ -1,25 +1,29 @@
-// DefaultSlide.js (หรือ .tsx ถ้าใช้ TypeScript)
+// CardEffectSlide.js
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import { EffectCards, Autoplay } from "swiper/modules";
 import "swiper/css";
+import "swiper/css/effect-cards";
 import Image from "next/image";
 import styled from "styled-components";
 import _ from "lodash";
-import { PlaceHolderSlide } from "@components/LandingPage/Base/Carousel/PlaceHolderSlide";
+import { PlaceHolderSlide } from "./PlaceHolderSlide";
 
-const Container = styled(Swiper)`
-  width: 100%;
+const StyledSwiper = styled(Swiper)`
   height: 100%;
+  width: 100%;
+  .swiper-slide {
+    border-radius: 8 !important;
+  }
 `;
 
-export const DefaultSlide = ({ $images = [], $delay = 1 }) => {
+export const CardSlide = ({ $images = [], $delay = 1 }) => {
   return (
-    <Container
-      modules={[Autoplay]}
-      spaceBetween={10}
-      slidesPerView={1}
-      loop={true}
+    <StyledSwiper
+      effect="cards"
+      grabCursor={true}
+      modules={[Autoplay, EffectCards]}
+      className="cardSwiper"
       autoplay={{
         delay: $delay * 1000,
         disableOnInteraction: false,
@@ -30,7 +34,7 @@ export const DefaultSlide = ({ $images = [], $delay = 1 }) => {
         return (
           <SwiperSlide key={index}>
             {isPlaceHolder ? (
-              <PlaceHolderSlide $index={index} />
+              <PlaceHolderSlide $index={index} $borderRadius={8} />
             ) : (
               <Image
                 src={url}
@@ -43,6 +47,6 @@ export const DefaultSlide = ({ $images = [], $delay = 1 }) => {
           </SwiperSlide>
         );
       })}
-    </Container>
+    </StyledSwiper>
   );
 };

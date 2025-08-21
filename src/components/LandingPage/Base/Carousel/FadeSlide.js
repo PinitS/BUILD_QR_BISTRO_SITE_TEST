@@ -1,23 +1,29 @@
-// DefaultSlide.js (หรือ .tsx ถ้าใช้ TypeScript)
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import { Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
+import "swiper/css/effect-fade";
 import Image from "next/image";
 import styled from "styled-components";
 import _ from "lodash";
-import { PlaceHolderSlide } from "@components/LandingPage/Base/Carousel/PlaceHolderSlide";
+import { PlaceHolderSlide } from "./PlaceHolderSlide";
 
 const Container = styled(Swiper)`
   width: 100%;
   height: 100%;
+
+  .swiper-slide {
+    transition-property: opacity !important;
+  }
 `;
 
-export const DefaultSlide = ({ $images = [], $delay = 1 }) => {
+export const FadeSlide = ({ $images = [], $delay = 1 }) => {
   return (
     <Container
-      modules={[Autoplay]}
-      spaceBetween={10}
+      modules={[Autoplay, EffectFade]}
+      effect="fade"
+      fadeEffect={{ crossFade: true }}
+      spaceBetween={0}
       slidesPerView={1}
       loop={true}
       autoplay={{
