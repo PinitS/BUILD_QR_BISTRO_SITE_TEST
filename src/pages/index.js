@@ -86,8 +86,6 @@ export default () => {
     }
   };
 
-  console.log("customizeBackground :>> ", customizeBackground);
-
   return (
     <Layouts
       $backgroundColor={_.get(customizeBackground, ["bodyBackgroundColor"])}
