@@ -11,11 +11,13 @@ import { PlaceHolderSlide } from "./PlaceHolderSlide";
 const Container = styled(Swiper)`
   width: 100%;
   height: 100%;
+  border-radius: ${({ $borderSlideRadius = 0 }) => $borderSlideRadius}px;
 `;
 
-export const VerticalSlide = ({ $images = [], $delay = 1 }) => {
+export const VerticalSlide = ({ $images = [], $delay = 1, $borderSlideRadius = 0 }) => {
   return (
     <Container
+      $borderSlideRadius={$borderSlideRadius}
       direction="vertical"
       modules={[Autoplay]}
       spaceBetween={10}

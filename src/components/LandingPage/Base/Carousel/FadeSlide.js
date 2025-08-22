@@ -11,15 +11,16 @@ import { PlaceHolderSlide } from "./PlaceHolderSlide";
 const Container = styled(Swiper)`
   width: 100%;
   height: 100%;
-
+  border-radius: ${({ $borderSlideRadius = 0 }) => $borderSlideRadius}px;
   .swiper-slide {
     transition-property: opacity !important;
   }
 `;
 
-export const FadeSlide = ({ $images = [], $delay = 1 }) => {
+export const FadeSlide = ({ $images = [], $delay = 1, $borderSlideRadius = 0 }) => {
   return (
     <Container
+      $borderSlideRadius={$borderSlideRadius}
       modules={[Autoplay, EffectFade]}
       effect="fade"
       fadeEffect={{ crossFade: true }}

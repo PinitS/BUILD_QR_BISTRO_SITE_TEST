@@ -46,7 +46,7 @@ export const ContainerSlide = ({ $item = null, $isActive = false }) => {
   const paddingVertical = _.get($item, ["paddingVertical"]);
 
   const delay = _.get($item, ["delay"]);
-
+  const borderSlideRadius = _.get($item, ["borderSlideRadius"]);
   const renderSlide = _.chain(slideValues).take(totalSlides).value();
 
   return (
@@ -63,14 +63,18 @@ export const ContainerSlide = ({ $item = null, $isActive = false }) => {
       {(() => {
         switch (slideStyle) {
           case "FADE":
-            return <FadeSlide $images={renderSlide} $delay={delay} />;
+            return <FadeSlide $images={renderSlide} $delay={delay} $borderSlideRadius={borderSlideRadius} />;
           case "CARD":
-            return <CardSlide $images={renderSlide} $delay={delay} />;
+            return <CardSlide $images={renderSlide} $delay={delay} $borderSlideRadius={borderSlideRadius} />;
           case "VERTICAL":
-            return <VerticalSlide $images={renderSlide} $delay={delay} />;
+            return (
+              <VerticalSlide $images={renderSlide} $delay={delay} $borderSlideRadius={borderSlideRadius} />
+            );
 
           default:
-            return <DefaultSlide $images={renderSlide} $delay={delay} />;
+            return (
+              <DefaultSlide $images={renderSlide} $delay={delay} $borderSlideRadius={borderSlideRadius} />
+            );
         }
       })()}
     </Container>

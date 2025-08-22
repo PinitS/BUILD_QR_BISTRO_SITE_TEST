@@ -12,14 +12,13 @@ import { PlaceHolderSlide } from "./PlaceHolderSlide";
 const StyledSwiper = styled(Swiper)`
   height: 100%;
   width: 100%;
-  .swiper-slide {
-    border-radius: 8 !important;
-  }
+  border-radius: ${({ $borderSlideRadius = 0 }) => $borderSlideRadius}px;
 `;
 
-export const CardSlide = ({ $images = [], $delay = 1 }) => {
+export const CardSlide = ({ $images = [], $delay = 1, $borderSlideRadius = 0 }) => {
   return (
     <StyledSwiper
+      $borderSlideRadius={$borderSlideRadius}
       effect="cards"
       grabCursor={true}
       modules={[Autoplay, EffectCards]}

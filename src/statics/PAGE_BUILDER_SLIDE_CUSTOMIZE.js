@@ -12,3 +12,8 @@ export const SLIDE_STYLE_LIST = [
   { label: "Card", value: "CARD" },
   { label: "Vertical", value: "VERTICAL" },
 ];
+
+export const SLIDE_RADIUS_LIMIT = {
+  min: 0,
+  max: 36,
+};

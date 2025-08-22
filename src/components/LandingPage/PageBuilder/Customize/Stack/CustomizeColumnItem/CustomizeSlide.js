@@ -8,7 +8,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { COLUMN_ITEM_TYPE, PADDING_RANGE } from "statics/PAGE_BUILDER_COLUMN_ITEM";
-import { SLIDE_RANGE_LIST, SLIDE_STYLE_LIST } from "statics/PAGE_BUILDER_SLIDE_CUSTOMIZE";
+import { SLIDE_RADIUS_LIMIT, SLIDE_RANGE_LIST, SLIDE_STYLE_LIST } from "statics/PAGE_BUILDER_SLIDE_CUSTOMIZE";
 import { MAIN_COLORS, MAIN_SIZE } from "statics/PAGE_BUILDER_STYLE";
 
 import { COLUMN_ITEM_RADIUS_LIMIT } from "statics/PAGE_BUILDER_VOID";
@@ -54,6 +54,7 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
       slideValues: _.get($selectItem, ["slideValues"], [null, null, null, null, null, null]),
       slideStyle: _.get($selectItem, ["slideStyle"], "DEFAULT"),
       delay: _.get($selectItem, ["delay"], 1),
+      borderSlideRadius: _.get($selectItem, ["borderSlideRadius"], 0),
 
       backgroundColor: _.get($selectItem, ["backgroundColor"]),
       borderTopLeftRadius: _.get($selectItem, ["borderTopLeftRadius"], 0),
@@ -73,6 +74,7 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
   const slideValues = watch("slideValues");
   const slideStyle = watch("slideStyle");
   const delay = watch("delay");
+  const borderSlideRadius = watch("borderSlideRadius");
   // for slide
 
   const backgroundColor = watch("backgroundColor");
@@ -97,6 +99,7 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
       slideValues,
       slideStyle,
       delay,
+      borderSlideRadius,
       backgroundColor,
       borderTopLeftRadius,
       borderTopRightRadius,
@@ -123,6 +126,7 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
     totalSlides,
     slideValues,
     slideStyle,
+    borderSlideRadius,
     delay,
     backgroundColor,
     borderTopLeftRadius,
@@ -132,7 +136,7 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
     paddingHorizontal,
     paddingVertical,
   ]);
-
+  console.log("borderSlideRadius :>> ", borderSlideRadius);
   console.log("slideValues :>> ", slideValues);
 
   return (
@@ -192,6 +196,16 @@ export const CustomizeSlide = ({ $selectItem, $activeColumnIndex, $activeStackBl
         $min={1}
         $max={10}
         $valueIndicator={delay}
+        $control={control}
+      />
+
+      <Slide
+        $label="Radius (Slide)"
+        $fontFamily="Sen"
+        $name="borderSlideRadius"
+        $min={SLIDE_RADIUS_LIMIT?.min}
+        $max={SLIDE_RADIUS_LIMIT?.max}
+        $valueIndicator={borderSlideRadius}
         $control={control}
       />
 

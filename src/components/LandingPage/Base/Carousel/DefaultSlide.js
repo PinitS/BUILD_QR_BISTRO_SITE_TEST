@@ -10,11 +10,14 @@ import { PlaceHolderSlide } from "@components/LandingPage/Base/Carousel/PlaceHol
 const Container = styled(Swiper)`
   width: 100%;
   height: 100%;
+  border-radius: ${({ $borderSlideRadius = 0 }) => $borderSlideRadius}px;
 `;
 
-export const DefaultSlide = ({ $images = [], $delay = 1 }) => {
+export const DefaultSlide = ({ $images = [], $delay = 1, $borderSlideRadius = 0 }) => {
+  console.log(" $borderSlideRadius :>> ", $borderSlideRadius);
   return (
     <Container
+      $borderSlideRadius={$borderSlideRadius}
       modules={[Autoplay]}
       spaceBetween={10}
       slidesPerView={1}
