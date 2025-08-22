@@ -14,6 +14,7 @@ import { getBoundingRectById } from "@utils/getBoundingRectById";
 import { ContainerRenderEditorStack } from "@components/LandingPage/PageBuilder/RenderEditor/Stack";
 import { AnimationBackground } from "@components/LandingPage/PageBuilder/RenderEditor/AnimationBackground";
 
+console.log("versions 0.0.1 :>> ");
 export default () => {
   const dispatch = useDispatch();
   const { ref: containerRef, containerWidth } = useContainerDimensionContext();
