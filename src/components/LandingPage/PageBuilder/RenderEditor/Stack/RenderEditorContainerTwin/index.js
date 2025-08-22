@@ -6,6 +6,11 @@ import React from "react";
 import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
+import { ContainerImage } from "../RenderEditorContainerMulti/ContainerImage";
+import { ContainerText } from "../RenderEditorContainerMulti/ContainerText";
+import { ContainerEmpty } from "../RenderEditorContainerMulti/ContainerEmpty";
+import { ContainerSlide } from "../RenderEditorContainerMulti/ContainerSlide";
+import { ContainerYoutube } from "../RenderEditorContainerMulti/ContainerYoutube";
 // import { ContainerEmpty } from "./ContainerEmpty";
 // import { Text } from "@components/LandingPage/Base/Text";
 // import { ContainerText } from "./ContainerText";
@@ -84,18 +89,18 @@ export const RenderEditorContainerTwin = ({ $item }) => {
     });
   };
 
-  //   const handleSelectedColumnItem = ({ columnItemId, event }) => {
-  //     // if (customizeBlockAttr?.isVisible) {
-  //     event.stopPropagation();
-  //     const updateSelectedStackBlockColumnItem =
-  //       selectedStackBlockColumnItem === columnItemId ? null : columnItemId;
-  //     batch(() => {
-  //       dispatch(setSelectedStackBlockColumnItem(updateSelectedStackBlockColumnItem));
-  //       dispatch(setCustomizeBlockAttr({ isVisible: true, id, form: "CUSTOMIZE-STACK-CONTAINER-MULTI" }));
-  //       dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
-  //     });
-  //     // }
-  //   };
+  const handleSelectedColumnItem = ({ columnItemId, event }) => {
+    // if (customizeBlockAttr?.isVisible) {
+    event.stopPropagation();
+    const updateSelectedStackBlockColumnItem =
+      selectedStackBlockColumnItem === columnItemId ? null : columnItemId;
+    batch(() => {
+      dispatch(setSelectedStackBlockColumnItem(updateSelectedStackBlockColumnItem));
+      dispatch(setCustomizeBlockAttr({ isVisible: true, id, form: "CUSTOMIZE-STACK-CONTAINER-TWIN" }));
+      dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
+    });
+    // }
+  };
 
   return (
     <Container
@@ -114,12 +119,12 @@ export const RenderEditorContainerTwin = ({ $item }) => {
           const type = _.get(item, ["type"]);
           return (
             <ContainerItem
-              //   onClick={(event) => handleSelectedColumnItem({ columnItemId: id, event })}
+              onClick={(event) => handleSelectedColumnItem({ columnItemId: id, event })}
               key={index}
               $isActive={isActive}
               $height={height}
             >
-              <div
+              {/* <div
                 style={{
                   border: "1px solid red",
                   width: "100%",
@@ -130,22 +135,22 @@ export const RenderEditorContainerTwin = ({ $item }) => {
                 }}
               >
                 {"example"}
-              </div>
-              {/* {(() => {
+              </div> */}
+              {(() => {
                 switch (type) {
                   case "IMAGE":
-                    return (
-                      <ContainerImage key={id} $isActive={isActive} $item={item} $aspectRatio={aspectRatio} />
-                    );
+                    return <ContainerImage key={id} $isActive={isActive} $item={item} />;
                   case "TEXT":
                     return <ContainerText key={id} $isActive={isActive} $item={item} />;
                   case "SLIDE":
-                    return <div>{"slide"}</div>;
+                    return <ContainerSlide key={id} $isActive={isActive} $item={item} />;
+                  case "YOUTUBE":
+                    return <ContainerYoutube key={id} $isActive={isActive} $item={item} />;
 
                   default:
                     return <ContainerEmpty key={id} $isActive={isActive} $item={item} />;
                 }
-              })()} */}
+              })()}
             </ContainerItem>
           );
         })

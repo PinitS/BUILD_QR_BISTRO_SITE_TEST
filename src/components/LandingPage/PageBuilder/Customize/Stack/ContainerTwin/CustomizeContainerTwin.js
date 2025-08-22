@@ -9,6 +9,7 @@ import ICON_CUSTOMIZE_CLOSE from "@assets/svgs/PAGE_BUILDER/MENU/ICON_CUSTOMIZE_
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
 import { CustomizeBlock } from "@components/LandingPage/PageBuilder/Customize/Stack/ContainerTwin/CustomizeBlock";
 import { setSelectedStackBlockColumnItem } from "@redux/reducers/selectedStackBlockColumnItem.reducers";
+import { CustomizeColumnItem } from "../CustomizeColumnItem";
 // import { CustomizeColumnItem } from "./CustomizeColumnItem";
 
 const Container = styled.div`
@@ -48,7 +49,7 @@ const ContainerInput = styled.div`
 
 const ContainerFooter = styled.div`
   display: grid;
-  grid-template-columns: ${({ $columns = 1 }) => `repeat(${$columns}, 1fr)`};
+  grid-template-columns: ${({ $columnRatio = "50% 50%" }) => $columnRatio};
   align-items: center;
   justify-content: center;
   gap: 8px;
@@ -65,6 +66,8 @@ export const CustomizeContainerTwin = () => {
     shallowEqual,
   );
 
+  console.log("selectedStackBlockColumnItem :>> ", selectedStackBlockColumnItem);
+
   const activeIndex = _.chain(stackBlocks)
     .get([selectedLayoutDesign])
     .findIndex((item) => {
@@ -75,6 +78,15 @@ export const CustomizeContainerTwin = () => {
   const selectItem = _.chain(stackBlocks).get([selectedLayoutDesign, activeIndex]).value();
 
   const columnItems = _.get(selectItem, ["columnItems"]);
+
+  const columnRatio = _.chain(selectItem)
+    .get(["columnRatio"])
+    .thru((arr) => {
+      const total = _.sum(arr) || 1;
+      return _.map(arr, (item) => `${item / total}fr`);
+    })
+    .join(" ")
+    .value();
 
   const handleCloseCustomize = () => {
     const updateCustomizeBlockAttr = { ...customizeBlockAttr, isVisible: false };
@@ -120,12 +132,11 @@ export const CustomizeContainerTwin = () => {
       </ContainerHeader>
       <ContainerInput>
         {_.isNil(selectedStackBlockColumnItem) && <CustomizeBlock />}
-        {/* {!_.isNil(selectedStackBlockColumnItem) && <CustomizeColumnItem key={selectedStackBlockColumnItem} />} */}
+        {!_.isNil(selectedStackBlockColumnItem) && <CustomizeColumnItem key={selectedStackBlockColumnItem} />}
       </ContainerInput>
       <Line />
-      {/* <ContainerFooter $columns={Number(columns)}>
+      <ContainerFooter $columnRatio={columnRatio}>
         {_.chain(columnItems)
-          .take(columns)
           .map((item, index) => {
             const id = _.get(item, ["id"]);
             const isActive = id === selectedStackBlockColumnItem;
@@ -160,7 +171,7 @@ export const CustomizeContainerTwin = () => {
             );
           })
           .value()}
-      </ContainerFooter> */}
+      </ContainerFooter>
     </Container>
   );
 };

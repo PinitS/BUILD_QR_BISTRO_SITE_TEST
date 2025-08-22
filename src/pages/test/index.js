@@ -1,10 +1,12 @@
+import { Switch } from "@components/LandingPage/Base/Switch";
 import React from "react";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 const Layout = styled.div`
   width: 475px;
   height: 100%;
-  background: green;
+  /* background: green; */
 `;
 
 const Container = styled.div`
@@ -14,19 +16,26 @@ const Container = styled.div`
   gap: 2px;
 `;
 
-const ContainerItem = styled.div`
-  width: 50%;
-  height: 50px;
-  background: red;
-`;
-
 export default () => {
   console.log("data :>> ");
+
+  const {
+    control,
+    watch,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      test: true,
+    },
+  });
   return (
     <Layout>
       <Container>
-        <ContainerItem />
-        <ContainerItem />
+        <Switch $control={control} $name={"test"} />
+        {/* <ContainerItem />
+        <ContainerItem /> */}
       </Container>
     </Layout>
   );

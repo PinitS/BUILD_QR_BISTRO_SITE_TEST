@@ -11,6 +11,7 @@ import { Text } from "@components/LandingPage/Base/Text";
 import { ContainerText } from "./ContainerText";
 import { ContainerImage } from "./ContainerImage";
 import { ContainerSlide } from "./ContainerSlide";
+import { ContainerYoutube } from "./ContainerYoutube";
 
 const Container = styled.div`
   display: grid;
@@ -132,13 +133,13 @@ export const RenderEditorContainerMulti = ({ $item }) => {
               {(() => {
                 switch (type) {
                   case "IMAGE":
-                    return (
-                      <ContainerImage key={id} $isActive={isActive} $item={item} $aspectRatio={aspectRatio} />
-                    );
+                    return <ContainerImage key={id} $isActive={isActive} $item={item} />;
                   case "TEXT":
                     return <ContainerText key={id} $isActive={isActive} $item={item} />;
                   case "SLIDE":
                     return <ContainerSlide key={id} $isActive={isActive} $item={item} />;
+                  case "YOUTUBE":
+                    return <ContainerYoutube key={id} $isActive={isActive} $item={item} />;
 
                   default:
                     return <ContainerEmpty key={id} $isActive={isActive} $item={item} />;

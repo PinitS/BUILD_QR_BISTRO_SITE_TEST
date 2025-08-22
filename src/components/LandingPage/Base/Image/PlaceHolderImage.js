@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Text } from "../Text";
 import _ from "lodash";
 import { getAngleFromAspectRatio } from "@utils/getAngleFromAspectRatio";
+import { useContainerAttribute } from "@hooks/useContainerAttribute";
 
 const Container = styled.div`
   position: relative;
@@ -35,30 +36,7 @@ const Container = styled.div`
   }
 `;
 export const PlaceHolderImage = ({ $label = "Upload Image", $fixSize = null }) => {
-  const containerRef = useRef(null);
-  const [containerAttribute, setContainerAttribute] = useState(null);
-
-  useEffect(() => {
-    if (!containerRef.current) {
-      return;
-    }
-
-    const observer = new ResizeObserver((entries) => {
-      const { width, height } = entries[0].contentRect || {};
-      setContainerAttribute({
-        width: width,
-        height: height,
-        aspectRatio: width / height,
-        angle: getAngleFromAspectRatio(width / height),
-      });
-    });
-
-    observer.observe(containerRef.current);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+  const { containerRef, containerAttribute } = useContainerAttribute();
 
   return (
     <Container ref={containerRef} $angle={containerAttribute?.angle}>

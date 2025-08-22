@@ -11,6 +11,7 @@ import { CustomizeEmpty } from "./CustomizeEmpty";
 import { CustomizeText } from "./CustomizeText";
 import { CustomizeImage } from "./CustomizeImage";
 import { CustomizeSlide } from "./CustomizeSlide";
+import { CustomizeYoutube } from "./CustomizeYoutube";
 
 const Container = styled.div`
   display: flex;
@@ -72,6 +73,15 @@ export const CustomizeColumnItem = () => {
           case "SLIDE":
             return (
               <CustomizeSlide
+                $selectItem={selectItem}
+                $activeColumnIndex={activeColumnIndex}
+                $activeStackBlockIndex={activeStackBlockIndex}
+              />
+            );
+
+          case "YOUTUBE":
+            return (
+              <CustomizeYoutube
                 $selectItem={selectItem}
                 $activeColumnIndex={activeColumnIndex}
                 $activeStackBlockIndex={activeStackBlockIndex}
