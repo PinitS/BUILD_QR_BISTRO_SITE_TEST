@@ -1,90 +1,57 @@
-import { Container } from "@components/LandingPage/Base/Container";
-import { Layouts } from "@components/LandingPage/Base/Layouts";
-import { ContainerRenderEditorFreeform } from "@components/LandingPage/PageBuilder/RenderEditor/Freeform";
-import { ContainerHeader } from "@components/LandingPage/PageBuilder/ContainerHeader";
-import { ContainerImportBlock } from "@components/LandingPage/PageBuilder/Import";
-import React from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { DndContext, PointerSensor, useSensor, useSensors, useDraggable, closestCenter } from "@dnd-kit/core";
+import React, { useEffect } from "react";
+import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
-import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
-import { ContainerCustomizeBlock } from "@components/LandingPage/PageBuilder/Customize";
 import { useContainerDimensionContext } from "@contexts/containerDimension/ContainerDimensionContext";
-import { getBoundingRectById } from "@utils/getBoundingRectById";
-import { ContainerRenderEditorStack } from "@components/LandingPage/PageBuilder/RenderEditor/Stack";
 import { AnimationBackground } from "@components/LandingPage/PageBuilder/RenderEditor/AnimationBackground";
+import { setCustomizeBackground } from "@redux/reducers/customizeBackground.reducers";
+import { setFreeformBlocks } from "@redux/reducers/freeformBlocks.reducers";
+import { setStackBlocks } from "@redux/reducers/stackBlocks.reducers";
+import { httpRequest } from "@helpers/http/httpRequest";
+import { resolveSubdomain } from "@utils/resolve/resolveSubdomain";
+import { ContainerRenderViewFreeform } from "@components/LandingPage/PageBuilder/RenderView/Freeform";
+import styled from "styled-components";
+import { resolveColorWithOpacity } from "@utils/resolve/resolveBackgroundColorWithOpacity";
+import { ContainerRenderViewStack } from "@components/LandingPage/PageBuilder/RenderView/Stack";
 
-console.log("versions 0.0.1 :>> ");
-export default () => {
+const Layouts = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+
+  background-color: ${({ $backgroundColor = "transparent" }) => $backgroundColor};
+  background-image: ${({ $backgroundImage }) => ($backgroundImage ? `url(${$backgroundImage})` : "none")};
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 1024px;
+  min-height: 100vh;
+  background-color: ${({ $backgroundColor = "transparent" }) => $backgroundColor};
+`;
+
+export default ({ ctxSubdomain, ctxBackground, ctxFreeformBlocks, ctxStackBlocks }) => {
   const dispatch = useDispatch();
-  const { ref: containerRef, containerWidth } = useContainerDimensionContext();
-  const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
+  const { ref } = useContainerDimensionContext();
   const customizeBackground = useSelector((state) => state?.customizeBackground?.data, shallowEqual);
-  const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: { distance: 5 },
-    }),
-  );
+  const backgroundColor = resolveColorWithOpacity({
+    color: customizeBackground?.containerBackgroundColor,
+    opacity: customizeBackground?.containerBackgroundOpacity,
+  });
 
-  const handleFreeformDragEnd = (event) => {
-    const { active, delta } = event;
-    const activeId = _.get(active, ["id"]);
-    const { elWidth } = getBoundingRectById({ id: activeId });
-
-    const activeIndex = _.chain(freeformBlocks)
-      .get([selectedLayoutDesign])
-      .findIndex((item) => {
-        return _.get(item, ["id"]) === activeId;
-      })
-      .value();
-
-    if (activeIndex === -1) {
-      return;
-    }
-
-    // UPDATE STATE
-
-    const currentFreeformBlockItem = _.get(freeformBlocks, [selectedLayoutDesign, activeIndex]);
-
-    const newX = Math.max(0, Math.min(currentFreeformBlockItem.x + delta.x, containerWidth - elWidth));
-    const newY = Math.max(0, currentFreeformBlockItem.y + delta.y);
-
-    const updateBlockItem = {
-      ...currentFreeformBlockItem,
-      x: newX,
-      y: newY,
-    };
-
-    const updateBlocks = _.chain(freeformBlocks)
-      .cloneDeep()
-      .set([selectedLayoutDesign, activeIndex], updateBlockItem)
-      .value();
-
-    dispatch(setFreeformBlocks(updateBlocks));
-    // UPDATE STATE
-
-    if (containerRef?.current) {
-      containerRef.current.style.overflowY = "scroll";
-      containerRef.current.style.overflowX = "hidden";
-    }
-  };
-
-  const handleFreeformDragStart = () => {
-    document.body.classList.add("dragging");
-    if (containerRef?.current) {
-      containerRef.current.style.overflow = "hidden";
-    }
-  };
-
-  const handleFreeformDragCancel = () => {
-    document.body.classList.remove("dragging");
-    if (containerRef?.current) {
-      containerRef.current.style.overflowY = "scroll";
-      containerRef.current.style.overflowX = "hidden";
-    }
-  };
+  useEffect(() => {
+    batch(() => {
+      dispatch(setCustomizeBackground(ctxBackground));
+      dispatch(setFreeformBlocks(ctxFreeformBlocks));
+      dispatch(setStackBlocks(ctxStackBlocks));
+    });
+  }, [dispatch, ctxSubdomain, ctxBackground, ctxFreeformBlocks, ctxStackBlocks]);
 
   return (
     <Layouts
@@ -92,28 +59,31 @@ export default () => {
       $backgroundImage={_.get(customizeBackground, ["bodyBackgroundImage"])}
     >
       <AnimationBackground $customizeBackground={customizeBackground} />
-      <ContainerHeader />
-      <ContainerImportBlock />
-      <ContainerCustomizeBlock />
 
-      <Container
-        ref={containerRef}
-        $backgroundColor={_.get(customizeBackground, ["containerBackgroundColor"])}
-        $containerBackgroundOpacity={_.get(customizeBackground, ["containerBackgroundOpacity"])}
-        $layoutDesign={selectedLayoutDesign}
-      >
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragStart={handleFreeformDragStart}
-          onDragEnd={handleFreeformDragEnd}
-          onDragCancel={handleFreeformDragCancel}
-        >
-          <ContainerRenderEditorFreeform />
-        </DndContext>
-
-        <ContainerRenderEditorStack />
+      <Container ref={ref} $backgroundColor={backgroundColor}>
+        <ContainerRenderViewFreeform />
+        <ContainerRenderViewStack />
       </Container>
     </Layouts>
   );
 };
+
+export async function getServerSideProps(ctx) {
+  const subdomain = resolveSubdomain({ ctx });
+
+  const resp = await httpRequest({
+    path: "/restaurant/landing-page/get-publish",
+    data: { subdomain },
+  });
+
+  const landingPage = _.get(resp, ["result", "landingPage"]);
+
+  return {
+    props: {
+      ctxSubdomain: subdomain,
+      ctxBackground: _.get(landingPage, ["background"]),
+      ctxFreeformBlocks: _.get(landingPage, ["freeformBlocks"]),
+      ctxStackBlocks: _.get(landingPage, ["stackBlocks"]),
+    },
+  };
+}

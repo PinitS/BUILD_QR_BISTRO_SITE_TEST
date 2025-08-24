@@ -1,0 +1,72 @@
+import { PlaceHolderImage } from "@components/LandingPage/Base/Image/PlaceHolderImage";
+import { resolveImageFilter } from "@utils/resolve/resolveImageFilter";
+import _ from "lodash";
+import Image from "next/image";
+import React from "react";
+import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
+import styled from "styled-components";
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: ${({ $backgroundColor = "transparent" }) => $backgroundColor};
+  border-top-right-radius: ${({ $borderTopRightRadius = 0 }) => $borderTopRightRadius}px;
+  border-top-left-radius: ${({ $borderTopLeftRadius = 0 }) => $borderTopLeftRadius}px;
+  border-bottom-right-radius: ${({ $borderBottomRightRadius = 0 }) => $borderBottomRightRadius}px;
+  border-bottom-left-radius: ${({ $borderBottomLeftRadius = 0 }) => $borderBottomLeftRadius}px;
+  overflow: hidden;
+
+  padding-top: ${({ $paddingVertical = 0 }) => $paddingVertical}px;
+  padding-bottom: ${({ $paddingVertical = 0 }) => $paddingVertical}px;
+
+  padding-left: ${({ $paddingHorizontal = 0 }) => $paddingHorizontal}px;
+  padding-right: ${({ $paddingHorizontal = 0 }) => $paddingHorizontal}px;
+`;
+
+export const ContainerImage = ({ $item = null }) => {
+  const imageValue = _.get($item, ["imageValue"]);
+  const resize = _.get($item, ["resize"], "contain");
+
+  const filterType = _.get($item, ["filterType"]);
+  const filterValue = _.get($item, ["filterValue"]);
+
+  const filterImage = resolveImageFilter({ filterType, filterValue });
+
+  const backgroundColor = _.get($item, ["backgroundColor"]);
+
+  const borderTopLeftRadius = _.get($item, ["borderTopLeftRadius"]);
+  const borderTopRightRadius = _.get($item, ["borderTopRightRadius"]);
+  const borderBottomLeftRadius = _.get($item, ["borderBottomLeftRadius"]);
+  const borderBottomRightRadius = _.get($item, ["borderBottomRightRadius"]);
+  const paddingHorizontal = _.get($item, ["paddingHorizontal"]);
+  const paddingVertical = _.get($item, ["paddingVertical"]);
+
+  return (
+    <Container
+      $backgroundColor={backgroundColor}
+      $borderTopLeftRadius={borderTopLeftRadius}
+      $borderTopRightRadius={borderTopRightRadius}
+      $borderBottomLeftRadius={borderBottomLeftRadius}
+      $borderBottomRightRadius={borderBottomRightRadius}
+      $paddingHorizontal={paddingHorizontal}
+      $paddingVertical={paddingVertical}
+    >
+      {_.isNil(imageValue) ? (
+        <PlaceHolderImage />
+      ) : (
+        <Image
+          alt={MAIN_ATTR?.IMAGE_ALT}
+          fill
+          style={{
+            objectFit: resize,
+            filter: filterImage,
+            borderRadius: "inherit",
+          }}
+          src={imageValue}
+        />
+      )}
+    </Container>
+  );
+};

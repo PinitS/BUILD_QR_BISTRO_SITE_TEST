@@ -7,7 +7,6 @@ import { batch, shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 import styled from "styled-components";
 import { ContainerEmpty } from "../../ContainerItem/ContainerEmpty";
-import { Text } from "@components/LandingPage/Base/Text";
 import { ContainerText } from "../../ContainerItem/ContainerText";
 import { ContainerImage } from "../../ContainerItem/ContainerImage";
 import { ContainerSlide } from "../../ContainerItem/ContainerSlide";
@@ -27,10 +26,6 @@ const Container = styled.div`
   padding-left: ${({ $paddingHorizontal = 0 }) => $paddingHorizontal}px;
   padding-right: ${({ $paddingHorizontal = 0 }) => $paddingHorizontal}px;
 
-  border-width: 1px;
-  border-style: dashed;
-  border-color: ${({ $isActive = false }) =>
-    $isActive ? MAIN_COLORS?.MAIN?.BLOCK_ACTIVE : MAIN_COLORS?.MAIN?.BLOCK_INACTIVE};
   flex-shrink: 0;
   overflow: hidden;
   box-sizing: border-box;
@@ -48,32 +43,7 @@ const ContainerItem = styled.div`
   border-radius: ${({ $radius }) => $radius}px;
 `;
 
-const ContainerActive = styled.div`
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  /* top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
-  padding-left: 12px;
-  padding-right: 12px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  background: ${MAIN_COLORS?.MAIN?.BLOCK_ACTIVE};
-  border-radius: 4px;
-`;
-
-export const RenderEditorContainerMulti = ({ $item }) => {
-  const dispatch = useDispatch();
-  const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
-  const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
-  const selectedStackBlockColumnItem = useSelector(
-    (state) => state?.selectedStackBlockColumnItem?.data,
-    shallowEqual,
-  );
-
-  const id = _.get($item, ["id"]);
-
+export const RenderViewContainerMulti = ({ $item }) => {
   const columns = _.get($item, ["columns"]);
   const columnItems = _.get($item, ["columnItems"]);
   const aspectRatio = _.get($item, ["aspectRatio"]);
@@ -82,67 +52,37 @@ export const RenderEditorContainerMulti = ({ $item }) => {
   const paddingHorizontal = _.get($item, ["paddingHorizontal"]);
   const paddingVertical = _.get($item, ["paddingVertical"]);
 
-  const isActive = _.get(customizeBlockAttr, ["id"]) === id && _.get(customizeBlockAttr, ["isVisible"]);
-  const handleSelectMainVoidBlock = () => {
-    const updateSelectedStackBlock = isActive
-      ? { ...customizeBlockAttr, isVisible: false }
-      : { isVisible: true, id, form: "CUSTOMIZE-STACK-CONTAINER-MULTI" };
-    batch(() => {
-      dispatch(setSelectedStackBlockColumnItem(null));
-      dispatch(setCustomizeBlockAttr(updateSelectedStackBlock));
-      dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
-    });
-  };
-
-  const handleSelectedColumnItem = ({ columnItemId, event }) => {
-    // if (customizeBlockAttr?.isVisible) {
-    event.stopPropagation();
-    const updateSelectedStackBlockColumnItem =
-      selectedStackBlockColumnItem === columnItemId ? null : columnItemId;
-    batch(() => {
-      dispatch(setSelectedStackBlockColumnItem(updateSelectedStackBlockColumnItem));
-      dispatch(setCustomizeBlockAttr({ isVisible: true, id, form: "CUSTOMIZE-STACK-CONTAINER-MULTI" }));
-      dispatch(setImportBlockAttr({ ...importBlockAttr, isVisible: false }));
-    });
-    // }
-  };
-
   return (
     <Container
-      onClick={() => handleSelectMainVoidBlock()}
       $spacing={spacing}
       $columns={columns}
       $paddingHorizontal={paddingHorizontal}
       $paddingVertical={paddingVertical}
-      $isActive={isActive}
     >
       {_.chain(columnItems)
         .take(columns)
         .map((item, index) => {
           const id = _.get(item, ["id"]);
-          const isActive = id === selectedStackBlockColumnItem;
           const type = _.get(item, ["type"]);
           return (
             <ContainerItem
-              onClick={(event) => handleSelectedColumnItem({ columnItemId: id, event })}
               key={index}
-              $isActive={isActive}
               $height={_.isNil(aspectRatio) ? height : "auto"}
               $aspectRatio={aspectRatio}
             >
               {(() => {
                 switch (type) {
                   case "IMAGE":
-                    return <ContainerImage key={id} $isActive={isActive} $item={item} />;
+                    return <ContainerImage key={id} $item={item} />;
                   case "TEXT":
-                    return <ContainerText key={id} $isActive={isActive} $item={item} />;
+                    return <ContainerText key={id} $item={item} />;
                   case "SLIDE":
-                    return <ContainerSlide key={id} $isActive={isActive} $item={item} />;
+                    return <ContainerSlide key={id} $item={item} />;
                   case "YOUTUBE":
-                    return <ContainerYoutube key={id} $isActive={isActive} $item={item} />;
+                    return <ContainerYoutube key={id} $item={item} />;
 
                   default:
-                    return <ContainerEmpty key={id} $isActive={isActive} $item={item} />;
+                    return <ContainerEmpty key={id} $item={item} />;
                 }
               })()}
             </ContainerItem>

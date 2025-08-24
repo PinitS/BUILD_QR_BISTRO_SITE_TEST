@@ -33,10 +33,8 @@ export const ContainerDimensionProvider = ({ children }) => {
   }, []);
 
   let device = "DESKTOP";
-  if (containerAttribute?.width < DESIGN_SIZE.TABLET) {
+  if (containerAttribute?.width < DESIGN_SIZE.DESKTOP) {
     device = "MOBILE";
-  } else if (containerAttribute?.width < DESIGN_SIZE.DESKTOP) {
-    device = "TABLET";
   }
   const scale = containerAttribute?.width / _.get(DESIGN_SIZE, [device], DESIGN_SIZE?.MOBILE);
 

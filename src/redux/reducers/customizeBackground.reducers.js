@@ -4,16 +4,6 @@ import { MAIN_COLORS } from "statics/PAGE_BUILDER_STYLE";
 
 const initialState = {
   data: {
-    // body: {
-    //   type: "COLOR",
-    //   COLOR: { background: "transparent" },
-    //   IMAGE: { value: null },
-    //   ANIMATION: { type: "STAR_FIELD" },
-    // },
-    // container: {
-    //   background: MAIN_COLORS?.MAIN?.CONTAINER_BACKGROUND,
-    //   opacity: 100,
-    // },
     bodyType: "COLOR",
     bodyBackgroundImage: null,
     bodyBackgroundColor: "transparent",

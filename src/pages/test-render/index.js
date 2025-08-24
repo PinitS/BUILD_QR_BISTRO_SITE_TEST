@@ -23,12 +23,12 @@ const Container = styled.div`
 `;
 
 export default () => {
-  const { ref } = useContainerDimensionContext();
+  const { ref, device } = useContainerDimensionContext();
   return (
     <Layouts>
       <Container ref={ref}>
-        <ContainerRenderViewFreeform />
-        <Grid />
+        {/* <ContainerRenderViewFreeform />
+        <Grid /> */}
       </Container>
     </Layouts>
   );

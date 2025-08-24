@@ -21,6 +21,8 @@ import { MAIN_ATTR } from "statics/PAGE_BUILDER_ATTRIBUTE";
 import { setImportBlockAttr } from "@redux/reducers/importBlockAttr.reducers";
 import { setCustomizeBlockAttr } from "@redux/reducers/customizeBlockAttr.reducers";
 import { setSelectedStackBlockColumnItem } from "@redux/reducers/selectedStackBlockColumnItem.reducers";
+import { useParams } from "next/navigation";
+import { httpRequest } from "@helpers/http/httpRequest";
 
 const Container = styled.div`
   position: relative;
@@ -73,12 +75,15 @@ const MAIN_SIDE_MENU_LIST = [
 ];
 
 export const ContainerHeader = () => {
+  const params = useParams();
+  const restaurantId = _.get(params, ["restaurantId"]);
   const dispatch = useDispatch();
   const selectedLayoutDesign = useSelector((state) => state?.selectedLayoutDesign?.data, shallowEqual);
   const importBlockAttr = useSelector((state) => state?.importBlockAttr?.data, shallowEqual);
   const customizeBlockAttr = useSelector((state) => state?.customizeBlockAttr?.data, shallowEqual);
   const freeformBlocks = useSelector((state) => state?.freeformBlocks?.data, shallowEqual);
   const stackBlocks = useSelector((state) => state?.stackBlocks?.data, shallowEqual);
+  const customizeBackground = useSelector((state) => state?.customizeBackground?.data, shallowEqual);
 
   const handleSelectSize = ({ value }) => {
     batch(() => {
@@ -121,9 +126,39 @@ export const ContainerHeader = () => {
     });
   };
 
-  const handleSave = () => {
-    console.log("freeformBlocks :>> ", freeformBlocks);
-    console.log("stackBlocks :>> ", stackBlocks);
+  const handleSaveDraft = async () => {
+    try {
+      const payload = {
+        restaurantId,
+        draft: { freeformBlocks, stackBlocks, background: customizeBackground },
+      };
+      console.log("payload :>> ", payload);
+
+      const resp = await httpRequest({
+        path: "/restaurant/landing-page/save-draft",
+        data: payload,
+      });
+      console.log("resp :>> ", resp);
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
+
+  const handleSavePublish = async () => {
+    try {
+      const payload = {
+        restaurantId,
+        publish: { freeformBlocks, stackBlocks, background: customizeBackground },
+      };
+
+      const resp = await httpRequest({
+        path: "/restaurant/landing-page/save-publish",
+        data: payload,
+      });
+      console.log("resp :>> ", resp);
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
   };
 
   return (
@@ -206,7 +241,7 @@ export const ContainerHeader = () => {
           </Text>
         </Button>
         <Button
-          onClick={() => handleSave()}
+          onClick={() => handleSaveDraft()}
           $height={32}
           $pl={MAIN_SIZE?.SPACING}
           $pr={MAIN_SIZE?.SPACING}
@@ -225,6 +260,7 @@ export const ContainerHeader = () => {
           </Text>
         </Button>
         <Button
+          onClick={() => handleSavePublish()}
           $height={32}
           $pl={MAIN_SIZE?.SPACING}
           $pr={MAIN_SIZE?.SPACING}

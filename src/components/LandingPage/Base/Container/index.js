@@ -1,3 +1,4 @@
+import { resolveColorWithOpacity } from "@utils/resolve/resolveBackgroundColorWithOpacity";
 import React from "react";
 import styled from "styled-components";
 
@@ -28,15 +29,8 @@ export const Container = React.forwardRef(
       }
     };
 
-    const getBackgroundColorWithOpacity = ({ color, opacity }) => {
-      if (color === "transparent") return "transparent";
-      const alpha = Math.round(Math.max(0, Math.min(100, opacity)) * 2.55);
-      const alphaHex = alpha.toString(16).padStart(2, "0");
-      return `${color}${alphaHex}`;
-    };
-
     const width = getLayouts({ layoutDesign: $layoutDesign });
-    const backgroundColor = getBackgroundColorWithOpacity({
+    const backgroundColor = resolveColorWithOpacity({
       color: $backgroundColor,
       opacity: $containerBackgroundOpacity,
     });
